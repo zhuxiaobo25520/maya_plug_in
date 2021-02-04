@@ -1,0 +1,146 @@
+/////////////////////////////////////////////////替换次级控制器附着模型///////////////////////////////////////////////////
+global proc zxb_substituted_mode_proc(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "替换附着模型" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------替换附着模型--------------" -h 25  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+checkBox -l "替换控制旋转缩放的控定位器的组" -v 0 zxb_xiayanpi;
+text "  ";
+textFieldGrp  -cw2 100 130 -l "载入控制旋转缩放的关节" -tx "关节" -ed 0  zxb_BN;
+string$mode="zxb_BN";
+button -l "载入控制旋转缩放的关节" -c ("zxb_UI_string_kongge_proc(\""+$mode+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "载入跟随模型" -tx "模型" -ed 0  zxb_mode_A;
+string$mode_A="zxb_mode_A";
+button -l "载入跟随模型" -c ("zxb_UI_string_kongge_proc(\""+$mode_A+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "载入控制器的组" -tx "控制器的组" -ed 0  zxb_grp;
+string$grp="zxb_grp";
+button -l "载入控制器的组" -c ("zxb_UI_string_kongge_proc(\""+$grp+"\")") ;
+
+setParent ..; 
+button -l "替换" -c "zxb_tihuanfuzhaomode_proc";
+
+showWindow  ;
+}
+
+
+global proc zxb_tihuanfuzhaomode_proc()
+{
+
+
+string$head_bn=`textFieldGrp -q -tx  zxb_BN`;
+string$gensui_mode=`textFieldGrp -q -tx  zxb_mode_A`;
+
+string$grps=`textFieldGrp -q -tx  zxb_grp`;
+int$rot=`checkBox -q -v  zxb_xiayanpi`;
+string$GRP[]=stringToStringArray($grps, " ");
+string $mode_shapes[]=`listRelatives -s $gensui_mode`; 
+string $mode_shape=$mode_shapes[0];
+for($i=0;$i<size($GRP);$i++)
+    {
+       string$grp=$GRP[$i];
+       string$shuxing_A[]=`listConnections -d 0 -s 1 ($grp+".t")`;
+       int$ex=`objExists $shuxing_A[0]`;
+       if($ex==0)continue;
+       string$type=`nodeType  $shuxing_A[0]`;
+       int$qvxian_maonang=1;
+       if($type=="pointOnCurveInfo")
+          {
+           $qvxian_maonang=0;
+           }
+           //print$qvxian_maonang
+       if($qvxian_maonang==0)
+           {
+           string$shuxing_B[]=`listConnections -d 0 -s 1 ($shuxing_A[0]+".inputCurve")`;
+           string$qvxiannode=$shuxing_B[0];
+           string$input_type=`nodeType $qvxiannode`;
+           string$qvxianshap=$qvxiannode;
+           if($input_type=="transform")
+              {
+               string $qvxian_shapes[]=`listRelatives -s $qvxiannode`; 
+               $qvxianshap=$qvxian_shapes[0];
+              }
+           string$input_type_A=`nodeType   $qvxianshap`;
+           if($input_type_A=="nurbsCurve")
+             { 
+             string$shuxing_C[]=`listConnections -d 0 -s 1 ($qvxianshap+".create")`;
+             string$shuxing_D[]=`listConnections -d 0 -s 1 ($shuxing_C[0]+".inputMesh")`;
+              string$aa=(" "+$shuxing_D[0]);
+             if($aa!=$gensui_mode)
+                 {
+                 connectAttr -force ($mode_shape+".worldMesh[0]") ($shuxing_C[0]+".inputMesh");
+                 }
+                 
+                 
+               string$locs[]=`listConnections -d 0 -s 1 ($grp+".r")`;
+               string$yuesu[]=`listConnections -d 0 -s 1 ($locs[0]+".tx")`;
+               string$loc_A[]=`listConnections -d 0 -s 1 ($yuesu[0]+".target[0].targetTranslate")`;
+               string $zu[]=`listRelatives -p $loc_A[0]`; 
+               string$bbb=(" "+$zu[0]);
+                if($rot==1)
+                      {
+                      int$ex=`objExists $head_bn`;
+                      if($ex==1)
+                         {
+                             if($bbb!=$head_bn)
+                             {
+                               parent $zu[0]$head_bn;
+                             }
+                          }
+                        }
+            
+             }
+           //string$shuxing_D[]=`listConnections -d 0 -s 1 ($shuxing_C[0]+".inputMesh")`;
+          
+ 
+            }else
+                {
+                 string$shuxing_B[]=`listConnections -d 0 -s 1 ($shuxing_A[0]+".translate")`;
+                 string$maonang_T=$shuxing_B[0];
+                 string$input_type=`nodeType   $maonang_T`;
+                 string$maonangshap=$maonang_T;
+                 if($input_type=="transform")
+                   {
+                    string $qvxian_shapes[]=`listRelatives -s $maonangshap`; 
+                    $maonangshap=$qvxian_shapes[0];
+                    }
+                 string$input_type_A=`nodeType   $maonangshap`;
+                 if($input_type_A=="follicle")
+                    {
+                     string$shuxing_D[]=`listConnections -d 0 -s 1 ($maonangshap+".inputWorldMatrix")`;
+                    string$aa=(" "+$shuxing_D[0]);
+                     if($aa!=($gensui_mode))
+                        {
+                            
+                         connectAttr -force ($mode_shape+".worldMatrix[0]") ($maonangshap+".inputWorldMatrix");
+                         connectAttr -force ($mode_shape+".outMesh") ($maonangshap+".inputMesh");
+                         }
+                    string$locs[]=`listConnections -d 0 -s 1 ($grp+".r")`;
+                    string$yuesu[]=`listConnections -d 0 -s 1 ($locs[0]+".tx")`;
+                    string$loc_A[]=`listConnections -d 0 -s 1 ($yuesu[0]+".target[0].targetTranslate")`;
+                    string $zu[]=`listRelatives -p $loc_A[0]`; 
+                    string$bbb=(" "+$zu[0]);
+                    if($rot==1)
+                      {
+                      int$ex=`objExists $head_bn`;
+                      if($ex==1)
+                         {
+                             if($bbb!=$head_bn)
+                             {
+                               parent $zu[0]$head_bn;
+                             }
+                          }
+                        }
+                    }
+
+                 }
+           
+     }
+}    
+

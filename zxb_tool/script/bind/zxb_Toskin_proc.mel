@@ -1,0 +1,62 @@
+/////////////////////////////////////////重新蒙皮工具////////////////////////////////////////////////////////////////////////////、
+global proc zxb_Toskin_proc(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "重新蒙皮" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------重新蒙皮--------------" -h 25  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+
+textFieldGrp  -cw2 100 130 -l "载入模型" -tx " " -ed 0  zxb_zairumode;
+string$mode="zxb_zairumode";
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+$mode+"\")") ;
+
+setParent ..; 
+button -l "重新蒙皮" -c "zxb_zuiba_tiaozhengkongzhiqi_zaimengpi_pinghua";
+
+showWindow  ;
+}
+
+
+
+
+
+global proc  zxb_Toskin_content(){
+string $modes=`textFieldGrp -q -tx  zxb_zairumode`;
+string$array[]= stringToStringArray($modes," ");//字符串转化数组
+string$meshe_s[]=$array;//选中要重新蒙皮的模型
+  for ($i=0;$i<size($meshe_s);$i++)
+  {
+      string$mode=$meshe_s[$i];
+      string $skinCluster=`findRelatedSkinCluster $mode` ;//访问蒙皮节点
+      string$mode_temp=($mode+"_temp_skinkaobei_"+$i);
+      string $All_bn[]=`skinCluster -q  -inf  $skinCluster`;//查询蒙皮的所有关节
+      setAttr ($skinCluster+".envelope") 0;
+      select -r $mode;
+      duplicate -rr -n $mode_temp;
+      select -r $All_bn;
+      select -add $mode_temp;
+      skinCluster;
+      select -r $mode;
+      select -add $mode_temp;
+      CopySkinWeights;
+      
+      
+      delete $skinCluster;
+      select -r $All_bn;
+      select -add $mode;
+      skinCluster;
+      select -r $mode_temp ;
+      select -add $mode;
+      CopySkinWeights;
+      
+      delete $mode_temp;
+     
+      
+  }
+ select -r $meshe_s;
+ }
+

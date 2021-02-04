@@ -1,0 +1,39 @@
+global proc zxb_batch_obj_proc() 
+ {
+  string$mode[]=`ls -sl `;
+string$kongzhiqi="kongzhiqi_grp";
+string$bn_grp="bn_grp";
+ int$ex=`objExists $kongzhiqi`;    ///判断
+if($ex==0){ group -em -n $kongzhiqi;}
+ int$ex=`objExists $bn_grp`;    ///判断
+if($ex==0){ group -em -n $bn_grp;}
+for ($i=0;$i<size($mode);$i++)
+    {
+       string$temp= $mode[$i];
+       
+       string$bn_name=$temp+"_bn"+$i;
+       string$bn_namekongzhiqi=$temp+"_kongzhiqi"+$i;
+       string$bn_namekongzhiqi_grpA=$temp+"_kongzhiqi_grpA"+$i;
+        string$bn_namekongzhiqi_grpB=$temp+"_kongzhiqi_grpB"+$i;
+        string$bn_namekongzhiqi_grpC=$temp+"_kongzhiqi_grpC"+$i;
+         spaceLocator -p 0 0 0 -n "temploc";
+        delete `parentConstraint  $temp "temploc"`;
+        float $trs[]=`xform -q -ws -t "temploc"`;//查询世界坐标的变量位移
+        select -cl  ;
+       joint  -p $trs[0] $trs[1] $trs[2] -n $bn_name;
+       circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $bn_namekongzhiqi;
+       group -n $bn_namekongzhiqi_grpA;
+       group -n $bn_namekongzhiqi_grpB;
+       group -n $bn_namekongzhiqi_grpC;
+       delete `parentConstraint $bn_name $bn_namekongzhiqi_grpC ` ;//父子约束
+       parentConstraint $bn_namekongzhiqi  $bn_name;
+       
+       select -r   $bn_name;
+       select -add $temp; 
+       newSkinCluster "-toSelectedBones -mi 1 -omi true -dr 6 -rui true";   //    skinCluster;   //蒙皮
+         delete "temploc";
+          parent  $bn_name $bn_grp;
+          parent  $bn_namekongzhiqi_grpC $kongzhiqi;
+    }
+  }
+  

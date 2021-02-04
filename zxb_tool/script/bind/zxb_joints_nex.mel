@@ -1,0 +1,115 @@
+global proc zxb_joints_nex(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "关节跟随曲面" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------关节跟随曲面--------------" -h 25;
+
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+textFieldGrp  -cw2 100 130 -l "曲面" -tx "  " -ed 0  zxb_qvmian;
+string$zxb_qvmian="zxb_qvmian";
+button -l "载曲面" -c ("zxb_zairufangfa_A_proc(\""+$zxb_qvmian+"\")") ;
+
+
+textFieldGrp  -cw2 100 130 -l "所有关节" -tx "  " -ed 0  zxb_zairubn;
+string$bn="zxb_zairubn";
+button -l "所有被约束关节" -c ("zxb_zairufangfa_A_proc(\""+$bn+"\")") ;
+
+
+ setParent..;
+button -l "曲面约束定位器" -c "zxb_guanjie_qvmianyuesudingweiqi_fangfa_proc";
+button -l "创建次级控制器" -c "zxb_guanjie_chuangjianguanjie_kongzhiqi_fangfa_proc";
+showWindow  ;
+}
+
+
+
+
+
+global proc zxb_guanjie_qvmianyuesudingweiqi_fangfa_proc()
+{
+    
+    
+string$qvmian=`textFieldGrp -q -tx  zxb_qvmian`;
+string$bnss=`textFieldGrp -q -tx  zxb_zairubn`;
+string$qbns[]= stringToStringArray($bnss, " ");//字符串转化数组
+string $din[]=$qbns;//关节存入变量
+//string $qvmianB=$qvmian;//曲面存入变量
+
+//string $din[]=`ls -sl`;//关节存入变量
+string $qvmianb=$qvmian;//曲面存入变量
+for ($i=0;$i<size($din);$i++)
+{
+    string $xb_guge=$din[$i];//关节名字变为变量
+    spaceLocator -p 0 0 0 -n ($xb_guge+"posloc");//创建定位器
+    delete`pointConstraint $xb_guge ($xb_guge+"posloc")`;//骨骼点约束定位器 并删除约束
+  
+    createNode "closestPointOnSurface" -n($xb_guge+"xb_xiuzi_zuijingdian");//曲面最近点节点
+    connectAttr -force ($qvmianb+".worldSpace[0]") ($xb_guge+"xb_xiuzi_zuijingdian.inputSurface");//曲面世界空间链接到最近点节点输入
+   
+    float $poos[]=`getAttr ($xb_guge+"posloc.t")`;//把定位器的值保存
+    setAttr -type float3 ($xb_guge+"xb_xiuzi_zuijingdian.inPosition") $poos[0] $poos[1] $poos[2];//把获取到的值输入位置会返回UV信息
+    
+    float $poU=`getAttr ($xb_guge+"xb_xiuzi_zuijingdian.parameterU")`;//把最近点节点U的值保存
+    float $poV=`getAttr ($xb_guge+"xb_xiuzi_zuijingdian.parameterV")`;//把最近点节点V器的值保存
+    
+   addAttr -ln "paranU"  -at double  -dv $poU  ($xb_guge+"posloc");//新加一个属性并保存一个值
+   addAttr -ln "paranV"  -at double  -dv $poV ($xb_guge+"posloc");//新加一个属性并保存一个值
+   setAttr -lock true ($xb_guge+"posloc.paranU");//锁定
+   setAttr -lock true ($xb_guge+"posloc.paranV");//锁定
+   delete($xb_guge+"xb_xiuzi_zuijingdian");//删除最近点节点
+   
+   createNode "pointOnSurfaceInfo" -n($xb_guge+"xb_xiuzi_qvmian");//创建曲面节点
+   connectAttr -force ($qvmianb+".worldSpace[0]") ($xb_guge+"xb_xiuzi_qvmian.inputSurface");//世界空间链接到曲面节点点输入
+   connectAttr -force ($xb_guge+"posloc.paranU")  ($xb_guge+"xb_xiuzi_qvmian.parameterU");//定位器保存的u值链接到曲面信息的U值
+   connectAttr -force ($xb_guge+"posloc.paranV")  ($xb_guge+"xb_xiuzi_qvmian.parameterV");//定位器保存的v值链接到曲面信息的v值
+   connectAttr -force ($xb_guge+"xb_xiuzi_qvmian.position") ($xb_guge+"posloc.translate");//曲面信息的位置链接给定位器的位置
+   
+   createNode aimConstraint -n ($xb_guge+"XB_mubiaoyuesu");//创建目标约束
+   parent  ($xb_guge+"XB_mubiaoyuesu")($xb_guge+"posloc");//目标约束与定位器做父子约束
+   
+   connectAttr -force ($xb_guge+"xb_xiuzi_qvmian.normal") ($xb_guge+"XB_mubiaoyuesu.target[0].targetTranslate");//法线链接给目标约束（这一步必须是程序手动连不上）
+   connectAttr -force ($xb_guge+"xb_xiuzi_qvmian.tangentU") ($xb_guge+"XB_mubiaoyuesu.worldUpVector");//切线U方向链接到世界上方向向量
+   setAttr ($xb_guge+"XB_mubiaoyuesu.aimVector") 0 1 0;//设置目标约束的轴向
+   setAttr ($xb_guge+"XB_mubiaoyuesu.upVector") 0 0 -1;//设置目标约束的轴向
+   
+   connectAttr -force ($xb_guge+"XB_mubiaoyuesu.constraintRotate") ($xb_guge+"posloc.rotate");//目标约束旋转链接给定位器旋转
+}
+
+}
+
+
+
+global proc zxb_guanjie_chuangjianguanjie_kongzhiqi_fangfa_proc()
+{
+    
+    
+
+string$bnss=`textFieldGrp -q -tx  zxb_zairubn`;
+string$qbns[]= stringToStringArray($bnss, " ");//字符串转化数组
+string $din[]=$qbns;//关节存入变量
+
+//string $din[]=`ls -sl`;//关节存入变量
+for ($i=0;$i<size($din);$i++)
+{
+   string $xb_bn= $din[$i];//关节名字
+   circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1 -n ($xb_bn+"poscon"); objectMoveCommand;//创建圆环
+   group -n ($xb_bn+"postA");//打组
+   group -n ($xb_bn+"postB");
+   group -n ($xb_bn+"postC");
+   parentConstraint ($xb_bn+"posloc") ($xb_bn+"postC");//父子约束
+   scaleConstraint ($xb_bn+"posloc")  ($xb_bn+"postA");//缩放约束
+   //delete`parentConstraint ($xb_bn) ($xb_bn+"postB")`;
+  // delete`orientConstraint ($xb_bn+"posloc")  $xb_bn`;//定位器方向约束关节
+  // select -r $xb_bn;//关节
+   //channelBoxCommand -freezeRotate;
+  // makeIdentity -apply true -t 0 -r 1 -s 0 -n 0;
+   parentConstraint -mo($xb_bn+"poscon") $xb_bn;//创建的控制器父子约束关节
+   scaleConstraint -mo($xb_bn+"poscon") $xb_bn;//创建的控制器缩放约束关节
+
+}
+
+}
+

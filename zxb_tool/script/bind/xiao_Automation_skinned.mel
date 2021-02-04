@@ -1,0 +1,62 @@
+//////////////////自动刷权重////////////////////////
+global proc xiao_Automation_skinned ()
+{
+if(`window -ex xiao_zidongshuaquanzhongmianban`)
+deleteUI xiao_zidongshuaquanzhongmianban;
+window -t "刷权重" xiao_zidongshuaquanzhongmianban;
+rowColumnLayout -nc 2 -cw 1 300 -cw 2 300 ;
+showWindow  xiao_zidongshuaquanzhongmianban;  
+textFieldGrp -l  "模型"  -text "名称"    mode;
+button -l "载入模型" -c ("xiao_zairu");
+textFieldGrp -l  "次数"  -text "4"    wuti;
+button -l "自动刷权重" -c ("xiao_zairucishu");
+}
+
+/////////////
+global proc xiao_zairu()
+{
+string $mode[]=`ls -sl`;
+textFieldGrp -e -text  $mode[0] mode;
+}
+
+global proc xiao_zairucishu()
+{
+string $bianliang=`textFieldGrp -q -tx  wuti`;
+string $mode[]=`ls -sl`;
+string $skinClus[]=`listHistory $mode[0]`;//列出
+string $skinCluster="";//保存一个变量
+for ($y=0;$y<size($skinClus);$y++){
+		if (`objectType $skinClus[$y]`=="skinCluster")//如果这个变量是蒙皮类
+			{
+			$skinCluster=$skinClus[$y];//保存变量
+			}	
+			//print $skinCluster;
+        int $ex=`objExists ($skinCluster+".matrix")`;//查询这个变量是否存在
+        if($ex==1)
+     {
+        string $bn[]=`listConnections -s 1 -d 0 ($skinCluster+".matrix")`;//列出连接matrix的物体
+        select -r ($bn);//选中关节
+        // print "已经成功选择选择物体的蒙皮关节";
+      }else
+           {
+            print "当前选择的物体没有骨骼蒙皮变形历史，请确认选择正确的物体";
+           }
+     }
+     
+string $mengpiBN[]=`ls -sl`;
+select -r $mode ;
+artAttrSkinToolScript 3;
+int $aa=$bianliang;
+for ($i=0;$i<size($mengpiBN);$i++)
+    {
+    setSmoothSkinInfluence $mengpiBN[$i];artSkinRevealSelected artAttrSkinPaintCtx;//选中要平滑的关节
+    artAttrPaintOperation artAttrSkinPaintCtx Smooth;//设置平滑模式
+    for ($j=0;$j<$aa;$j++)
+        {
+        artAttrSkinPaintCtx -e -clear `currentCtx`;
+        }
+     }
+
+
+}
+

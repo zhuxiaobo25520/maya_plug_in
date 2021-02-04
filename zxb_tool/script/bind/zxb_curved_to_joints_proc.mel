@@ -1,0 +1,106 @@
+global proc zxb_curved_to_joints_proc(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "曲线创建关节" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------曲线创建关节--------------" -h 25;
+
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+checkBox -l    "cv点创建关节" -v 0 zxb_cv_chuangjian;
+text -l " " ;
+textFieldGrp  -cw2 100 130 -l "曲线" -tx "  " -ed 0  zxb_qvxian;
+string$zxb_qvxian="zxb_qvxian";
+button -l "载入曲线" -c ("zxb_UI_string_kongge_proc(\""+$zxb_qvxian+"\")") ;
+
+
+textFieldGrp  -cw2 100 130 -l "创建关节数量" -tx "  "   zxb_guanjiegenshu;
+text -l " " ;
+//string$bn="zxb_zairubn";
+//button -l "所有被约束关节" -c ("zxb_zairufangfa_A_proc(\""+$bn+"\")") ;
+
+
+ setParent..;
+button -l "创建关节" -c "zxb_guanjie_chuangjianguanjie_fangfa_proc";
+
+showWindow  ;
+}
+
+
+
+
+
+
+global proc zxb_guanjie_chuangjianguanjie_fangfa_proc(){
+    
+string$bnss=`textFieldGrp -q -tx  zxb_qvxian`;  
+string$shu=`textFieldGrp -q -tx   zxb_guanjiegenshu`;
+string$qbns[]= stringToStringArray($bnss, " ");//字符串转化数组
+int$chuangjian=`checkBox -q -v zxb_cv_chuangjian`;
+
+string $bianliang[]=$qbns;//关节存入变量
+float $shuliang=$shu;
+string $mingzi="bn_";
+float $a= 1/$shuliang;
+    string$ddd[];
+    clear$ddd;
+    if($chuangjian==1)
+       {
+           select -r ($bnss+".cv[0:999999999]");
+           $ddd=`ls -sl -fl`;
+        }
+     int$eee=size($ddd);  
+     if($chuangjian==1){$shuliang=$eee;}
+     
+     
+     print  $shuliang;
+for ($i=0;$i<size($bianliang);$i++)
+{
+   
+       select -cl  ;
+if($chuangjian==0)
+   {
+      for ($j=0;$j<$shuliang+1;$j++)
+        {
+        float $b=$j*$a;
+        int$w=$j-1;
+         joint   -n ($bianliang[$i]+$mingzi+$j);
+         createNode motionPath -n ($bianliang[$i]+$mingzi+$j+"motinPath");  
+         connectAttr -force ($bianliang[$i]+".worldSpace[0]") ($bianliang[$i]+$mingzi+$j+"motinPath.geometryPath");
+
+         setAttr ($bianliang[$i]+$mingzi+$j+"motinPath.inverseFront") 1;
+         setAttr ($bianliang[$i]+$mingzi+$j+"motinPath.fractionMode") (!false);
+         setAttr ($bianliang[$i]+$mingzi+$j+"motinPath.uValue")  $b;//参数链接u
+         connectAttr -force  ($bianliang[$i]+$mingzi+$j+"motinPath.allCoordinates") ($bianliang[$i]+$mingzi+$j+".translate");   
+         disconnectAttr ($bianliang[$i]+$mingzi+$j+"motinPath.allCoordinates") ($bianliang[$i]+$mingzi+$j+".translate"); 
+          select -r  ($bianliang[$i]+$mingzi+$j+"motinPath");
+          doDelete;
+         
+         }  
+    for ($j=0;$j<$shuliang;$j++)
+        {
+        int $e=$j+1;
+         parent ($bianliang[$i]+$mingzi+$e) ($bianliang[$i]+$mingzi+$j);
+        }
+  }
+  
+  if($chuangjian==1)
+    {
+    for ($j=0;$j<$shuliang;$j++)
+        {
+         string$cvvv=$ddd[$j];
+         float $cvs_pos[]=`xform -q -ws -t $cvvv`;
+        select -cl  ;
+        joint  -p $cvs_pos[0] $cvs_pos[1] $cvs_pos[2]  -n ($bianliang[$i]+$mingzi+$j);
+        }
+        
+        
+    for ($j=0;$j<$shuliang-1;$j++)
+        {
+        int $e=$j+1;
+         parent ($bianliang[$i]+$mingzi+$e) ($bianliang[$i]+$mingzi+$j);
+        }  
+    
+    }
+}
+}

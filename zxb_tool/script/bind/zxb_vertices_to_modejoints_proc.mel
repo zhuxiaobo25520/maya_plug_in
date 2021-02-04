@@ -1,0 +1,64 @@
+global proc zxb_vertices_to_modejoints_proc(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "模型点约束物体" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------模型点约束物体--------------" -h 25;
+
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+textFieldGrp  -cw2 100 130 -l "模型" -tx "  " -ed 0  zxb_mode;
+string$zxb_qvxian="zxb_mode";
+button -l "载模型" -c ("zxb_UI_string_kongge_proc(\""+$zxb_qvxian+"\")") ;
+
+
+textFieldGrp  -cw2 100 130 -l "物体" -tx "  " -ed 0  zxb_zairuwuti;
+string$wuti="zxb_zairuwuti";
+button -l "所有被约束物体" -c ("zxb_UI_string_kongge_proc(\""+$wuti+"\")") ;
+
+
+ setParent..;
+button -l "创建约束" -c "zxb_moxingdianyuesuwuti_fangfa_proc";
+
+showWindow  ;
+}
+
+
+
+
+
+global proc zxb_moxingdianyuesuwuti_fangfa_proc()
+{
+string$mode=`textFieldGrp -q -tx  zxb_mode`;  
+string$wuti=`textFieldGrp -q -tx   zxb_zairuwuti`;
+string$wutiss[]= stringToStringArray($wuti, " ");//字符串转化数组
+
+for ($i=0;$i<size($wutiss);$i++)
+    {
+     string$obj=$wutiss[$i];
+     float $obj_pos[]=`xform -q -ws -t $obj`;
+     select -r ($mode+".vtx[0:99999999]") ;
+     string$cvs[]=`ls -sl -fl`;
+     string$cvv="";
+     float$diss=10000000;
+     for ($ii=0;$ii<size($cvs);$ii++)
+         {
+             string$cv=$cvs[$ii];
+             float $cv_pos[]=`xform -q -ws -t $cv`;
+             float $weizhi=mag(<<$obj_pos[0],$obj_pos[1],$obj_pos[2]>>-<< $cv_pos[0] ,$cv_pos[1] ,$cv_pos[2]>>);////////计算距离
+             if($weizhi<$diss)
+                {
+                 $diss=$weizhi;
+                 $cvv=$cv;
+                 }
+                 
+           }
+     print $cvv;
+     doMenuComponentSelectionExt($mode, "vertex", 1);
+     select -r $cvv;
+     
+     select -add $obj;
+      pointOnPolyConstraint -maintainOffset  -weight 1;
+     }
+}

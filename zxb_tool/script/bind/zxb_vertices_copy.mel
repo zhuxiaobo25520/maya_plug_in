@@ -1,0 +1,31 @@
+global proc zxb_vertices_copy()
+{if(`window -ex xb_xuandiankaobeichuangkou`)
+deleteUI xb_xuandiankaobeichuangkou;
+window -t "拷贝权重" xb_xuandiankaobeichuangkou;
+rowColumnLayout -nc 2 -cw 1 100-cw 2 300  ;
+textField -tx " " xb_kaobeimoxing;
+button -l "载入模型" -c ("xb_zairudingmoxing");
+text -l " " ;
+button -l "选中目标顶点拷贝权重" -c ("xb_kaobeidingdianmoxing");
+showWindow xb_xuandiankaobeichuangkou;
+}
+
+global proc xb_zairudingmoxing()
+{
+string $dinb[]=`ls -sl `;
+string $aa=`textField -e -tx $dinb xb_kaobeimoxing`;
+}
+
+
+global proc xb_kaobeidingdianmoxing( )
+{ 
+string $xb_kaobeimoxing="xb_kaobeimoxing";
+string $xb_kaobeidingdian="xb_kaobeidingdian";
+string $din[]=`ls -sl -fl `;//保存顶点权重
+string $xb_moxing =`textField -q -tx $xb_kaobeimoxing`;
+select -r $xb_moxing ;
+select -add $din ;
+CopySkinWeights;
+
+
+}

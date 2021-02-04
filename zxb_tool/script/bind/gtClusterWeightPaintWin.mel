@@ -1,0 +1,82 @@
+//////////////////////簇权重绘制工具/////////////////
+global proc gtClusterWeightPaintWin(){
+
+
+if(`window -ex gtClusterWeightPaintWin`) deleteUI -window gtClusterWeightPaintWin;
+window -wh 420 200 -t "簇权重绘制工具" gtClusterWeightPaintWin;
+scrollLayout gtmainBSL;
+
+
+columnLayout -adj 1 -w 380 gtBSColumlayout;
+separator -style single  sep1;
+
+
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+textFieldGrp  -cw2 100 130 -l "变形模型" -tx "请载入变形模型" -ed 0 gtTextBSLCluster3;
+button -l "载入变形模型" -c "gtBSLoadClusterMesh" gtButBSC3;
+
+
+setParent..;
+separator -style single  sep3;
+
+
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+text -l "选择变形簇";
+
+
+button -l "绘制簇变形权重" -c "gtClusterWeightPaintProc;" but3ab;
+
+
+setParent..;
+separator -style single  sep2;
+
+
+showWindow  gtClusterWeightPaintWin;
+}
+///////////////////////
+global proc gtBSLoadClusterMesh(){
+string $sel[]=`ls -sl`;
+int $size=size($sel);
+if($size>1) error "只能选择一个模型";
+textFieldGrp -e -tx ($sel[0]) gtTextBSLCluster3;
+}
+////////////////////
+global proc gtClusterWeightPaintProc (){
+    string $sel[]=`ls -sl`;
+    string $mesh=`textFieldGrp -q -text  gtTextBSLCluster3`;
+    
+    string $clusA[]=`listConnections -s 0 -d 1 ($sel[0]+".worldMatrix[0]")`;   
+    select -cl;
+    string  $clusterSets[]=`listConnections ($clusA[0]+".message")`;
+
+
+    string$cluster_temp="";
+   
+   for ($j=0;$j<size( $clusterSets);$j++)
+         {
+          string$type=`nodeType  $clusterSets[$j]`;
+          if($type=="objectSet")
+             {
+                 $cluster_temp= $clusterSets[$j];
+             }
+         }
+
+
+    string $currentMembers[]=`sets -q $cluster_temp`;
+
+
+		select ($mesh+".vtx[0:999999]");
+		select -d $currentMembers;
+		string $vex[]=`ls -sl`;
+		if(size($vex)>0){
+		sets -add ($cluster_temp) `ls -sl`;
+		percent -v 0 $clusA[0] `ls -sl`;
+		}
+    artAttrToolScript 4 "cluster";
+eval ("artSetToolAndSelectAttr( \"artAttrCtx\", \"cluster."+$clusA[0]+".weights\")");
+select $mesh;
+evalEcho ("artSetToolAndSelectAttr( \"artAttrCtx\", \"cluster."+$clusA[0]+".weights\")");
+}
+
