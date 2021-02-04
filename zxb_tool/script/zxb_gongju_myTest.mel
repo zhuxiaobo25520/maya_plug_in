@@ -35,6 +35,27 @@ textFieldGrp -e -tx ($obj) $tempname;
 }
 
 
+
+
+/////////显示按钮按钮并清空文字///////
+global proc zxb_UI_VS_open_proc(string$butt,string $tempname)
+{
+
+button -e -en 1 $butt;
+textFieldGrp -e -tx "" $tempname;
+
+}
+
+
+/////////隐藏按钮并载入文字
+
+global proc zxb_UI_VS_slose_proc(string $butt,string $textFieldGrpa)
+{
+
+button -e -en 0 $butt;
+zxb_UI_string_kongge_proc($textFieldGrpa);
+}
+
 ////////////////////////////////////自己固定程序绑定方法/////////////////////////////////////////////
 ////////////////////////////////////自己固定程序绑定方法/////////////////////////////////////////////
 ////////////////////////////////////自己固定程序绑定方法/////////////////////////////////////////////
@@ -141,13 +162,16 @@ button -l "镜像拷贝簇权重绑定工具" -c "zxb_jiazai(\"gtClusterDeformToolMirrorCop
 button -l "模型点约束物体" -c "zxb_jiazai(\"zxb_vertices_to_modejoints_proc\")";
 button -l "动力学曲线绑定头发" -c "zxb_jiazai(\"zxb_fx_Hair\")";
 button -l "批量物体绑定工具" -c "zxb_jiazai(\"zxb_batch_obj_proc\")";
+button -l "曲面控制器骨骼" -c "zxb_jiazai(\"zxb_child_bn_proc\")";
+button -l "次级控制器" -c "zxb_jiazai(\"zxb_child_object_control_proc\")";
 button -l "计算嘴巴权重" -c "zxb_jiazai(\"zxb_confirmed_weight\")";
+
 
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
 button -l "蛇" -c "";
-button -l "鸟类" -c "";
+button -l "鸟类" -c "zxb_jiazai(\"xiao_bird_proc\")";;
 setParent ..; 
 
 
