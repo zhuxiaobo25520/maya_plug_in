@@ -1,0 +1,1254 @@
+
+  //////////////////////////////蛇的绑定///////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  
+  
+  
+ 
+ 
+global proc xiao_snake_proc() 
+{
+if(`window -ex zxb_sheWin_columnLayout`) deleteUI zxb_sheWin_columnLayout; 
+
+window -t "蛇" zxb_sheWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "脊椎关节" -tx "关节" -ed 0  zxb_ganjie;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"zxb_ganjie"+"\")") ;
+
+textFieldGrp  -cw2 100 300 -l "头部关节" -tx "关节" -ed 0  UI_zxb_head_bn;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_zxb_head_bn"+"\")") ;
+
+textFieldGrp  -cw2 100 300 -l "下巴关节" -tx "关节" -ed 0  UI_zxb_jaw_bn;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_zxb_jaw_bn"+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "定位器" -tx "定位器" -ed 0  UI_zxb_loc;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_zxb_loc"+"\")") ;
+textFieldGrp  -cw2 100 130 -l "曲线长度" -tx "50" -ed 1  UI_zxb_changdu;
+textFieldGrp  -cw2 100 130 -l "控制器大小" -tx "5" -ed 1  UI_zxb_changdu_kongzhiqi;
+
+
+setParent ..; 
+
+button -l "创建" -c "zxb_chibang_proc_maonang" ;
+showWindow zxb_sheWin_columnLayout; 
+}
+ 
+
+
+global proc zxb_chibang_proc_maonang()
+{
+      string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;
+      //string$bns[]= stringToStringArray($xiaba_bn, " ");//关节
+      string $changdu_A=`textFieldGrp -q -tx  UI_zxb_changdu `;
+      string $changdu_B=`textFieldGrp -q -tx  UI_zxb_changdu_kongzhiqi `;
+      
+      float$chang_a=$changdu_A;
+      float$chang_b=$changdu_B;
+
+      
+      string$jizui_bn=zxb_baocunguanjie_mingzi_proc($xiaba_bn,0);
+      string$bns[]= stringToStringArray($jizui_bn, " ");//关节
+      
+      string $head_bnss=`textFieldGrp -q -tx  UI_zxb_head_bn `; 
+      string$head_bns[]= stringToStringArray($head_bnss, " ");//关节      
+      string $jaw_bnss=`textFieldGrp -q -tx   UI_zxb_jaw_bn `;
+      string$jaw_bns[]= stringToStringArray($jaw_bnss, " ");//关节
+      string $loc=`textFieldGrp -q -tx   UI_zxb_loc `;//mode
+
+string $Globalsetting="Globalsetting";
+zxb_ADD_kongzu_proc($Globalsetting); 
+string$wave_loc_AAAA="wave_loc_AAAA";
+string$wave_loc_BBBB="wave_loc_BBBB";
+spaceLocator -p 0 0 0 -n $wave_loc_AAAA;
+spaceLocator -p 0 0 0 -n $wave_loc_BBBB;
+
+
+setAttr ($wave_loc_BBBB+".visibility") 0;
+setAttr -lock true ($wave_loc_BBBB+".v");
+string$wave_loc_AAAA_grp="wave_loc_AAAA_grp";
+zxb_ADD_kongzu_proc($wave_loc_AAAA_grp); 
+
+parent $wave_loc_AAAA$wave_loc_AAAA_grp;
+parent $wave_loc_BBBB $wave_loc_AAAA_grp;
+parent $wave_loc_AAAA_grp $Globalsetting;
+string$wave_loc_FK_grp="wave_loc_FK_grp";
+zxb_ADD_kongzu_proc($wave_loc_FK_grp); 
+parent $wave_loc_FK_grp $Globalsetting;
+circle -c 0 0 0 -nr 0 1 0 -sw 360 -r ($chang_b*10) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n "Main";       
+group -n "Curves"; 
+string$loc_A="loc_A";
+spaceLocator -p 0 0 0 -n $loc_A;
+parent$loc_A "Main";
+delete` parentConstraint $loc  $loc_A`;
+parentConstraint $loc_A $loc ;//父子约束
+scaleConstraint  $loc_A $loc ;//缩放约束
+setAttr ($loc_A+".visibility") 0;
+
+
+addAttr -ln "Paths"  -at double  -min 0 -max 100 -dv 0 -k 1 "Main";//路径属性
+   
+addAttr -ln "sin_Attr"  -at bool  -k 1 "Main";//尾巴属性
+setAttr -lock true "Main.sin_Attr";
+addAttr -ln "speed"  -at double  -min 0 -max 10 -dv 2 -k 1 "Main";
+addAttr -ln "Amplitude"  -at double  -min 0 -max 100 -dv 2 -k 1 "Main";
+addAttr -ln "offset"  -at double   -dv 0 -k 1 "Main";
+addAttr -ln "delay"  -at double  -min 0 -dv 0.5 -k 1 "Main";
+setAttr -keyable false -channelBox true "Main.delay";
+addAttr -ln "decrease"  -at double   -dv 0 -k 1 "Main";
+
+
+addAttr -ln "Rot_Attr"  -at bool  -k 1 "Main";//旋转属性
+setAttr -lock true "Main.Rot_Attr";
+addAttr -ln "Rot_x"  -at double   -dv 0 -k 1 "Main";
+addAttr -ln "Rot_y"  -at double   -dv 0 -k 1 "Main";
+addAttr -ln "Rot_z"  -at double   -dv 0 -k 1 "Main";
+
+         
+addAttr -ln "Scale_Attr"  -at bool  -k 1 "Main";//缩放属性
+setAttr -lock true "Main.Scale_Attr";
+addAttr -ln "Scale"  -at double  -min 0  -dv 0 -k 1 "Main";
+addAttr -ln "Scalespeed"  -at double  -min 0 -max 10 -dv 2 -k 1 "Main";
+addAttr -ln "ScalesAmplitude"  -at double  -min 0 -max 100 -dv 2 -k 1 "Main";
+//addAttr -ln "Scalesoffset"  -at double  -min 0 -dv 0 -k 1 "Main";
+addAttr -ln "Scaledelay"  -at double  -min 0 -dv 0.5 -k 1 "Main";
+setAttr -keyable false -channelBox true "Main.Scaledelay";
+
+
+    
+
+addAttr -ln "Curlytail_Attr"  -at bool  -k 1 "Main";//尾巴卷曲属性
+setAttr -lock true "Main.Curlytail_Attr";        
+addAttr -ln "Curlytail"  -at double   -dv 0 -k 1 "Main";
+addAttr -ln "RotationAngle"  -at double   -dv 90 -k 1 "Main";
+addAttr -ln "range"  -at double   -dv 0.5 -k 1 "Main";
+
+
+
+addAttr -ln "bodyrange_Attr"  -at bool  -k 1 "Main";//头部卷曲属性
+setAttr -lock true "Main.bodyrange_Attr";   
+addAttr -ln "bodyrange"  -at double   -dv 0 -k 1 "Main";
+addAttr -ln "bodyRotationAngle"  -at double  -min 0 -dv 90 -k 1 "Main";
+addAttr -ln "bodyattenuation"  -at double  -min 0 -max 1 -dv 1 -k 1 "Main";
+setAttr -keyable false -channelBox true "Main.bodyattenuation";
+
+addAttr -ln "twisty_Attr"  -at bool  -k 1 "Main";//扭曲
+addAttr -ln "body_twisty"  -at double  -k 1 "Main";
+
+
+
+addAttr -ln "show_Attr"  -at bool  -k 1 "Main";//控制器属性显示
+setAttr -lock true "Main.sin_Attr";
+addAttr -ln "show_FK"  -at bool -dv 1 -k 1 "Main";
+addAttr -ln "show_IK"  -at bool -dv 1 -k 1 "Main";
+addAttr -ln "show_IK_secondary"  -at bool -dv 0 -k 1 "Main";
+
+addAttr -ln "stretch_Attr"  -at bool  -k 1 "Main";//IK拉伸
+setAttr -lock true "Main.stretch_Attr";
+addAttr -ln "stretch"  -at double  -min 1 -max 10 -dv 2 -k 1 "Main";
+addAttr -ln "shorten"  -at double  -min 0.1 -max 1 -dv 0.5 -k 1 "Main";
+
+
+string$SIK_jawss=zxb_chongxingmingming_bn_mingzi_proc( $jaw_bnss,"_jaw_SIK_");
+string$SIK_headss=zxb_chongxingmingming_bn_mingzi_proc($head_bnss,"_head_SIK_");
+string$SIK_jaws[]= stringToStringArray($SIK_jawss ," ");//关节 
+string$SIK_heads[]= stringToStringArray($SIK_headss ," ");//关节 
+string$JJAW_BN=zxb_baocunguanjie_mingzi_proc($jaw_bnss,0);
+string$JAW_s[]= stringToStringArray($JJAW_BN," ");//关节 
+
+string$HHEAD_BNS=zxb_baocunguanjie_mingzi_proc($head_bnss,0);
+string$HEAD_s[]= stringToStringArray($HHEAD_BNS," ");//关节 
+
+
+for($p=0;$p<size($SIK_jaws);$p++)
+   {
+     string$remp_jawbn=$SIK_jaws[$p];
+     string$remp_jawbn_A=$JAW_s[$p];
+     connectAttr -force ($remp_jawbn_A+".t") ($remp_jawbn+".t");
+     connectAttr -force ($remp_jawbn_A+".r") ($remp_jawbn+".r");
+     connectAttr -force ($remp_jawbn_A+".s") ($remp_jawbn+".s");
+     }
+
+for($p=0;$p<size($SIK_heads);$p++)
+   {
+     string$remp_head_bn=$SIK_heads[$p];
+     string$remp_dead_A=$HEAD_s[$p];
+     connectAttr -force ($remp_dead_A+".t") ($remp_head_bn+".t");
+     connectAttr -force ($remp_dead_A+".r") ($remp_head_bn+".r");
+     connectAttr -force ($remp_dead_A+".s") ($remp_head_bn+".s");
+     }
+
+zxb_FK_controller_proc($head_bnss);
+zxb_FK_controller_proc($jaw_bnss);
+
+string $all_head_bn[]=`listRelatives -c -ad -type "joint" ($head_bnss)`; 
+int$yy=size($all_head_bn)-1;
+string$hean_bn=zxb_baocunguanjie_mingzi_proc($head_bnss,0);
+string$hean_s[]=stringToStringArray($hean_bn," ");//关节
+string$ttemp=$hean_s[$yy];
+string$head_kongzhiqi=$ttemp+"Con";
+string$head_grp=$head_bnss+"ConGrpA";
+string$bn_con_temp=$xiaba_bn+"_controller_0";
+string$jaw_grp=$jaw_bnss+"ConGrpA"
+;
+parent  $jaw_grp $head_kongzhiqi;
+select -r  $jaw_grp ;
+
+
+
+string$hedd_con="heed_con_A";
+circle -c 0 0 0 -nr 0 1 0 -sw 360 -r $chang_b -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $hedd_con; 
+string$head_grp_A=$hedd_con+"_GRP_A";
+string$head_grp_B=$hedd_con+"_GRP_B";
+string$head_grp_C=$hedd_con+"_GRP_C";
+group -n $head_grp_A;
+group -n $head_grp_B;
+group -n $head_grp_C;
+select -r ($hedd_con+".cv[0:999999]") ;
+move -r -os -wd 0 $chang_b 0 ;
+
+delete`pointConstraint $head_bnss $head_grp_C `;
+string $hedd_con_temp_zi[]=`listRelatives -s  $hedd_con `; 
+setAttr ($hedd_con_temp_zi[0]+".overrideEnabled") 1;
+setAttr ($hedd_con_temp_zi[0]+".overrideColor") 17;  
+//////////////////////创建曲线    
+string$Curve="she_IK_Curve";
+string$Wave_Curve="Wave_Curve";
+zxb_curve_establish_proc($bns,$Curve);
+parent $Curve $Globalsetting;
+string $Curve_curveShapes[]=`listRelatives -s $Curve`;
+rename $Curve_curveShapes[0] ($Curve+"Shape");
+
+select -r ($Curve+".cv[0:9999999999]") ; 
+string $cvss[] = `ls -sl -fl`;
+
+select -r $Curve;
+duplicate -rr -n $Wave_Curve;
+select -r $Wave_Curve;
+DeleteHistory;
+string $Wave_curve_Shapes[]=`listRelatives -s $Wave_Curve`;
+rename $Wave_curve_Shapes[0] ($Wave_Curve+"Shape");
+select -r ($Wave_Curve+".cv[0:9999999999]") ; 
+string $Wave_cvs[] = `ls -sl -fl`;
+
+string$biaodashi="";
+string$biaodashi_Scale="";
+float$temp_shu=1;
+string$loc_zu="";
+string$kongzhiqi_zu="";
+
+
+
+
+string$SIK=zxb_chongxingmingming_bn_mingzi_proc($xiaba_bn,"_SIK_");
+string$SIK_bns[]= stringToStringArray($SIK ," ");//关节 
+string $bbn=$SIK_bns[0];
+string$IKBNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_IK_");
+string$FKBNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_FK_");
+string$ROT_A_BNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_ROT_A_");
+string$ROT_B_BNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_ROT_B_");
+string$ROT_C_BNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_ROT_C_");
+string$ROT_D_BNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_ROT_D_");
+string$Scale_BNSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_Scale_");
+string$PathSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_Path_");
+string$skinSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_skin_");
+string$WaveSS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_Wave_");
+string$Wave_IK_SS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_Wave_IK_");
+
+string$mengpi_SS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_mengpi_A_");
+string$mengpib_SS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_mengpi_B_");
+//string$mengpic_SS=zxb_chongxingmingming_bn_mingzi_proc($bbn ,"_mengpi_C_");
+
+
+string$sik_bnss=zxb_baocunguanjie_mingzi_proc($bbn,0);
+       
+string$ik_bns[]= stringToStringArray($IKBNSS ," ");//关节 
+string$fk_bns[]= stringToStringArray($FKBNSS ," ");//关节 
+string$rot_A_bns[]= stringToStringArray($ROT_A_BNSS ," ");//关节 
+string$rot_B_bns[]= stringToStringArray($ROT_B_BNSS ," ");//关节 
+string$rot_C_bns[]= stringToStringArray($ROT_C_BNSS," ");//关节
+string$rot_D_bns[]= stringToStringArray($ROT_D_BNSS," ");//关节  
+string$sik_bns[]= stringToStringArray($sik_bnss," ");//关节 
+string$Paths[]= stringToStringArray($PathSS," ");//关节  
+string$Scale_sss[]= stringToStringArray($Scale_BNSS," ");//关节  
+string$skins[]= stringToStringArray($skinSS," ");//关节  
+string$Waves[]= stringToStringArray($WaveSS," ");//关节 
+string$Waves_IK[]= stringToStringArray($Wave_IK_SS," ");//关节 
+string$mengpi_s[]= stringToStringArray($mengpi_SS," ");//关节 
+string$mengpi_B_s[]= stringToStringArray($mengpib_SS," ");//关节 
+//string$mengpi_C_s[]= stringToStringArray($mengpic_SS," ");//关节 
+
+
+
+setAttr ($ik_bns[0]+".visibility") 0;
+setAttr -lock true ($ik_bns[0]+".v");
+
+setAttr ($Waves[0]+".visibility") 0;
+setAttr -lock true ($Waves[0]+".v");
+
+//setAttr ($mengpi_s[0]+".visibility") 0;
+//setAttr -lock true ($mengpi_s[0]+".v");
+
+setAttr ($Paths[0]+".visibility") 0;
+setAttr -lock true ($Paths[0]+".v");
+
+int$aa=size($bns)-1;
+select -r $Waves[0] ;
+select -add $Waves[$aa];
+select -add  $Wave_Curve;
+string$IkHandle_Wave[]=`ikHandle -sol ikSplineSolver -ccv false -pcv false -ns 3`;
+setAttr ($IkHandle_Wave[0]+".visibility") 0;
+setAttr -lock true ($IkHandle_Wave[0]+".v");
+parent $IkHandle_Wave[0]$Globalsetting;
+
+
+
+int$Temp=size($Paths)-1;
+select -r $Paths[$Temp];
+RerootSkeleton;
+string$LU_jing="IK_lujing";
+string$mingzi="curve -bezier -d 3";
+float $pos_Aee[]=`xform -q -ws -t $Paths[1]`;
+float $pos_Arr[]=`xform -q -ws -t $Paths[0]`;
+float$pos_tw=$pos_Aee[2]-$pos_Arr[2];
+float$pos_tx=abs($pos_tw);
+
+float$pos_txx=0;
+
+float $pos_A_temp[]=`xform -q -ws -t $Paths[0]`;
+ string$paths=zxb_baocunguanjie_mingzi_proc($Paths[$Temp],0);
+ 
+string$paths_s[]= stringToStringArray($paths," ");//关节  
+setAttr ($paths_s[0]+".visibility") 0;
+setAttr -lock true ($paths_s[0]+".v");
+int$temp_int=0;
+for($ii=0;$ii<$chang_a;$ii++)
+   {
+    int$qvyu=$ii%3;
+    string$bn=$paths_s[$ii];
+    int $ex=`objExists $bn`;//查询这个物体是否纯在
+    if($qvyu==0)
+      {
+       if($ex==1)
+         { 
+          float $pos_A[]=`xform -q -ws -t $bn`;
+          $mingzi+="-p "+$pos_A[0]+" "+$pos_A[1]+" "+$pos_A[2]+" ";
+          
+          }else if($ii>0&&$ii<$chang_a)
+              {
+                float $pos_A[]=`xform -q -ws -t $Paths[0]`;
+               //select -r$Paths[0];
+                $temp_int=$temp_int+1;
+                if($temp_int==1){ $pos_txx+=$pos_tx+$pos_tx+$pos_tx+$pos_A_temp[2];}
+                if($temp_int>1){ $pos_txx+=$pos_tx+$pos_tx+$pos_tx;}
+                $mingzi+="-p "+$pos_A[0]+" "+$pos_A[1]+" "+$pos_txx+" ";
+               
+               }
+          
+       }
+    }
+ $mingzi+=" -n "+ $LU_jing;
+   eval($mingzi); 
+string$lujing_grp=$LU_jing+"_rp";
+group -n $lujing_grp;
+parentConstraint -mo  "Main" $lujing_grp;
+scaleConstraint -mo "Main" $lujing_grp;
+parent $lujing_grp "Globalsetting";
+
+
+select -r ($LU_jing+".cv[0:9999999999]") ;
+string $lijings_cvs[] = `ls -sl -fl`;
+int$size_lujing=size($lijings_cvs)-1;
+float $pos_lujing[]=`xform -q -ws -t $lijings_cvs[$size_lujing]`;
+xform  -ws -t  $pos_lujing[0] $pos_lujing[1] $pos_lujing[2] $wave_loc_AAAA;
+string$dingwi_kongzhiqi=$wave_loc_AAAA+"_controller";
+string$dingwi_grpA=$dingwi_kongzhiqi+"_grp_A";
+string$dingwi_grpB=$dingwi_kongzhiqi+"_grp_B";
+string$dingwi_grpC=$dingwi_kongzhiqi+"_grp_C";
+string$dingwi_grpD=$dingwi_kongzhiqi+"_grp_D";
+circle -c 0 0 0 -nr 0 1 0 -sw 360 -r $chang_b -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $dingwi_kongzhiqi;
+group -n $dingwi_grpA;
+group -n $dingwi_grpB;
+group -n $dingwi_grpC;
+group -n $dingwi_grpD;
+select -r ($dingwi_kongzhiqi+".cv[0:9999999]") ;
+
+move -r -os -wd 0 $chang_b 0 ;
+
+
+scale -r -p  $chang_b $chang_b $chang_b ;
+string $temp_kongzhiqi_sshepe[]=`listRelatives -s  $dingwi_kongzhiqi `; 
+setAttr ($temp_kongzhiqi_sshepe[0]+".overrideEnabled") 1;
+setAttr ($temp_kongzhiqi_sshepe[0]+".overrideColor") 17;  
+delete`parentConstraint $wave_loc_AAAA $dingwi_grpD`;
+select -r $wave_loc_AAAA;
+select -add $LU_jing;
+string$pathAnimation=`pathAnimation -fractionMode true -follow false -startTimeU 1 -endTimeU 30`;
+string $wuti[]=`listConnections -d 0 -s 1 ($pathAnimation+".uValue")`;
+addAttr -ln "wave_Distance"  -at double   -dv $chang_b -k 1 $dingwi_kongzhiqi;
+addAttr -ln "offset" -at double  -dv 0.5 -k 1 $dingwi_kongzhiqi;
+addAttr -ln "follow"  -at bool -dv 1 -k 1 $dingwi_kongzhiqi;
+
+
+
+disconnectAttr  ($wuti[0]+".output") ($pathAnimation+".uValue");
+setAttr ($pathAnimation+".uValue") 1;
+parent $dingwi_grpD  $wave_loc_AAAA;
+string$lujing_info=$LU_jing+"_curveInfo_A";
+zxb_ADD_createNode_proc($lujing_info,"curveInfo");
+string $LU_jing_shape[]=`listRelatives -s $LU_jing`;
+connectAttr -force ($LU_jing_shape[0]+".worldSpace[0]") ($lujing_info+".inputCurve");
+
+string$lujing_multiplyDivide=$LU_jing+"_multiplyDivide_A";
+zxb_ADD_createNode_proc($lujing_multiplyDivide,"multiplyDivide");
+
+connectAttr -f ($lujing_info+".arcLength") ($lujing_multiplyDivide+".input2X");
+connectAttr -f ($dingwi_kongzhiqi+".tz")($lujing_multiplyDivide+".input1X");
+setAttr ($lujing_multiplyDivide+".operation") 2;
+connectAttr -f ($lujing_multiplyDivide+".outputX") ($pathAnimation+".uValue");
+
+string$lujing_multiplyDivide_B=$LU_jing+"_multiplyDivide_B";
+zxb_ADD_createNode_proc($lujing_multiplyDivide_B,"multiplyDivide");
+connectAttr -f ($dingwi_kongzhiqi+".tz") ($lujing_multiplyDivide_B+".input1X");
+setAttr ($lujing_multiplyDivide_B+".input2X") -1;
+connectAttr -f ($lujing_multiplyDivide_B+".outputX") ($dingwi_grpC+".translateZ");
+//float$changdu=`getAttr($lujing_info+".arcLength")`;
+//transformLimits -tz -1 1 -etz 1 0 $dingwi_kongzhiqi;
+//transformLimits -tz 0 1 -etz 1 0 $dingwi_kongzhiqi;
+//transformLimits -tz 0 1 -etz 1 1 $dingwi_kongzhiqi;
+//transformLimits -tz 0 $changdu -etz 1 1 $dingwi_kongzhiqi;
+
+string$lujing_multiplyDivide_MAN=$LU_jing+"_multiplyDivide_MAN_suofang";
+zxb_ADD_createNode_proc($lujing_multiplyDivide_MAN,"multiplyDivide");
+connectAttr -f "Main.scaleX" ($lujing_multiplyDivide_MAN+".input1X");
+connectAttr -f ($dingwi_kongzhiqi+".tz") ($lujing_multiplyDivide_MAN+".input2X");
+connectAttr -f ($lujing_multiplyDivide_MAN+".outputX") ($lujing_multiplyDivide+".input1X");
+scaleConstraint -mo "Main"  $dingwi_grpD ;
+string $wave_loc_AAAA_shape[]=`listRelatives -s $wave_loc_AAAA`;
+setAttr  ($wave_loc_AAAA_shape[0]+".visibility") 0;
+pointConstraint -offset 0 0 0  $dingwi_kongzhiqi $wave_loc_BBBB;
+
+select -r $LU_jing;
+select -add $dingwi_grpD;
+tangentConstraint -weight 1 -aimVector 0 0 1 -upVector 0 1 0 -worldUpType "objectrotation" -worldUpVector 0 1 0 -worldUpObject "Main";
+
+string$Wave_Curve_info=$Wave_Curve+"_curveInfo_A";
+string $Wave_Curve_shape[]=`listRelatives -s $Wave_Curve`;
+zxb_ADD_createNode_proc($Wave_Curve_info,"curveInfo");
+connectAttr -force  ($Wave_Curve_shape[0]+".worldSpace[0]") ($Wave_Curve_info+".inputCurve");
+string$Wave_Curve_multiplyDivide=$Wave_Curve+"_multiplyDivide_A";
+zxb_ADD_createNode_proc($Wave_Curve_multiplyDivide,"multiplyDivide");
+connectAttr -f "Main.scaleX" ($Wave_Curve_multiplyDivide+".input1X");
+string$Wave_Curve_multiplyDivide_B=$Wave_Curve+"_multiplyDivide_B";
+zxb_ADD_createNode_proc($Wave_Curve_multiplyDivide_B,"multiplyDivide");
+connectAttr -f ($Wave_Curve_info+".arcLength") ($Wave_Curve_multiplyDivide_B+".input1X");
+setAttr ($Wave_Curve_multiplyDivide_B+".operation") 2;
+float$changdu_Wave=`getAttr ($Wave_Curve_info+".arcLength")`;
+setAttr ($Wave_Curve_multiplyDivide+".input2X") $changdu_Wave;
+connectAttr -f ($Wave_Curve_multiplyDivide+".outputX") ($Wave_Curve_multiplyDivide_B+".input2X");
+
+string$man_plusMinusAverage_paths_A="man_plusMinusAverage_paths_A";
+zxb_ADD_createNode_proc($man_plusMinusAverage_paths_A,"plusMinusAverage");
+string$man_setRange_paths_A="man_setRange_paths_A";
+zxb_ADD_createNode_proc($man_setRange_paths_A,"setRange");
+connectAttr -f "Main.Paths" ($man_setRange_paths_A+".valueX");
+//connectAttr -f "Main.Paths" ($man_plusMinusAverage_paths_A+".valueX");
+
+setAttr  ($man_setRange_paths_A+".maxX") 1;
+setAttr ($man_setRange_paths_A+".oldMaxX") 100;
+connectAttr -f ($lujing_multiplyDivide+".outputX") ($man_plusMinusAverage_paths_A+".input1D[0]");
+//connectAttr -f ($man_plusMinusAverage_paths_A+".output1D") ($pathAnimation+".uValue");
+connectAttr -f ($man_setRange_paths_A+".outValueX") ($man_plusMinusAverage_paths_A+".input1D[1]");
+
+
+
+
+
+select -cl  ;
+select -r $Paths[$Temp];
+select -add $Paths[0];
+select -add $LU_jing;
+string$ikHandle[]=`ikHandle -sol ikSplineSolver -ccv false -pcv false -ns 3`;
+parent $ikHandle[0]  "Globalsetting";
+
+
+setAttr ($ikHandle[0]+".dTwistControlEnable") 1;
+setAttr ($ikHandle[0]+".dWorldUpType") 3;
+connectAttr -f "Main.worldMatrix[0]" ($ikHandle[0]+".dWorldUpMatrix");
+setAttr ($ikHandle[0]+".dForwardAxis") 1;
+setAttr ($ikHandle[0]+".dWorldUpVectorY") 1;
+setAttr  ($ikHandle[0]+".dWorldUpAxis") 0;
+
+//setAttr ($ikHandle[0]+".offset") 1000;
+//float$ik_offset=`getAttr ($ikHandle[0]+".offset")`;
+
+
+string$ik_setRange_offset=($ikHandle[0]+"_setRange_offset");
+zxb_ADD_createNode_proc($ik_setRange_offset,"setRange");
+
+connectAttr -f "Main.Paths" ($ik_setRange_offset+".valueX");
+setAttr ($ik_setRange_offset+".oldMaxX") 100;
+//setAttr ($ik_setRange_offset+".maxX") 17;
+//connectAttr -f ($ik_setRange_offset+".outValueX") ($ikHandle[0]+".offset");
+string$Paths_loc_a="Paths_loc_a";
+spaceLocator -p 0 0 0 -n $Paths_loc_a;
+setAttr ($Paths_loc_a+".visibility") 0;
+setAttr -lock true ($Paths_loc_a+".v");
+select -r $Paths_loc_a;
+select -add $LU_jing;
+string$pathAnimation_A=`pathAnimation -fractionMode true -follow false -startTimeU 1 -endTimeU 30`;
+string $pathAnimation_wuti[]=`listConnections -d 0 -s 1 ($pathAnimation_A+".uValue")`;
+disconnectAttr  ($pathAnimation_wuti[0]+".output") ($pathAnimation_A+".uValue");
+connectAttr -f ($man_setRange_paths_A+".outValueX") ($pathAnimation_A+".uValue");
+select -r  $Paths_loc_a;
+select -add $Paths[$aa];
+pointConstraint -mo ;
+setAttr ($ikHandle[0]+".rootOnCurve") 0;
+parent   $Paths_loc_a "Globalsetting";
+string$condition_LU_jing=$LU_jing+"_condition_A";
+zxb_ADD_createNode_proc($condition_LU_jing,"condition");
+connectAttr -f ($dingwi_kongzhiqi+".follow") ($condition_LU_jing+".firstTerm");
+
+connectAttr -f ($man_plusMinusAverage_paths_A+".output1D") ($condition_LU_jing+".colorIfTrueR");
+connectAttr -f ($lujing_multiplyDivide+".outputX") ($condition_LU_jing+".colorIfFalseR");
+setAttr ($condition_LU_jing+".secondTerm") 1;
+connectAttr -f ($condition_LU_jing+".outColorR") ($pathAnimation+".uValue");
+
+string$plusMinusAverage_LU_jing_AA=$LU_jing+"_plusMinusAverage_AA";
+zxb_ADD_createNode_proc($plusMinusAverage_LU_jing_AA,"plusMinusAverage");
+connectAttr -f ($dingwi_kongzhiqi+".offset") ($plusMinusAverage_LU_jing_AA+".input1D[0]");
+connectAttr -f ($man_setRange_paths_A+".outValueX") ($plusMinusAverage_LU_jing_AA+".input1D[1]");
+connectAttr -f ($plusMinusAverage_LU_jing_AA+".output1D")($condition_LU_jing+".colorIfFalseR");
+connectAttr -f ($plusMinusAverage_LU_jing_AA+".output1D")($man_plusMinusAverage_paths_A+".input1D[1]");
+
+
+
+
+string$moduan_Fx_bn="";
+$moduan_Fx_bn+=$ik_bns[0]+" ";
+for($ii=0;$ii<size($fk_bns);$ii++)
+{
+string$temp_bn=$fk_bns[$ii];
+string$temp_qvxian=$temp_bn+"_FK_kongzhiq"+$ii;
+circle -c 0 0 0 -nr 1 0 0 -sw 360 -r $chang_b -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $temp_qvxian;
+delete `parentConstraint $temp_bn  $temp_qvxian`;
+string $temp_zi[]=`listRelatives -s  $temp_qvxian `; 
+setAttr ($temp_zi[0]+".overrideEnabled") 1;
+setAttr ($temp_zi[0]+".overrideColor") 17;  
+connectAttr -force "Main.show_FK" ($temp_zi[0]+".visibility");
+select -r  $temp_zi[0];
+select -add $temp_bn;
+parent -r -s ;
+delete $temp_qvxian;
+}
+
+string $moduan_FK_bn="";
+string$tr_grp="tr_grp";       
+
+zxb_ADD_kongzu_proc($tr_grp);    
+ parent   $tr_grp $Globalsetting; 
+ for($ii=0;$ii<size($rot_A_bns);$ii++)
+     {
+             string$bna=$rot_A_bns[$ii];
+             string$bnb=$rot_B_bns[$ii];
+             string$bnc=$rot_C_bns[$ii];
+             string$bnd=$rot_D_bns[$ii];
+             string$bnfk=$fk_bns[$ii];
+             string$sik_bn=$sik_bns[$ii];
+             string$bn_ik=$ik_bns[$ii];
+             string$jizui_bbn=$bns[$ii];
+             string$Scale_a=$Scale_sss[$ii];
+             
+             string$skin=$skins[$ii];
+             string$Wave_bn=$Waves[$ii];
+             string$Wave_ik_bn=$Waves_IK[$ii];
+             string$mengpi=$mengpi_s[$ii];
+             string$mengpi_b=$mengpi_B_s[$ii];
+            // string$mengpi_C= $mengpi_C_s[$ii];
+             
+             int$a=$ii+1;
+             string$mubiao_bbn=$skins[$a];
+             string$xiayige=$rot_A_bns[$a];
+             
+             setAttr ($bna+".drawStyle") 2;
+             setAttr ($bnb+".drawStyle") 2;
+             setAttr ($bnc+".drawStyle") 2;
+             setAttr ($bnd+".drawStyle") 2;
+             setAttr ($Scale_a+".drawStyle") 2;
+             setAttr ($Wave_ik_bn+".drawStyle") 2;
+             setAttr ($sik_bn+".drawStyle") 2;
+             setAttr ($skin+".drawStyle") 2;
+             setAttr ($bnfk+".drawStyle") 2;
+
+             parent $bnb  $bna;
+             parent $mengpi_b $mengpi;
+             int$qq=size($rot_A_bns)-1;
+             
+             if($ii==$qq){$moduan_FK_bn+=$bnfk+" ";}
+             
+             if($ii<$qq){parent $xiayige  $bnb;}
+             
+             parent $bnc  $bnb;
+             if($ii<$qq){parent $xiayige  $bnc;}
+             
+             parent $bnd  $bnc;
+             if($ii<$qq){parent $xiayige $bnd ;}
+              
+             parent  $bnfk  $bnd;
+            
+             if($ii<$qq){parent $xiayige  $bnfk;}
+             
+            // parentConstraint -mo $bnc   $sik_bn;
+            
+            setAttr ($sik_bn+".segmentScaleCompensate") 0;
+             setAttr ($mengpi+".segmentScaleCompensate") 0;
+
+            setAttr ($mengpi_b+".segmentScaleCompensate") 0;
+
+             pointConstraint -mo $Wave_bn $Wave_ik_bn  ;
+            
+            string$yuesu_aa[]=` parentConstraint -mo $skin  $mengpi`;
+            string$yuesu_bb[]=` scaleConstraint -mo -skip x $skin  $mengpi_b`;
+             
+             parent$yuesu_aa[0]$tr_grp;
+             parent$yuesu_bb[0]$tr_grp;
+             parent $sik_bn  $bnfk;
+             parent $Scale_a $bnfk;
+             parent $skin $bnfk;
+             parent $Wave_ik_bn $bnfk;
+             
+             connectAttr -force  ($bn_ik+".t") ($bna+".t");
+             connectAttr -force  ($bn_ik+".r") ($bna+".r");
+             connectAttr -force  ($bn_ik+".s") ($bna+".s");
+             
+             connectAttr -force ($sik_bn+".rx")($skin+".rx");
+             string$sin_jianjian_A=$skin+"_plusMinusAverage_A";
+             zxb_ADD_createNode_proc($sin_jianjian_A,"plusMinusAverage");
+             string$sin_jianjian_B=$skin+"_plusMinusAverage_B";
+             zxb_ADD_createNode_proc($sin_jianjian_B,"plusMinusAverage");
+             string$sin_jianjian_C=$skin+"_plusMinusAverage_C";
+             zxb_ADD_createNode_proc($sin_jianjian_C,"plusMinusAverage");
+             //$Scale_a $Wave_ik_bn $sik_bn
+             
+             connectAttr -f ($sin_jianjian_A+".output3Dy") ($skin+".scaleY");
+             connectAttr -f ($sin_jianjian_A+".output3Dz") ($skin+".scaleZ");
+             connectAttr -f ($sik_bn+".scale")($sin_jianjian_A+".input3D[0]");
+             
+             connectAttr -f ($Scale_a+".scale") ($sin_jianjian_B+".input3D[0]");
+             setAttr ($sin_jianjian_B+".operation") 2;
+             setAttr -typ float3 ($sin_jianjian_B+".input3D[1]")1 1 1;
+             
+             connectAttr -f ($Wave_ik_bn+".scale") ($sin_jianjian_C+".input3D[0]");
+             setAttr ($sin_jianjian_C+".operation") 2;
+             setAttr -typ float3 ($sin_jianjian_C+".input3D[1]")1 1 1;
+             
+             connectAttr -f ($sin_jianjian_B+".output3D")($sin_jianjian_A+".input3D[1]");
+             connectAttr -f ($sin_jianjian_C+".output3D")($sin_jianjian_A+".input3D[2]");
+
+             select -r  $Wave_ik_bn;
+             select -add $skin;
+             pointConstraint -mo  ;
+
+
+             
+             connectAttr -f ($Wave_Curve_multiplyDivide_B+".outputX")($Wave_bn+".sx");
+             parentConstraint -mo $jizui_bbn  $bn_ik;
+             
+             //connectAttr -force ($mengpi+".t") ($mengpi_b+".t");
+            // connectAttr -force ($mengpi+".r") ($mengpi_b+".r");
+             //connectAttr -force ($mengpi+".s") ($mengpi_C+".s");
+             
+       }
+
+
+
+        
+string$set_namen=$bbn+"_skin_set";
+string$seqq="all_set";         
+select -cl  ;
+int $ex=`objExists $seqq`;//查询这个物体是否纯在
+if($ex==0)
+ {
+  sets -n $seqq;
+           
+  }
+select -cl  ;
+select -r $mengpi_B_s;
+//select -r  $skins;
+int $ex=`objExists $set_namen`;//查询这个物体是否纯在
+if($ex==0)
+  {
+   sets -n $set_namen;
+  // parent  $set_namen $seqq;
+    sets -add $seqq $set_namen ;
+    }
+        
+        
+string$moduan_FK_bns[]= stringToStringArray($moduan_FK_bn," ");//关节 
+         
+for($ii=0;$ii<size($moduan_FK_bns);$ii++)
+   {
+                
+    string$temp_fk=$moduan_FK_bns[$ii];
+         
+    for($t=0;$t<size($rot_B_bns);$t++)
+        {
+         string$temp_bbn=$rot_C_bns[$t];
+          connectAttr -force "Main.Rot_x" ($temp_bbn+".rx");
+          connectAttr -force "Main.Rot_y" ($temp_bbn+".ry");
+          connectAttr -force "Main.Rot_z" ($temp_bbn+".rz");
+          }
+                  
+                  
+             
+   }
+
+
+
+
+for($tt=0;$tt<(size($rot_A_bns)-1);$tt++)
+   {
+     int$a=$tt+1;
+     string$skin=$skins[$tt];
+     string$mubiao_bbn=$skins[$a];
+     string$bnfk=$fk_bns[$tt];
+
+     if($ii>0)
+     {
+         
+      select -r  $mubiao_bbn;
+     select -add $skin; 
+     aimConstraint -mo -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "objectrotation" -worldUpVector 0 1 0 -worldUpObject $bnfk -skip x;
+
+     }
+   }
+
+string$ik_grp_C="";
+
+string$ik_grp_B="";
+string$ik_grp_C_con="";
+string$ik_grp_moduan_C_con="";
+int$size_moduan=size($cvss)-1;
+for($i=0;$i<size($cvss);$i++)
+         {
+             string$cv=$cvss[$i];
+             string$bn=$bns[$i];
+             string$wave_cv=$Wave_cvs[$i];
+             int$qvyu=$i%3;
+             string$Wave_bn=$Waves[$i];
+             string$Wave_ik_bn=$Waves_IK[$i];
+             string$bn_con=$bn+"_controller_"+$i;
+             string$bn_grpA=$bn+"_GRP_A_"+$i;
+             string$bn_grpB=$bn+"_GRP_B_"+$i;
+             string$bn_grpC=$bn+"_GRP_C_"+$i;
+             string$bn_Clusters=$bn+"_Clusters_"+$i;
+             string$wave_Clusters=$Wave_bn+"_Clusters_wave_"+$i;
+             string$wave_loc=$Wave_bn+"_loc_wave_"+$i;
+             string$wave_loc_grp=$Wave_bn+"_loc_wave_grp_"+$i;
+
+             string$sik=$SIK_bns[$i];
+             string$loc_temp=$bn+"_loc_"+$i;
+             string$loc_temp_grp=$bn_con+"_loc_grp"+$i;
+             string$suofang_bn=$Scale_sss[$i];
+             string$Path_bbn=$Paths[$i];
+             string$Path_bbn_loc=$Path_bbn+"_loc_A_"+$i;
+             string$bnfk=$fk_bns[$i];
+             string$FK_loc=$bnfk+"_FK_loc_A_"+$i;
+            
+             
+             curve -d 1 -p 0.5 0.5 0.5 -p 0.5 0.5 -0.5 -p -0.5 0.5 -0.5 -p -0.5 0.5 0.5 -p 0.5 0.5 0.5 -p 0.5 -0.5 0.5 -p -0.5 -0.5 0.5 -p -0.5 0.5 0.5 -p -0.5 -0.5 0.5 -p -0.5 -0.5 -0.5 -p -0.5 0.5 -0.5 -p -0.5 -0.5 -0.5 -p 0.5 -0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 -0.5 -0.5 -p 0.5 -0.5 0.5 -p 0.5 0.5 0.5 -p 0.5 0.5 -0.5 -p 0.5 -0.5 -0.5 -p -0.5 -0.5 -0.5 -p -0.5 -0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 -0.5 -0.5 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22  -n $bn_con;
+             group -n  $bn_grpA;
+             group -n  $bn_grpB;
+             group -n  $bn_grpC;
+             select -r ($bn_con+".cv[0:99999999]") ;
+
+             scale -r -p 0cm 0m 0cm $chang_b $chang_b $chang_b   ;
+
+             if($i==0){$ik_grp_C=$bn_grpC;$ik_grp_C_con=$bn_con; $ik_grp_B=$bn_grpB;}
+             if($i==$size_moduan){$ik_grp_moduan_C_con=$bn_con;}
+              string $temp_zi[]=`listRelatives -s  $bn_con `; 
+              setAttr ($temp_zi[0]+".overrideEnabled") 1;
+              setAttr ($temp_zi[0]+".overrideColor") 17;  
+   
+             
+             if($qvyu==0)
+               { 
+               setAttr ($temp_zi[0]+".overrideColor") 13; 
+               spaceLocator -p 0 0 0 -n $loc_temp;
+               group -n $loc_temp_grp;
+               delete`parentConstraint $bn_con $loc_temp_grp`;
+               parent $loc_temp_grp $bn_grpC;
+               connectAttr -force  ($bn_con+".translate")  ($loc_temp+".translate");
+               connectAttr -force  ($bn_con+".rotate")  ($loc_temp+".rotate");
+               connectAttr -force  "Main.show_IK"   ($temp_zi[0]+".visibility");
+               setAttr ($loc_temp+".visibility") 0;
+               setAttr -lock true ($loc_temp+".v");
+               $loc_zu+=$loc_temp+" ";
+         
+               }
+             
+             
+            select -r $cv;
+            string$Clusters[]=`newCluster " -envelope 1"`;
+            rename $Clusters[1] $bn_Clusters;
+            setAttr ($bn_Clusters+".visibility") 0;
+            setAttr -lock true ($bn_Clusters+".v");
+            delete`parentConstraint $bn $bn_grpC`;
+            parent  $bn_Clusters $bn_con;
+            parent $bn_grpC "Main";
+            
+            
+            select -r $wave_cv;
+            string$Clusters_A[]=`newCluster " -envelope 1"`;
+            rename$Clusters_A[1] $wave_Clusters;
+            setAttr ($wave_Clusters+".visibility") 0;
+            spaceLocator -p 0 0 0 -n $wave_loc;
+            group -n $wave_loc_grp;
+            setAttr ($wave_loc_grp+".visibility") 0;
+            setAttr -keyable false -channelBox false ($wave_loc_grp+".v");
+            delete`pointConstraint $wave_Clusters $wave_loc_grp`;
+            parent $wave_Clusters $wave_loc;
+            parent $wave_loc_grp $bnfk ;
+           // parent $wave_loc $wave_loc_AAAA_grp;
+            
+            spaceLocator -p 0 0 0 -n $FK_loc;
+            delete`parentConstraint  $wave_loc $FK_loc`;
+            parent $FK_loc $wave_loc_FK_grp;
+            parentConstraint -mo $bnfk $FK_loc;
+            setAttr ($FK_loc+".visibility") 0;
+            setAttr -keyable false -channelBox false ($FK_loc+".v");
+            
+            select -r  $wave_loc_BBBB;
+            select -add $FK_loc ;
+            select -add $wave_loc;
+            string$yuesu_ss[]=`pointConstraint -mo -skip z `;
+            string$expression_yuesu=""; 
+            
+            if($i<3)
+              {
+               float$chushu=($i+1)*0.2;
+            
+               $expression_yuesu+="float$dis=mag(<<wave_loc_AAAA.tx,wave_loc_AAAA.ty,wave_loc_AAAA.tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".wave_Distance;\n";
+               $expression_yuesu+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
+               $expression_yuesu+=$yuesu_ss[0]+"."+$wave_loc_BBBB+"W0=clamp(0,1,$pinghua*"+$chushu+");\n";
+               $expression_yuesu+=$yuesu_ss[0]+"."+$FK_loc+"W1=1-clamp(0,1,$pinghua*"+$chushu+");\n"; 
+               }
+               else
+            {$expression_yuesu+="float$dis=mag(<<wave_loc_AAAA.tx,wave_loc_AAAA.ty,wave_loc_AAAA.tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".wave_Distance;\n";
+            $expression_yuesu+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
+            $expression_yuesu+=$yuesu_ss[0]+"."+$wave_loc_BBBB+"W0=$pinghua;\n";
+            $expression_yuesu+=$yuesu_ss[0]+"."+$FK_loc+"W1=1-$pinghua;\n";
+            }
+            
+            expression -s  $expression_yuesu  -n "bolang";
+            
+            
+            string$expression_yuesu_suofang=""; 
+            $expression_yuesu_suofang+="float$dis=mag(<<wave_loc_AAAA.tx,wave_loc_AAAA.ty,wave_loc_AAAA.tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".sz;\n";
+            $expression_yuesu_suofang+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
+            $expression_yuesu_suofang+=$Wave_ik_bn+".sy=1+$pinghua*("+$dingwi_kongzhiqi+".sy-1);\n";
+            $expression_yuesu_suofang+=$Wave_ik_bn+".sz=1+$pinghua*("+$dingwi_kongzhiqi+".sx-1);\n";
+            expression -s  $expression_yuesu_suofang  -n "shoudongsuofang";
+            
+            addAttr -ln "decrease_RG"  -at double   -dv 1 -k 1 $bn_con;
+           if($i<10)
+             {
+                 float$temp_a=0.1*($i+1);
+                  setAttr ($bn_con+".decrease_RG") $temp_a;
+              }
+          int$ex_int=size($bns)-6;
+          int$ex_int_a=size($bns);
+          if($i>$ex_int)
+            {
+             $temp_shu=$temp_shu-0.1;
+              setAttr ($bn_con+".decrease_RG")  $temp_shu; 
+             }
+           $biaodashi+=$bn_grpA+".translateZ=sin(time*Main.speed+Main.Amplitude-"+$i+"*Main.delay)*Main.offset*(1+"+$i+"*Main.decrease)*"+$bn_con+".decrease_RG;\n";
+           $biaodashi_Scale+=$suofang_bn+".scaleY="+$suofang_bn+".scaleZ=sin(time*Main.Scalespeed+Main.ScalesAmplitude-"+$i+"*Main.Scaledelay)*Main.Scale+Main.Scale+1;\n";
+              ///////////////////////////////////////////////
+               if($i>2&&$qvyu==0)
+                 {
+                  int$temp_a=$i-3;
+                  int$temp_locshua=$i-2;
+                  int$temp_locshub=$i-1;
+                 // string$kongzhiqi_bb=$bns[$temp_a]+"_controller_"+$temp_a;
+                 // string$kongzhiqi_cc=$bn_con;
+                  
+                  string$kongzhiqi_bb=$bns[$temp_a]+"_loc_"+$temp_a;
+                  string$kongzhiqi_cc=$loc_temp;
+                  string$zu_a=$bns[$temp_locshua]+"_GRP_B_"+$temp_locshua;
+                  string$zu_b=$bns[$temp_locshub]+"_GRP_B_"+$temp_locshub;
+                  string$siim_a=$SIK_bns[$temp_a];
+                  string$siim_b=$SIK_bns[$temp_locshua];
+                  string$siim_c=$SIK_bns[$temp_locshub];
+                  string$siim_d=$sik;
+                  
+                  
+                  string$kongzhqi_aaa=$bns[$temp_a]+"_controller_"+$temp_a;
+                  string$kongzhqi_bbb=$bn_con;
+
+                  select -r  $kongzhiqi_bb;
+                  select -add $kongzhiqi_cc;
+                  select -add $zu_a;
+                  doCreateParentConstraintArgList 1 { "1","0","0","0","0","0","0","0","1","","1" };
+                 string$yuesu_s[]=`parentConstraint -mo `;
+                 // string$yuesu_s[]=`parentConstraint -mo  -weight 1 $kongzhiqi_bb  $kongzhiqi_cc  $zu_a`;
+                  setAttr ($yuesu_s[0]+"."+$kongzhiqi_bb+"W0") 0.8;
+                  setAttr ($yuesu_s[0]+"."+$kongzhiqi_cc+"W1") 0.2;
+                  
+                  select -r  $kongzhiqi_bb;
+                 select -add $kongzhiqi_cc;
+                  select -add $zu_b;
+                  doCreateParentConstraintArgList 1 { "1","0","0","0","0","0","0","0","1","","1" };
+                  string$yuesu_b[]=`parentConstraint -mo`;
+                 //string$yuesu_b[]=`parentConstraint -mo -weight 1 $kongzhiqi_bb  $kongzhiqi_cc  $zu_b`;
+                  setAttr ($yuesu_b[0]+"."+$kongzhiqi_bb+"W0") 0.2;
+                  setAttr ($yuesu_b[0]+"."+$kongzhiqi_cc+"W1") 0.8;
+
+
+                  select -r $kongzhqi_aaa;
+                  select -add $siim_a;
+                  scaleConstraint -mo -skip x -weight 1;
+                  
+                  select -r $kongzhqi_bbb;
+                  select -add $siim_d;
+                  scaleConstraint -mo -skip x -weight 1;
+                  
+                 
+                  select -r $kongzhqi_aaa;
+                  select -add $kongzhqi_bbb;
+                  select -add $siim_b;
+                  string$yuesu_c[]=`scaleConstraint -mo -skip x -weight 1`;
+                  
+                  setAttr ($yuesu_c[0]+"."+$kongzhqi_aaa+"W0") 0.8;
+                  setAttr ($yuesu_c[0]+"."+$kongzhqi_bbb+"W1") 0.2;
+                 
+                 
+                 
+                  select -r $kongzhqi_aaa;
+                  select -add $kongzhqi_bbb;
+                  select -add $siim_c;
+                  string$yuesu_e[]=`scaleConstraint -mo -skip x -weight 1`;
+                  
+                  setAttr ($yuesu_e[0]+"."+$kongzhqi_aaa+"W0") 0.2;
+                  setAttr ($yuesu_e[0]+"."+$kongzhqi_bbb+"W1") 0.8;
+                 
+                  connectAttr -force ($kongzhqi_aaa+".rotateX") ($siim_a+".rotateX");
+                  connectAttr -force ($kongzhqi_bbb+".rotateX") ($siim_d+".rotateX");
+                  
+                  
+                  
+                   string$chengchu_A=$kongzhqi_aaa+"_multiplyDivide_A";
+                   zxb_ADD_jiedian_proc($chengchu_A,"multiplyDivide");
+                   setAttr ($chengchu_A+".input2X") 0.8;
+                   connectAttr -force ($kongzhqi_aaa+".rotateX") ($chengchu_A+".input1X");
+                   
+                   
+                    string$chengchu_B=$kongzhqi_bbb+"_multiplyDivide_B";
+                   zxb_ADD_jiedian_proc($chengchu_B,"multiplyDivide");
+                   setAttr ($chengchu_B+".input2X") 0.2;
+                   connectAttr -force ($kongzhqi_bbb+".rotateX") ($chengchu_B+".input1X");
+                 
+                   string$jiajian_A=$siim_b+"_plusMinusAverage_A";
+                   zxb_ADD_jiedian_proc($jiajian_A,"plusMinusAverage");
+                   
+                   connectAttr -force ($chengchu_A+".outputX")  ($jiajian_A+".input1D[0]") ;
+                   connectAttr -force ($chengchu_B+".outputX")  ($jiajian_A+".input1D[1]") ;
+
+                   connectAttr -force ($jiajian_A+".output1D")   ($siim_b+".rotateX");
+                   
+                   
+                   
+                   
+                    
+                   string$chengchu_A_A=$kongzhqi_aaa+"_multiplyDivide_A_A";
+                   zxb_ADD_jiedian_proc($chengchu_A_A,"multiplyDivide");
+                   setAttr ($chengchu_A_A+".input2X") 0.2;
+                   connectAttr -force ($kongzhqi_aaa+".rotateX") ($chengchu_A_A+".input1X");
+                   
+                   
+                    string$chengchu_B_B=$kongzhqi_bbb+"_multiplyDivide_B_B";
+                   zxb_ADD_jiedian_proc($chengchu_B_B,"multiplyDivide");
+                   setAttr ($chengchu_B_B+".input2X") 0.8;
+                   connectAttr -force ($kongzhqi_bbb+".rotateX") ($chengchu_B_B+".input1X");
+                 
+                   string$jiajian_A_A=$siim_b+"_plusMinusAverage_A_A";
+                   zxb_ADD_jiedian_proc($jiajian_A_A,"plusMinusAverage");
+                   
+                   connectAttr -force ($chengchu_A_A+".outputX")  ($jiajian_A_A+".input1D[0]") ;
+                   connectAttr -force ($chengchu_B_B+".outputX")  ($jiajian_A_A+".input1D[1]") ;
+
+                   connectAttr -force ($jiajian_A_A+".output1D")   ($siim_c+".rotateX");
+                   
+                  }
+               else if($i>0)
+                   {
+                       connectAttr -force  "Main.show_IK_secondary"   ($temp_zi[0]+".visibility");
+                       $kongzhiqi_zu+=$bn_grpA+" ";
+                       }
+             
+
+               
+            spaceLocator -p 0 0 0 -n $Path_bbn_loc;
+            setAttr ($Path_bbn_loc+".visibility") 0;
+            setAttr -lock true ($Path_bbn_loc+".v");
+            delete`parentConstraint    $Path_bbn $Path_bbn_loc `;
+            parent $Path_bbn_loc $Path_bbn;
+            parentConstraint -mo $Path_bbn_loc  $bn_grpC;
+             
+
+          }
+/////////////////////////////尾巴波浪绑定表达式//////////////////////   
+  //print $biaodashi;
+  expression -s $biaodashi  -n"ikweiyi" ;
+  expression -s $biaodashi_Scale  -n"suofang" ;
+  
+  
+  
+
+//////////////////////整理层级          
+parent $head_grp $bn_con_temp;
+string$ik_A=$bns[0];
+string$ik_B=$bns[$aa];
+select -r  $ik_A;
+select -add  $ik_B;
+select -add  $Curve;
+string$IkHandle[]=`ikHandle -sol ikSplineSolver -ccv false -pcv false -ns 3`;
+setAttr ($IkHandle[0]+".visibility") 0;
+setAttr -lock true ($IkHandle[0]+".v");
+parent $IkHandle[0]$Globalsetting;
+connectAttr -f "Main.body_twisty"  ($IkHandle[0]+".twist");
+setAttr ($IkHandle[0]+".dTwistControlEnable") 1;
+setAttr ($IkHandle[0]+".dWorldUpType") 4;
+connectAttr -f ($hedd_con+".worldMatrix[0]") ($IkHandle[0]+".dWorldUpMatrix");
+string$hedd_con_B="heed_con_B";
+circle -c 0 0 0 -nr 0 1 0 -sw 360 -r $chang_b -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $hedd_con_B; 
+string$head_grp_AA=$hedd_con_B+"_GRP_AA";
+string$head_grp_BB=$hedd_con_B+"_GRP_BB";
+string$head_grp_CC=$hedd_con_B+"_GRP_CC";
+group -n $head_grp_AA;
+group -n $head_grp_BB;
+group -n $head_grp_CC;
+select -r ($hedd_con_B+".cv[0:999999]") ;
+move -r -os -wd 0 $chang_b 0 ;
+delete`pointConstraint  $ik_grp_moduan_C_con $head_grp_CC`;
+parentConstraint $ik_grp_moduan_C_con $head_grp_CC;
+
+parent $head_grp_CC $Globalsetting;
+
+string $hedd_con_Btemp_zi[]=`listRelatives -s  $hedd_con_B `; 
+setAttr ($hedd_con_Btemp_zi[0]+".overrideEnabled") 1;
+setAttr ($hedd_con_Btemp_zi[0]+".overrideColor") 17;  
+
+connectAttr -f ($hedd_con_B+".worldMatrix[0]") ($IkHandle[0]+".dWorldUpMatrixEnd");
+
+parent   $jaw_bnss $head_bnss;
+
+parent $head_grp_C$ik_grp_C ;
+
+parent $head_grp $hedd_con;
+
+parent $ik_grp_B $hedd_con;
+select -r $ik_grp_C_con;
+select -add$head_grp;
+pointConstraint -mo ;
+
+///////////设置样条IK拉伸
+
+string$Curve_curveInfo=$Curve+"_curveInfo";
+string$Curve_multiplyDivide=$Curve+"_multiplyDivide";
+string$Curve_multiplyDivide_A=$Curve+"_multiplyDivide_A";
+zxb_ADD_createNode_proc($Curve_multiplyDivide,"multiplyDivide");
+zxb_ADD_createNode_proc($Curve_multiplyDivide_A,"multiplyDivide");
+zxb_ADD_createNode_proc($Curve_curveInfo,"curveInfo");
+string $Curve_shapes[]=`listRelatives -s $Curve`; 
+connectAttr -force ($Curve_shapes[0]+".worldSpace[0]") ($Curve_curveInfo+".inputCurve");
+connectAttr -f "Main.scaleZ" ($Curve_multiplyDivide+".input1X");
+
+connectAttr -f ($Curve_curveInfo+".arcLength") ($Curve_multiplyDivide_A+".input1X");
+setAttr ($Curve_multiplyDivide_A+".operation") 2;
+
+float$changdu=`getAttr ($Curve_curveInfo+".arcLength")`;
+setAttr ($Curve_multiplyDivide+".input2X") $changdu;
+setAttr ($Curve_multiplyDivide+".operation") 1;
+
+connectAttr -f ($Curve_multiplyDivide+".outputX") ($Curve_multiplyDivide_A+".input2X");
+
+string$Curve_condition=$Curve+"_condition";
+string$Curve_condition_A=$Curve+"_condition_A";
+zxb_ADD_createNode_proc($Curve_condition,"condition");
+zxb_ADD_createNode_proc($Curve_condition_A,"condition");
+connectAttr -f ($Curve_multiplyDivide_A+".outputX") ($Curve_condition+".firstTerm");
+connectAttr -f ($Curve_multiplyDivide_A+".outputX")  ($Curve_condition+".colorIfTrueR");
+connectAttr -f "Main.shorten" ($Curve_condition+".secondTerm");
+connectAttr -f "Main.shorten" ($Curve_condition+".colorIfFalseR");
+setAttr ($Curve_condition+".operation") 2;
+
+
+connectAttr -f ($Curve_condition+".outColorR") ($Curve_condition_A+".colorIfTrueR");
+connectAttr -f ($Curve_condition+".outColorR")  ($Curve_condition_A+".firstTerm");
+connectAttr -f   "Main.stretch" ($Curve_condition_A+".secondTerm");
+connectAttr -f  "Main.stretch"($Curve_condition_A+".colorIfFalseR");
+setAttr ($Curve_condition_A+".operation") 4;
+ for($i=0;$i<size($bns);$i++)
+    {
+     string$bbn=$bns[$i];
+     connectAttr -f  ($Curve_condition_A+".outColorR")  ($bbn+".sx");
+     
+      }
+
+
+
+
+////////////////////////////////////////创建身体绑定关节//////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+//print$rot_C_bns;
+int$ooo=size($rot_C_bns)-1;
+string$biaodashi_a="";
+string$bnshuxing="";
+
+
+string$delete_bn="";
+ for($iii=0;$iii<size($rot_B_bns);$iii++)
+{
+    
+    string$www=$rot_B_bns[$iii];
+    string$fk_temp=$fk_bns[$iii];
+    string$ik_temp=$bns[$iii];
+    addAttr -ln "loc_Angle"  -at double   -dv 1 -k 1 $fk_temp;
+    setAttr -keyable false -channelBox true ($fk_temp+".loc_Angle");
+
+    
+    string$deleeee_bns[]= stringToStringArray($delete_bn ," ");//关节 
+    select -r $rot_B_bns; 
+    if($iii>0)
+      {
+     for($j=0;$j<size($deleeee_bns);$j++)
+        {
+            string$bn_te_mp=$deleeee_bns[$j];
+            select -d $bn_te_mp;
+         }                       
+       }
+    $delete_bn+=$www+" "; 
+    string$qwqw[]=`ls -sl -type "joint"`;
+   int$temop_int=size($qwqw)-1;
+   string$biaoda="float $fd=(0";
+   int$szie_i=(size($rot_B_bns))-1-$iii;
+for($ii=($temop_int);$ii>0;$ii--)
+   {
+    string$bn_c=$qwqw[$ii];
+    $biaoda+=("+"+$bn_c+".ry");
+  
+    }
+    
+    $biaoda+=");\n";
+    $biaoda+="float $min=(-Main.RotationAngle+"+$szie_i+"*Main.range)*"+$fk_temp+".loc_Angle-"+$ik_temp+".ry"+";\n";
+    $biaoda+="float $max=(Main.RotationAngle-"+$szie_i+"*Main.range)*"+$fk_temp+".loc_Angle-"+$ik_temp+".ry"+";\n";
+    $biaoda+="if($min>0){$min=0;}\n";
+    $biaoda+="if($max<0){$max=0;}\n";
+    $biaoda+=$www+".rotateY=clamp($min,$max,Main.Curlytail*10-$fd);\n";
+   
+    expression -s  $biaoda -ae 1 -uc all -n "Curlytail";
+    }
+    
+    
+////////////////////body弯曲/////////////////////////    
+
+
+
+
+select -cl  ;
+for($ii=(size($rot_D_bns))-1;$ii>0;$ii--)
+    {
+        string$bn_ttmp=$rot_D_bns[$ii];
+        select -add $bn_ttmp;
+     }
+string$dd_bns[]=`ls -sl -type "joint"`;
+
+
+
+select -cl  ;
+for($ii=(size($fk_bns))-1;$ii>0;$ii--)
+    {
+        string$bn_ttmp=$fk_bns[$ii];
+        select -add $bn_ttmp;
+     }
+string$fffk_bns[]=`ls -sl -type "joint"`;
+
+
+select -cl  ;
+for($ii=(size($bns))-1;$ii>0;$ii--)
+    {
+        string$bn_ttmp=$bns[$ii];
+        select -add $bn_ttmp;
+     }
+string$iiik_bns[]=`ls -sl -type "joint"`;
+
+//print $dd_bns;
+ for($iii=0;$iii<size($dd_bns);$iii++)
+    {
+        string$bn_temp=$dd_bns[$iii];
+        string$fkk_bns=$fffk_bns[$iii];
+        string$ikk_bns=$iiik_bns[$iii];
+        
+        addAttr -ln "bodyloc_Angle"  -at double   -dv 1 -k 1 $fkk_bns;
+        setAttr -keyable false -channelBox true ($fkk_bns+".bodyloc_Angle");
+        
+        
+        string$biaodashi_b="float $fd=(0";
+        int$szie_i=(size($dd_bns))-1-$iii;
+        for($jjj=$iii+1;$jjj<size($dd_bns);$jjj++)
+            {
+                string$bn_mm_temp=$dd_bns[$jjj];
+              $biaodashi_b+=("+"+$bn_mm_temp+".ry");
+             }
+         $biaodashi_b+=");\n"; 
+         $biaodashi_b+="float $min=-(Main.bodyRotationAngle+"+$szie_i+"*Main.bodyattenuation)*"+$fkk_bns+".bodyloc_Angle-"+$ikk_bns+".ry;\n";
+         $biaodashi_b+="float $max=(Main.bodyRotationAngle-"+$szie_i+"*Main.bodyattenuation)*"+$fkk_bns+".bodyloc_Angle-"+$ikk_bns+".ry;\n";
+         $biaodashi_b+="if($min>0){$min=0;}\n";
+         $biaodashi_b+="if($max<0){$max=0;}\n";
+         $biaodashi_b+=$bn_temp+".ry=clamp($min,$max,Main.bodyrange*10-$fd);\n";
+         expression -s $biaodashi_b -ae 1 -uc all -n "bodyrange";
+
+     }
+     
+     
+zxb_ADD_kongzu_proc("Joints");
+select -cl  ;
+
+joint -p 0 0 0  -n UE_Root;
+joint -p 0 0 0  -n UE_Root_M;
+joint -p 0 0 0 -n   UE_Root_MM;
+parent  UE_Root Joints;
+delete`parentConstraint $loc "UE_Root_MM"`;
+setAttr "UE_Root_MM.drawStyle" 2;
+
+parentConstraint -mo   Main  UE_Root_M ;
+scaleConstraint -mo  Main Joints;
+
+
+parent $loc  $Globalsetting;
+parent $mengpi_s[0] "UE_Root_MM";
+parent   $SIK_heads[0]"UE_Root_MM";
+parent  $SIK_jaws[0] $SIK_heads[0];
+string $loc_shape_zi[]=`listRelatives -s  $loc `; 
+
+setAttr ($loc_shape_zi[0]+".visibility") 0;
+setAttr -lock true ($loc_shape_zi[0]+".v");
+
+
+setAttr ($xiaba_bn+".visibility") 0;
+setAttr -lock true ($xiaba_bn+".v");
+} 
+

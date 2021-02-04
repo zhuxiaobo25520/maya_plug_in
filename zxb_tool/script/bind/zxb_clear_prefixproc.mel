@@ -1,0 +1,21 @@
+global proc zxb_clear_prefixproc(){
+string $din[]=`ls -sl `;
+string $a;
+for ($y=0;$y<size($din);$y++)
+{
+    $a=startString($din[$y], 9);//找要查找的到前缀
+    string $b=endString($a, 1);//截取药修改的名字
+    $c=startString($din[$y], 8);//找到前缀原始名字
+    select -r $din[$y];//选中要修改的对象
+    if($c=="pasted__")//判断是否有前缀
+    {
+            searchReplaceNames $a $b "selected";//查找 替换
+    }else{
+    print "文件名字无前缀或者前缀名字不是pasted__";
+    };
+
+
+     
+    
+}
+}

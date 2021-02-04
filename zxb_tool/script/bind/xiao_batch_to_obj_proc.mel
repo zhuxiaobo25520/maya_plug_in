@@ -1,0 +1,51 @@
+global proc xiao_batch_to_obj_proc()
+{
+if(`window -ex myxiaobo_daochuwuti`)
+deleteUI myxiaobo_daochuwuti;
+
+
+window -t "导出物体" myxiaobo_daochuwuti;
+rowColumnLayout -nc 1 -cw 1 900  ;
+textFieldButtonGrp -cw3 100 300 100 -l ("输出路径") -text "浏览输出路径" -bl "浏    览" -bc "zxb_lujing_chuangkou;" zxb_Field;
+button -l "导出" -c "zxb_piliang_daodhu_wuti" but1;
+showWindow myxiaobo_daochuwuti;
+
+
+}
+global proc zxb_lujing_chuangkou()
+{
+     string $first=`workspace -q -fn`;
+     setWorkingDirectory $first "" "";
+     fileBrowserDialog  -m 1
+                  -fc "zxb_Field_global"
+                  -ft "extension"
+                  -an "保存路径";
+ }
+
+
+global proc zxb_Field_global(string $dir,string $type)
+{
+textFieldButtonGrp -e -text ($dir)  zxb_Field;
+}
+
+
+
+
+global proc zxb_piliang_daodhu_wuti()
+{
+string $sel[]=`ls -sl`;
+string $lujing=`textFieldButtonGrp -q -text  zxb_Field`;
+
+
+for ($i=0;$i<size($sel);$i++)
+{
+    select -r $sel[$i];
+    if($i<10)
+    {
+        file -force -options "groups=1;ptgroups=1;materials=0;smoothing=1;normals=1" -typ "OBJexport" -pr -es ($lujing+$i);
+        }
+    else{
+        file -force -options "groups=1;ptgroups=1;materials=0;smoothing=1;normals=1" -typ "OBJexport" -pr -es ($lujing+$i);
+        }
+    
+}}

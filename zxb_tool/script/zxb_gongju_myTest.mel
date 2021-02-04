@@ -1,11 +1,55 @@
+/////////////////////ui////////////////////////////////////////////////
+global proc zxb_gongju_myTest() 
+{ 
+if(`window -ex zxb_gongju_Win`) deleteUI zxb_gongju_Win; 
 
-global proc  Source(string $Name)
-{
-    string$path="\"C:/zxb_tool/script/bind/";
-    string$lujing=($path+$Name+".mel\"");
-    eval( "source "+$lujing );
-   
-}
+window -t "常用工具" zxb_gongju_Win; 
+int$liang=125;
+string $tabs = `tabLayout`; 
+string $child1 = `rowColumnLayout -nc 5 -cw 1 $liang -cw 2 $liang   -cw 3 $liang  -cw 4 $liang -cw 5 $liang`; // 标签1 
+
+button -l "重新蒙皮" -c "zxb_jiazai(\"zxb_Toskin_proc\")"; 
+button -l "修改控制器附着模型" -c "zxb_jiazai(\"zxb_substituted_mode_proc\")";   
+button -l "自动权重" -c "zxb_jiazai(\"xiao_Automation_skinned\")";
+button -l "选点拷贝权重" -c "zxb_jiazai(\"zxb_vertices_copy\")";
+button -l "曲线创建关节" -c "zxb_jiazai(\"zxb_curved_to_joints_proc\")";
+button -l "关节跟随曲面" -c "zxb_jiazai(\"zxb_joints_nex\")";
+button -l "选中顶点创建簇对称" -c "zxb_jiazai(\"zxb_vertices_to_Cluster_procLayout\")";
+button -l "选中顶点创建簇不对称" -c "zxb_jiazai(\"zxb_vertices_to_Cluster_procLayout_M\")";
+button -l "编辑簇权重工具" -c "zxb_jiazai(\"gtClusterDeformToolEditWin\")";
+button -l "簇权重绘制工具" -c "zxb_jiazai(\"gtClusterWeightPaintWin\")";
+button -l "镜像簇权重工具" -c "zxb_jiazai(\"gtClusterDeformToolMirrorWin\")";
+button -l "镜像拷贝簇权重绑定工具" -c "zxb_jiazai(\"gtClusterDeformToolMirrorCopyWin\")";
+button -l "模型点约束物体" -c "zxb_jiazai(\"zxb_vertices_to_modejoints_proc\")";
+button -l "动力学曲线绑定头发" -c "zxb_jiazai(\"zxb_fx_Hair\")";
+button -l "批量物体绑定工具" -c "zxb_jiazai(\"zxb_batch_obj_proc\")";
+button -l "提取上下曲线" -c "zxb_jiazai(\"zxb_extract_Curves_proc_columnLayout\")";
+button -l "曲面控制器骨骼" -c "zxb_jiazai(\"zxb_child_bn_proc\")";
+button -l "次级控制器" -c "zxb_jiazai(\"zxb_child_object_control_proc\")";
+button -l "计算嘴巴权重" -c "zxb_jiazai(\"zxb_confirmed_weight\")";
+button -l "瞳孔绑定" -c "zxb_jiazai(\"zxb_pupil_child_proc\")";
+
+
+setParent ..; 
+int$liang_A=200;
+string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
+button -l "蛇" -c "zxb_jiazai(\"xiao_snake_proc\")";
+button -l "鸟类" -c "zxb_jiazai(\"xiao_bird_proc\")";
+setParent ..; 
+
+
+string $child3 = `rowColumnLayout -nc 5 -cw 1 $liang -cw 2 $liang   -cw 3 $liang -cw 4 $liang -cw 5 $liang`; // "标签2" 
+button -l "清除前缀" -c "zxb_jiazai(\"zxb_clear_prefixproc\")";
+button -l "批量导出OBJ" -c "zxb_jiazai(\"xiao_batch_to_obj_proc\")";
+button -l "老船工具箱" -c "zxb_jiazai(\"Animate8_SetupToolWin\")";
+setParent ..; 
+
+tabLayout -edit 
+-tabLabel $child1 "绑定工具" -tabLabel $child2 "动物"  -tabLabel $child3 "其他" 
+$tabs; 
+
+showWindow zxb_gongju_Win; 
+} 
 
 
 ////////////////////////////////////自己固定程序绑定方法/////////////////////////////////////////////
@@ -127,61 +171,3 @@ print ("\n加载"+$command+"脚本成功\n");
 return $command;
   }
 
-
-
-
-
-
-
-
-
-
-
-/////////////////////ui////////////////////////////////////////////////
-global proc zxb_gongju_myTest() 
-{ 
-if(`window -ex zxb_gongju_Win`) deleteUI zxb_gongju_Win; 
-
-window -t "常用工具" zxb_gongju_Win; 
-int$liang=125;
-string $tabs = `tabLayout`; 
-string $child1 = `rowColumnLayout -nc 5 -cw 1 $liang -cw 2 $liang   -cw 3 $liang  -cw 4 $liang -cw 5 $liang`; // 标签1 
-
-button -l "重新蒙皮" -c "zxb_jiazai(\"zxb_Toskin_proc\")"; 
-button -l "修改控制器附着模型" -c "zxb_jiazai(\"zxb_substituted_mode_proc\")";   
-button -l "自动权重" -c "zxb_jiazai(\"xiao_Automation_skinned\")";
-button -l "选点拷贝权重" -c "zxb_jiazai(\"zxb_vertices_copy\")";
-button -l "曲线创建关节" -c "zxb_jiazai(\"zxb_curved_to_joints_proc\")";
-button -l "关节跟随曲面" -c "zxb_jiazai(\"zxb_joints_nex\")";
-button -l "选中顶点创建簇对称" -c "zxb_jiazai(\"zxb_vertices_to_Cluster_procLayout\")";
-button -l "选中顶点创建簇不对称" -c "zxb_jiazai(\"zxb_vertices_to_Cluster_procLayout_M\")";
-button -l "编辑簇权重工具" -c "zxb_jiazai(\"gtClusterDeformToolEditWin\")";
-button -l "簇权重绘制工具" -c "zxb_jiazai(\"gtClusterWeightPaintWin\")";
-button -l "镜像簇权重工具" -c "zxb_jiazai(\"gtClusterDeformToolMirrorWin\")";
-button -l "镜像拷贝簇权重绑定工具" -c "zxb_jiazai(\"gtClusterDeformToolMirrorCopyWin\")";
-button -l "模型点约束物体" -c "zxb_jiazai(\"zxb_vertices_to_modejoints_proc\")";
-button -l "动力学曲线绑定头发" -c "zxb_jiazai(\"zxb_fx_Hair\")";
-button -l "批量物体绑定工具" -c "zxb_jiazai(\"zxb_batch_obj_proc\")";
-button -l "曲面控制器骨骼" -c "zxb_jiazai(\"zxb_child_bn_proc\")";
-button -l "次级控制器" -c "zxb_jiazai(\"zxb_child_object_control_proc\")";
-button -l "计算嘴巴权重" -c "zxb_jiazai(\"zxb_confirmed_weight\")";
-
-
-setParent ..; 
-int$liang_A=200;
-string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
-button -l "蛇" -c "";
-button -l "鸟类" -c "zxb_jiazai(\"xiao_bird_proc\")";;
-setParent ..; 
-
-
-string $child3 = `rowColumnLayout -nc 5 -cw 1 $liang -cw 2 $liang   -cw 3 $liang -cw 4 $liang -cw 5 $liang`; // "标签2" 
-button -l "测试B" -c "";
-setParent ..; 
-
-tabLayout -edit 
--tabLabel $child1 "绑定工具" -tabLabel $child2 "动物"  -tabLabel $child3 "其他" 
-$tabs; 
-
-showWindow zxb_gongju_Win; 
-} 
