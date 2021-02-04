@@ -1,0 +1,489 @@
+global proc zxb_confirmed_weight(){
+
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "嘴巴计算次级权重" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+text -l "--------------嘴巴计算次级权重--------------" -h 20  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+
+
+checkBox -l "生成曲线或者重命名" -v 0 zxb_jingxiang_qvxian;
+button -l "生成曲线" -c "zxb_zuiba_jisuanquanzhong_chuangjianqvxian" ; 
+textFieldGrp  -cw2 100 130 -l "载入被计算的骨骼" -tx "载入被计算的骨骼" -ed 0  zxb_jisuanlianbu_ciji_guge_A;
+button -l "载入被计算的骨骼" -c "zxb_jisuanlianbu_ciji_proc_zairuguge" ;
+
+
+textFieldGrp  -cw2 100 130 -l "载入所有次级骨骼" -tx "载入所有次级骨骼" -ed 0  zxb_jisuanlianbu_ciji_guge_B;
+button -l "载入所有次级骨骼" -c "zxb_jisuanlianbu_ciji_proc_zairuguge_A" ;
+
+
+textFieldGrp  -cw2 100 130 -l "载入最大权重骨骼" -tx "载入最大权重骨骼" -ed 0  zxb_jisuanlianbu_ciji_guge_C;
+button -l "载入最大权重骨骼" -c "zxb_jisuanlianbu_ciji_proc_zairuguge_B" ;
+text " ";
+
+checkBox -l "镜像整体权重" -v 0 zxb_jingxiang;
+
+setParent ..; 
+
+
+
+
+
+
+
+button -l "计算权重（选中线条）" -c "zxb_zuiba_jisuanquanzhong";
+
+text "   ";
+text "   ";
+text "   ";
+
+
+button -l "计算整体权重(选中模型)" -c "zxb_zuiba_jisuanquanzhong_pinghua";
+
+
+
+
+showWindow  ;
+}
+
+
+
+global proc zxb_jisuanlianbu_ciji_proc_zairuguge()
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=(" "+$sel[$i]);
+    }
+textFieldGrp -e -tx ($obj) zxb_jisuanlianbu_ciji_guge_A;
+}
+
+
+global proc zxb_jisuanlianbu_ciji_proc_zairuguge_A()
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=(" "+$sel[$i]);
+    }
+textFieldGrp -e -tx ($obj) zxb_jisuanlianbu_ciji_guge_B;
+}
+
+
+global proc zxb_jisuanlianbu_ciji_proc_zairuguge_B()
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=(" "+$sel[$i]);
+    }
+textFieldGrp -e -tx ($obj) zxb_jisuanlianbu_ciji_guge_C;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+global proc  zxb_zuiba_jisuanquanzhong()
+{
+//global int $zxb_i;
+string$BNS_temp_s=`textFieldGrp -q -tx zxb_jisuanlianbu_ciji_guge_B`;
+string$BNS_temp[]= stringToStringArray($BNS_temp_s, " ");
+
+
+string$BNS_temp_MM=`textFieldGrp -q -tx zxb_jisuanlianbu_ciji_guge_A`;
+string$BNS_temp_M[]= stringToStringArray($BNS_temp_MM, " ");
+
+
+string $zxb_bns[]=$BNS_temp;//骨骼
+string$zxb_zuiba;//要抢的权重
+string $zxb_skinves[];
+
+
+string$zxb_zuiba=$BNS_temp_M[0];//要抢的权重
+string $qvxian_temp="qvxianzuiba_temp";//曲线  
+
+
+    
+ConvertSelectionToVertices;
+string $bian[]=`ls -sl -fl `;
+string $qvxian_temp_cv= ($qvxian_temp+".cv[0:999999999]");
+select -r  $qvxian_temp_cv;
+
+
+string $qvxian_temp_cvs[]=`ls -sl -fl `;
+int $cvshu=size($qvxian_temp_cvs);//CV数量
+int $bnsize=size($zxb_bns); //关节数量
+if($cvshu!=$bnsize){error "关节数量 与曲线CV点的数量不一致";}
+
+
+float $bnsatpos[]=`xform -q -ws -t $zxb_bns[0]`;
+float $qvxiansatpos[]=`xform -q -ws -t  $qvxian_temp_cvs[0]`;
+//float $bnsendpos[]=`xform -q -ws -t $zxb_bns[(size($zxb_bns)-1)]`;
+float $qvxianendpos[]=`xform -q -ws -t  $qvxian_temp_cvs[(size($qvxian_temp_cvs)-1)]`;
+float $kaishidis=mag(<< $bnsatpos[0], $bnsatpos[1], $bnsatpos[2]>>-<< $qvxiansatpos[0], $qvxiansatpos[1], $qvxiansatpos[2]>>);
+
+
+float $enddis=mag(<< $bnsatpos[0], $bnsatpos[1], $bnsatpos[2]>>-<< $qvxianendpos[0],  $qvxianendpos[1],  $qvxianendpos[2]>>);
+
+
+if ($kaishidis> $enddis)
+{
+    reverseCurve -ch 0 -rpo 1 $qvxian_temp;
+}
+
+
+
+
+string $poscv="";
+float $dis=100000000;
+
+
+ for ($i=0;$i<size($bian);$i++)
+ {
+     
+     float $pos_A[]=`xform -q -ws -t $bian[$i]`;
+   for ($ii=0;$ii<size($qvxian_temp_cvs);$ii++)
+   {
+    float $pos_B[]=`xform -q -ws -t $qvxian_temp_cvs[$ii]`;
+    float $cdis=mag(<<$pos_A[0],$pos_A[1],$pos_A[2]>>-<<$pos_B[0],$pos_B[1],$pos_B[2]>>);
+    
+    if($cdis<$dis)
+    {
+     $dis=$cdis;
+      $poscv=$qvxian_temp_cvs[$ii];
+     }
+    }
+  }
+
+
+
+
+
+
+string $qvxian_cv[];
+//select -r $poscv;
+
+
+int $aaaaaa=`tokenize $poscv "["  $qvxian_cv`;
+int $aaaaaa=`tokenize $qvxian_cv[1] "]"  $qvxian_cv`;
+
+
+
+
+int $zxb_i =$qvxian_cv[0];
+
+
+
+
+string $bn= $zxb_bns[$zxb_i];
+string $modetemp[];
+int $temp_int=`tokenize $bian[0] "." $modetemp `;
+string $modo=$modetemp[0];
+string $sknclustet=`findRelatedSkinCluster $modo`;
+//setAttr ($sknclustet+".normalizeWeights") 2;
+
+
+ for ($ll=0;$ll<size($bian);$ll++)
+ {
+     int$size=size($zxb_skinves);
+     string $temp_dingdian=$bian[$ll];
+     $zxb_skinves[$size]=$bian[$ll];
+     float$quznzhong=`skinPercent  -t $zxb_zuiba -q   $sknclustet $temp_dingdian`;
+     if($quznzhong>0){skinPercent  -tv $bn  $quznzhong  $sknclustet $temp_dingdian;}
+
+
+ 
+ }
+
+
+doMenuComponentSelection ( $modo,"edge");
+}
+
+
+
+
+
+
+
+
+global proc  zxb_zuiba_jisuanquanzhong_chuangjianqvxian()
+{
+   int$panduan=` checkBox -q -v  zxb_jingxiang_qvxian`;
+  
+
+   if($panduan==1)
+      {
+    string $edge_bian[]=`ls -sl -fl `;
+    for ($i=0;$i<size( $edge_bian);$i++)
+    {
+    float $bian_pos_A[]=`xform -q -ws -t  $edge_bian[$i]`;
+    if($bian_pos_A[0]<-0.0001) {select -d  $edge_bian[$i];}
+    if($bian_pos_A[3]<-0.0001) {select -d  $edge_bian[$i];}
+    }
+    
+    $edge_bian=`ls -sl -fl `;
+    polyToCurve -form 2 -degree 1 -conformToSmoothMeshPreview 1 -n qvxianzuiba_temp;
+    DeleteHistory;
+    }else
+         {
+             string $edge_bian[]=`ls -sl `;
+             rename $edge_bian[0] "qvxianzuiba_temp";
+
+
+           }
+    
+}
+
+
+
+
+
+
+
+
+global proc  zxb_zuiba_jisuanquanzhong_pinghua()
+{
+    
+  string$BNS_temp_s=`textFieldGrp -q -tx zxb_jisuanlianbu_ciji_guge_B`;
+  string$BNS_temp[]= stringToStringArray($BNS_temp_s, " ");
+  string$BNS_temp_MM=`textFieldGrp -q -tx zxb_jisuanlianbu_ciji_guge_A`;
+  string$BNS_temp_M[]= stringToStringArray($BNS_temp_MM, " ");
+  
+  string$BNS_temp_ROOT=`textFieldGrp -q -tx zxb_jisuanlianbu_ciji_guge_C`;
+  string$BNS_temp_root[]= stringToStringArray($BNS_temp_ROOT, " ");
+  string $zxb_bns[]=$BNS_temp;//骨骼 //按顺序选骨骼 上个程序的名字
+  string$zxb_zuiba=$BNS_temp_M[0];//要抢的权重
+  string $root=$BNS_temp_root[0];
+  string $mode[]=`ls -sl`;//选中模型
+  string $modo_name=$mode[0];//模型名字
+  
+  int$intpos=`checkBox -q -v zxb_jingxiang`;
+  int$jingxiang=$intpos;
+  string $sknclustet=`findRelatedSkinCluster  $modo_name`;
+
+
+
+
+//setAttr ($sknclustet+".normalizeWeights") 2;
+//select -r ($modo_name+".vtx[0:9999999999]");
+//string $mode_dian_[]=`ls -sl -fl `;
+
+
+/////////////////////////////主关节影响的权重顶点/////////////////////////////////////////
+  int $mode_dian[]=`polyEvaluate -v   $modo_name`;
+  
+  string $dingdian_mode[];
+  clear $dingdian_mode ;
+  global string $gSelect;
+  global string $gMainProgressBar;
+  setToolTo $gSelect;
+  progressBar -e -st ("查找顶点...") -bp -ii 1 -min 0 -max $mode_dian[0] $gMainProgressBar;
+  for ($i=0;$i<$mode_dian[0];$i++)
+    {
+     if(`progressBar -q -ic $gMainProgressBar`)
+     break;
+    progressBar -e -s 1 $gMainProgressBar;  
+    string $mode_dianxu=($modo_name+".vtx["+$i+"]");
+    float$quznzhong=`skinPercent  -t $zxb_zuiba -q   $sknclustet $mode_dianxu`;
+    if($quznzhong>0)
+      {
+      //skinPercent  -tv $bn  $quznzhong  $sknclustet $mode_dianxu;
+      int$size=size($dingdian_mode);
+      $dingdian_mode[$size]=$mode_dianxu;
+      }
+
+
+   }
+    progressBar -e -ep $gMainProgressBar;
+    select -r $dingdian_mode;
+    
+    /////////////////////////////次级关节影响的权重顶点/////////////////////////////////////////
+
+
+
+
+
+
+  string $dingdian_mode_ciji[];
+  clear $dingdian_mode_ciji ;
+  global string $gSelect;
+  global string $gMainProgressBar;
+  setToolTo $gSelect;
+  progressBar -e -st ("查找顶点...") -bp -ii 1 -min 0 -max `size($zxb_bns)` $gMainProgressBar;
+  
+  
+  for ($j=0;$j<size($zxb_bns);$j++)
+  {
+    if(`progressBar -q -ic $gMainProgressBar`)
+    break;
+    progressBar -e -s 1 $gMainProgressBar;  
+   string $ciji_bn=$zxb_bns[$j];
+   for ($i=0;$i<$mode_dian[0];$i++)
+    {
+
+
+        string $mode_dianxu=($modo_name+".vtx["+$i+"]");
+        float$quznzhong=`skinPercent  -t $ciji_bn -q   $sknclustet $mode_dianxu`;
+        if($quznzhong>0)
+        {
+          //skinPercent  -tv $bn  $quznzhong  $sknclustet $mode_dianxu;
+          int$size=size($dingdian_mode_ciji);
+          $dingdian_mode_ciji[$size]=$mode_dianxu;
+        }
+    
+   }
+
+
+  } 
+   progressBar -e -ep $gMainProgressBar;
+   
+   
+   
+   ////////////////////////////减选右边的顶点/////////////////////////////////
+   select -r  $dingdian_mode;
+   string $temp_dingdian[]=`ls -sl -fl `;
+   
+  global string $gSelect;
+  global string $gMainProgressBar;
+  setToolTo $gSelect;
+  progressBar -e -st ("计算顶点顶点...") -bp -ii 1 -min 0 -max `size($temp_dingdian)` $gMainProgressBar;
+    for ($a=0;$a<size($temp_dingdian);$a++)
+    {
+         if(`progressBar -q -ic $gMainProgressBar`)
+         break;
+          progressBar -e -s 1 $gMainProgressBar;  
+        string $temp_diangdian=$temp_dingdian[$a];
+        float $temp_pos_A[]=`xform -q -ws -t  $temp_diangdian`;
+        if($temp_pos_A[0]<0.00001){select -d $temp_diangdian;}
+    
+    }
+     progressBar -e -ep $gMainProgressBar;
+     
+     ///////////////////////备份总关节的模型权重///////////////////////////////
+   
+     
+     int $ex=`objExists ($modo_name+"_temp")`;
+     if($ex==0)
+     {
+          select -r  $modo_name;
+           duplicate -rr -n  ($modo_name+"_temp");
+            
+           string $All_bn[]=`skinCluster -q  -inf  $sknclustet`;
+           select -r  $All_bn ($modo_name+"_temp");
+           skinCluster;
+          
+            select -r $modo_name ;
+            select -add ($modo_name+"_temp");
+            CopySkinWeights;
+            print "蒙皮已备份";
+            setAttr ($modo_name+"_temp.visibility") 0;
+
+
+      }
+    
+     //////////////////平滑权重///////////////////////////////////
+     
+       select -r $dingdian_mode;
+       
+     for ($a=0;$a<10;$a++){weightHammerVerts;}
+      select -r $mode;
+      ///////////////////////////找到跟关节//////////////////////////////////
+    string $sknclustet_temp_A=`findRelatedSkinCluster ($modo_name+"_temp")`;
+    string $All_bn_A[]=`skinCluster -q  -inf $sknclustet_temp_A`;
+    string $root_="";
+    int $daixoa=0;
+  global string $gSelect;
+  global string $gMainProgressBar;
+  setToolTo $gSelect;
+  progressBar -e -st ("查找跟关节...") -bp -ii 1 -min 0 -max `size($All_bn_A)` $gMainProgressBar;
+    for ($j=0;$j<size($All_bn_A);$j++)
+    {
+       if(`progressBar -q -ic $gMainProgressBar`)
+    break;
+    progressBar -e -s 1 $gMainProgressBar;  
+   string$bn_a=$All_bn_A[$j];
+   
+   string $dangqian_dingdian[];
+   clear $dangqian_dingdian;
+     for ($i=0;$i<$mode_dian[0];$i++)
+      {
+
+
+           string $mode_dianxu=($modo_name+"_temp.vtx["+$i+"]");
+           
+           float$quznzhong=`skinPercent  -t $bn_a -q  $sknclustet_temp_A $mode_dianxu`;
+           if($quznzhong>0)
+            {
+            
+              int $size=size($dangqian_dingdian);
+             $dangqian_dingdian[$size]=$mode_dianxu;
+            }
+    
+      }
+      int $size_a=size($dangqian_dingdian);
+//print $daixoa;
+//print $size_a;
+      if($size_a>$daixoa)
+      {  
+        $root_=$bn_a;
+         $root= $root_;
+        $daixoa=$size_a;
+     
+       
+       }
+    }
+  progressBar -e -ep $gMainProgressBar;
+
+
+print $root_;
+
+
+
+
+
+
+//////////////////////////跟关节的权重复制回去//////////////////////////////////////////
+  global string $gSelect;
+  global string $gMainProgressBar;
+  setToolTo $gSelect;
+  progressBar -e -st ("计算顶点顶点...") -bp -ii 1 -min 0 -max $mode_dian[0] $gMainProgressBar;
+    
+     for ($ll=0;$ll<$mode_dian[0];$ll++)
+ {
+      if(`progressBar -q -ic $gMainProgressBar`)
+      break;
+      progressBar -e -s 1 $gMainProgressBar;  
+      string $mode_temp_dindian=($modo_name+"_temp.vtx["+$ll+"]");
+     float$quznzhong=`skinPercent  -t $root -q  $sknclustet_temp_A $mode_temp_dindian`;
+     if($quznzhong>0){skinPercent  -tv $root  $quznzhong  $sknclustet ($modo_name+".vtx["+$ll+"]");}
+
+
+ 
+ }
+ select -r $modo_name;
+ if($jingxiang==1)
+ { doMirrorSkinWeightsArgList( 2, { " -mirrorMode YZ -surfaceAssociation closestPoint -influenceAssociation oneToOne" } );
+
+
+ }
+
+
+   progressBar -e -ep $gMainProgressBar;
+ delete ($modo_name+"_temp");
+
+
+}
