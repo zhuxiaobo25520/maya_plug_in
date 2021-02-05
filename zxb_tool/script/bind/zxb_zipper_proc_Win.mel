@@ -1,0 +1,930 @@
+
+//////////////////////////////////////创建拉链嘴巴
+
+
+global proc zxb_zipper_proc_Win(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "嘴巴曲线提取" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------提取曲线--------------" -h 25;
+
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+textFieldGrp  -cw2 200 50 -l "选中线中线（最平的一段）" -tx "  " -ed 0  UI_mouth_temp_wire;
+string$xian="UI_mouth_temp_wire";
+button -l "载入线" -c ("zxb_zairufangfa_A_proc(\""+$xian+"\")") lalian_button_zairuxian ;
+
+
+textFieldGrp  -cw2 100 130 -l "曲线前缀" -tx "lalian"   UI_mouth_zipper_prefix;
+
+text -l "  " ;
+
+textFieldGrp  -cw2 200 70 -l "反向嘴巴模型（闭合模型）" -tx "  " -ed 0  zxb_zairumode;
+string$mode="zxb_zairumode";
+button -l "载模型" -c ("zxb_zairufangfa_A_proc(\""+$mode+"\")") lalian_button_fanxiang;
+
+
+ setParent..;
+button -l "创建张嘴曲线A" -c "zxb_zuiba_tiqv_lalian_open_proc" lalian_button_qvxianA;   
+button -l "创建闭嘴曲线无后缀" -c "zxb_zuiba_tiqv_lalian_close_proc" lalian_button_qvxian;
+button -l "创建跟随曲线D" -c "zxb_zuiba_tiqv_lalian_follow_proc" lalian_button_qvxianD;
+text -l "--------------创建拉链--------------" -h 20  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+
+
+checkBox -l "载入顶点勾选他" -value 0 panduan_dian;
+checkBox -l "张开效果勾选他" -value 1 fanxuan;
+
+textFieldGrp  -cw2 150 100 -l "跟随曲线（D曲线）" -tx " "   UI_mouth_zipper_wire_follow_D;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_mouth_zipper_wire_follow_D"+"\")") UI_mouth_zipper_wire_follow_D_button;
+
+
+textFieldGrp  -cw2 150 100 -l "张开 闭合 曲线" -tx " "   UI_mouth_zipper_wire_close_open;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_mouth_zipper_wire_close_open"+"\")") UI_mouth_zipper_wire_close_open_button;
+
+
+
+textFieldGrp  -cw2 150 100 -l "张开曲线(曲线A)" -tx " "   UI_mouth_zipper_wire_open_A;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_mouth_zipper_wire_open_A"+"\")")  UI_mouth_zipper_wire_open_A_button;
+
+
+
+textFieldGrp  -cw2 150 100 -l "闭合曲线(曲线B)" -tx " "   UI_mouth_zipper_wire_close_B;
+button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_mouth_zipper_wire_close_B"+"\")")   UI_mouth_zipper_wire_close_B_button;
+
+
+//button -l "提取反向嘴曲线(暂时无用)" -c "zxb_xuanzebutongmoxing_jiluxuanzhededian";
+//textFieldGrp  -cw2 100 130 -l "载入基础模型" -tx "模型" -ed 0  zxb_zairumodea;
+//string$mode="zxb_zairumode";
+//button -l "载入基础模型" -c ("zxb_zairufangfa_A_proc(\""+$mode+"\")") ;
+setParent ..; 
+button -l "定位器控制曲线（D曲线）" -c "zxb_dingweiqi_kongzhiqvxian" UI_mouth_zipper_follow_DD_button ; 
+button -l "曲线控制定位器(张开 闭合 曲线)" -c "zxb_dingweiqi_gensuiqvxian" UI_mouth_zipper_open_AABB_button;
+button -l "创建拉链" -c "zxb_global_bolangzui" UI_mouth_zipper_Create_button;
+
+
+
+text -l "--------------创建线包裹--------------" -h 20  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+
+textFieldGrp  -cw2 150 130 -l "载入基础模型" -tx "模型" -ed 0  zxb_zairumodeA;
+string$modeA="zxb_zairumodeA";
+button -l "载入模型" -c ("zxb_UI_string_kongge_proc(\""+$modeA+"\")") ;
+
+textFieldGrp  -cw2 150 130 -l "载入D曲线 按顺序选中" -tx "曲线" -ed 0  Dqvxian;
+string$Dqvxian="Dqvxian";
+button -l "载入D曲线" -c ("zxb_UI_string_kongge_proc(\""+$Dqvxian+"\")") ;
+
+
+
+textFieldGrp  -cw2 150 130 -l "载入张嘴曲线 按顺序选中" -tx "曲线" -ed 0  zhangzuiqvxian;
+string$zhangzuiqvxian="zhangzuiqvxian";
+button -l "张嘴曲线" -c ("zxb_UI_string_kongge_proc(\""+$zhangzuiqvxian+"\")") ;
+
+setParent ..; 
+button -l "生成包裹" -c "zxb_lalianbaoguo_poc";
+
+
+
+
+text -l "--------------设置驱动--------------" -h 20  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+
+textFieldGrp  -cw2 100 130 -l "载入一个控制器" -tx "控制器" -ed 0  zxb_zairukongzhiqi;
+string$mkongzhiqi="zxb_zairukongzhiqi";
+button -l "控制器" -c ("zxb_UI_string_kongge_proc(\""+$mkongzhiqi+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "载入两个定位器" -tx "定位器" -ed 0  zxb_dingweiqi;
+string$dingweqi="zxb_dingweiqi";
+button -l "定位器" -c ("zxb_UI_string_kongge_proc(\""+$dingweqi+"\")") ;
+
+
+
+setParent ..; 
+
+
+button -l "设置驱动" -c "zxb_zd_sheziqvdong_poc";
+
+
+
+
+
+text -l "--------------骨骼跟随曲线--------------" -h 20  -bgc 0.3 0.7 0.3;
+button -l "生成" -c "xiao_gugegengsuiqvxian_proc_columnLayout";
+
+separator;
+
+setParent ..; 
+
+frameLayout -label "创建嘴巴波浪"   -collapsable 3 -cl 0   -labelWidth 20 -width 500  ; // 可折叠 
+
+text -l "--------------生成波浪--------------" -h 20  -bgc 0.3 0.7 0.3;
+button -l "选中D曲线(跟随曲线)" -c "zxb_bolangzui";
+setParent ..; 
+setParent ..; 
+setParent ..; 
+
+showWindow  ;
+}
+
+
+
+////////////////////////////选择其他模型上的线
+global proc string zxb_xuanzebutongmoxing_jiluxuanzhededian(int $panduan, string $mesh_name)
+{
+    
+   //string $mesh_name="head_mesh_zuiba_nianlian";
+   string $bianliang[]=`ls -sl -fl`;
+
+ //int $panduan=0;
+   string $dian="vtx";
+   if($panduan==0)
+    {
+    $dian="e";
+    }else
+    {
+     $dian="vtx";
+     }
+
+   select -cl  ;
+
+
+  for ($ll=0;$ll<size($bianliang);$ll++)
+  {
+    string $temp_name[];
+    int $chafen=`tokenize $bianliang[$ll] "[" $temp_name`;
+    int $chafen=`tokenize $temp_name[1] "]" $temp_name`;
+    int $xuhao=$temp_name[0];
+    select -add ($mesh_name+"."+$dian+"["+$xuhao+"]");
+   // print  $temp_name;
+    
+   }
+   
+   string$aaa="";
+   string $qq[]=`ls -sl -fl`;
+    for ($ll=0;$ll<size($qq);$ll++)
+        {
+         string$temp=$qq[$ll];
+         $aaa+=$temp+" " ;
+         }
+   return $aaa;
+}
+
+global proc string zxb_zuiba_tiqv_lalian_open_proc()
+{
+    
+    string$xian_AA=`textFieldGrp -q -tx  UI_mouth_temp_wire`;
+    string $open_s_qvxian[]= stringToStringArray($xian_AA, " ");//提取的曲线名字
+    string$Aqvxianss=`textFieldGrp -q -tx UI_mouth_zipper_prefix `;
+    string$Aqvxians[];
+    clear $Aqvxians;
+    int $nemt=`tokenize $Aqvxianss" " $Aqvxians`;//分离字符串存到变量
+    string$qianzui=$Aqvxians[0];
+    
+    string $qvxianA=zxb_extract_Curves_proc(1,"open",$qianzui,$xian_AA);
+    
+    textFieldGrp -e -tx $qvxianA UI_mouth_zipper_wire_open_A ;
+    button -e -en 0 UI_mouth_zipper_wire_open_A_button ;
+    button -e -en 0 lalian_button_qvxianA ;
+    return $qvxianA;
+}
+global proc string zxb_zuiba_tiqv_lalian_close_proc()
+{
+    string$Aqvxianss=`textFieldGrp -q -tx UI_mouth_zipper_prefix `;//曲线前缀
+    string$Aqvxians[];
+    clear $Aqvxians;
+    int $nemt=`tokenize $Aqvxianss" " $Aqvxians`;
+    string$qianzui=$Aqvxians[0];
+    
+    string$xian_AA=`textFieldGrp -q -tx  UI_mouth_temp_wire`;
+    string $open_s_qvxian[]= stringToStringArray($xian_AA, " ");//提取的曲线名字
+    string$close_s_mode=`textFieldGrp -q -tx  zxb_zairumode`;//反向嘴巴模型
+    select -r $open_s_qvxian;
+    string$close_s_qvxian=zxb_xuanzebutongmoxing_jiluxuanzhededian(0 ,$close_s_mode);
+    string $close_B=zxb_extract_Curves_proc(1,"close",$qianzui,$close_s_qvxian);
+    textFieldGrp -e -tx $close_B UI_mouth_zipper_wire_close_B ;
+    button -e -en 0 UI_mouth_zipper_wire_close_B_button;
+    button -e -en 0 lalian_button_qvxian ;
+    return $close_B;
+}
+
+
+global proc string zxb_zuiba_tiqv_lalian_follow_proc()
+
+{  
+    string$xian_AA=`textFieldGrp -q -tx  UI_mouth_temp_wire`;
+    string $open_s_qvxian[]= stringToStringArray($xian_AA, " ");//提取的曲线名字
+    string$Aqvxianss=`textFieldGrp -q -tx UI_mouth_zipper_prefix `;
+    string$Aqvxians[];
+    clear $Aqvxians;
+    int $nemt=`tokenize $Aqvxianss" " $Aqvxians`;//分离字符串存到变量
+    string$qianzui=$Aqvxians[0];
+    
+   
+    string $follow_A=zxb_extract_Curves_proc(1,"follow",$qianzui,$xian_AA);//生成张嘴嘴巴曲线
+    string $follow_s[]= stringToStringArray($follow_A, " ");//提取的曲线名字
+    select -r $follow_s;
+    DeleteHistory;
+    textFieldGrp -e -tx $follow_A UI_mouth_zipper_wire_follow_D ;
+    button -e -en 0 UI_mouth_zipper_wire_follow_D_button ;
+    button -e -en 0 lalian_button_qvxianD ;
+    
+    return $follow_A;
+}
+
+
+
+
+/////////////////设置拉链驱动/////////////////////
+global proc zxb_zd_sheziqvdong_poc()
+{
+  string $qvxians=`textFieldGrp -q -tx  zxb_zairukongzhiqi`;
+  string$qvxianss[];
+  clear $qvxianss;
+  int $nemt=`tokenize  $qvxians " " $qvxianss`;//分离字符串存到变量
+  string$qvxian=$qvxianss[0];
+  
+  string $locss=`textFieldGrp -q -tx zxb_dingweiqi  `;
+
+  string$locs[]=stringToStringArray($locss, " ");
+  
+  for ($i=0;$i<size($locs);$i++)
+  {
+   
+   string$loc=$locs[$i];
+   int$a=0;
+   string$rrll="";
+      
+   if($i==0){$a=1;$rrll="L";}else{$a=0;$rrll="R";}
+   string$loc_b=$locs[$a];
+   
+   int $ex=`objExists ($qvxian+".lalian_L")`;//查询这个物体是否纯在
+   if($ex==0){addAttr -ln "lalian_L"  -at double  -min 0 -max 10 -dv 0 -k  1 $qvxian;}//添加属性  
+   
+    $ex=`objExists ($qvxian+".lalian_R")`;//查询这个物体是否纯在
+    if($ex==0){addAttr -ln "lalian_R"  -at double  -min 0 -max 10 -dv 0 -k  1 $qvxian;}//添加属性  
+    
+    float$loc_pos=`getAttr ($loc+".tx")`;
+    float$loc_b_pos=`getAttr ($loc_b+".tx")`;
+   setDrivenKeyframe -itt "linear" -ott "spline" -v $loc_pos -dv 0 -cd ($qvxian+".lalian_"+$rrll) ($loc+".tx");  
+   setDrivenKeyframe -itt "linear" -ott "spline" -v $loc_b_pos -dv 10 -cd ($qvxian+".lalian_"+$rrll) ($loc+".tx");  
+  }
+}
+
+/////////////////////////////////设置嘴巴波浪///////////////////////////
+global proc zxb_bolangzui()
+{
+
+string $bianliang[]=`ls -sl `;//选中曲线D  
+
+for($i=0;$i<size($bianliang);$i++)
+{
+   string $qvxian_D=$bianliang[$i];
+   select -r $qvxian_D;
+  duplicate -rr -n ($qvxian_D+"_bolang");
+    string $grpchids[]=`listRelatives -c ($qvxian_D+"_locGrp")`;
+    
+    int $panduan=`objExists ($qvxian_D+"_bolanggrp") `;
+    if ($panduan==0)
+    {
+        select -cl  ;
+        group -empty -n ($qvxian_D+"_bolanggrp");
+        setAttr ($qvxian_D+"_bolanggrp.visibility") 0;
+        setAttr -lock true -keyable false -channelBox false ($qvxian_D+"_bolanggrp.v");
+     
+     }
+     
+     string$boliang=($bianliang[0]+"_bolang_all");
+     
+    int $panduan=`objExists $boliang `;
+    if ($panduan==0)
+    {
+        select -cl  ;
+        group -empty -n $boliang ;
+       setAttr ($boliang+".visibility") 0;
+       setAttr -lock true -keyable false -channelBox false ($boliang+".v");
+     
+     }
+     
+     parent ($qvxian_D+"_bolanggrp")  $boliang;
+     
+     /////////////////////////复制曲线D的定位器   属性控制拉链嘴的组//////////////////////////////
+   string $objloc_d[];//定义定位器的所有物体  复制出来的定位器的名字
+   clear $objloc_d;
+   for($j=0;$j<size($grpchids);$j++)
+   {
+     string $qvxian_D_locA= $grpchids[$j];
+     string $loc_chids[]=`listRelatives -c  -type "transform" $qvxian_D_locA`;
+     string $obj="";
+
+     for($ii=0;$ii<size($loc_chids);$ii++)
+       {
+       int $panduan=`objExists ($loc_chids[$ii]+".offsetZ")`;
+       if ($panduan==0){$obj=$loc_chids[$ii];}
+       }
+     select -r $obj ;
+     duplicate -rr -n ($obj+"_bolang");
+     parent ($obj+"_bolang") ($qvxian_D+"_bolanggrp");
+     string $zu_zi[]=`listRelatives -c -ad  -type  "transform" -fullPath ($obj+"_bolang")`;
+     string $zu_zi_A[]=`listRelatives -c -ad  -type  "transform" ($obj+"_bolang")`;
+     string $bolangloc="";
+
+     for($iii=0;$iii<size($zu_zi);$iii++)////重命名
+      {
+          string $ziwuti=$zu_zi[$iii];
+          //select -r $ziwuti;
+          rename  $ziwuti ($zu_zi_A[$iii]+"_bolang");
+          string$loc_shap[]=`listRelatives -s ($zu_zi_A[$iii]+"_bolang")`;
+          if($loc_shap[0]==""&&$iii==0){ delete($zu_zi_A[$iii]+"_bolang");}
+          if($loc_shap[0]!="")
+            {
+             string$tepe_B=`nodeType $loc_shap[0]`;
+            if($tepe_B=="locator"){$bolangloc=($zu_zi_A[$iii]+"_bolang");}
+             }
+
+         
+         
+        
+    
+       }
+      string $loc_zu[]=`listRelatives -c  -type  "transform"  $obj`;
+      string $lalian_loczu=$loc_zu[0];
+
+     connectAttr -f ($bolangloc+".t") ($lalian_loczu+".t");
+     select -r $bolangloc;
+     print $bolangloc;
+     $objloc_d[$j] = $bolangloc;//把定位器的名称保存到变量里   复制出来的定位器的名字
+   }
+  // print $objloc_d;
+  
+  
+  
+  ///////////////////创建曲线///////////////////
+   float $kaishi_pos_A[]=`xform -q -ws -t  ($qvxian_D+".cv[0]")`;
+   float $kaishi_pos_B[]=`xform -q -ws -t  ($qvxian_D+".cv[+"+size($grpchids)+"]")`;
+    int $panduan=`objExists ($qvxian_D+"_bolang")`;
+    if($panduan==1){ delete ($qvxian_D+"_bolang");}
+    
+  curve -d 1 -p $kaishi_pos_A[0] $kaishi_pos_A[1] $kaishi_pos_A[2] -p $kaishi_pos_B[0] $kaishi_pos_B[1] $kaishi_pos_B[2] -n($qvxian_D+"_bolang"); //创建曲线
+  setAttr ($qvxian_D+"_bolang.visibility") 0;
+  setAttr -lock true -keyable false -channelBox false ($qvxian_D+"_bolang.v");
+  rebuildCurve -ch 0 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kep 1 -kt 0 -s 2 -d 3 -tol 0.01 ($qvxian_D+"_bolang");//重建曲线
+  /////////////创建曲线信息节点///////////////////////////
+     int $panduan=`objExists ($qvxian_D+"qvxianzuijingdianjiedian")`;
+     if($panduan==1){ delete ($qvxian_D+"qvxianzuijingdianjiedian");}
+   createNode nearestPointOnCurve -n ($qvxian_D+"qvxianzuijingdianjiedian");//创建曲线最近点节点
+   string $qvxian_D_shp[]=`listRelatives -s $qvxian_D`;
+   connectAttr -force ($qvxian_D_shp[0]+".worldSpace[0]")  ($qvxian_D+"qvxianzuijingdianjiedian"+".inputCurve");//曲线链接到曲线信息节点
+
+    
+    /////////////////判断是否翻转曲线起始点/////////////////
+    
+    float $dian_temp_kaishi[]=`xform -q -ws -t ($qvxian_D+"_bolang.cv[0]")`;
+    float $dian_temp_jiesu[]=`xform -q -ws -t ($qvxian_D+"_bolang.cv[4]")`;
+    float $dian_temp_kaishi_A[]=`xform -q -ws -t ($qvxian_D+".cv[0]")`;
+    float$dis=mag(<<$dian_temp_kaishi[0],$dian_temp_kaishi[1],$dian_temp_kaishi[2]>>-<<$dian_temp_kaishi_A[0],$dian_temp_kaishi_A[1],$dian_temp_kaishi_A[2]>>);
+    float$dis_a=mag(<<$dian_temp_jiesu[0],$dian_temp_jiesu[1],$dian_temp_jiesu[2]>>-<<$dian_temp_kaishi_A[0],$dian_temp_kaishi_A[1],$dian_temp_kaishi_A[2]>>);
+
+    if($dis>$dis_a){reverseCurve -ch 0 -rpo 1 ($qvxian_D+"_bolang");}
+    parent ($qvxian_D+"_bolang") $boliang;
+    
+    //////////////////创建蔟//////////////
+    int $cv_size=5;
+    for($a=0;$a<$cv_size;$a++)//创建蔟
+     {
+      select -r ($qvxian_D+"_bolang.cv["+$a+"]"); 
+       
+     CreateCluster ;
+     rename ($qvxian_D+"_bolang_cu_"+$a);
+     spaceLocator -p 0 0 0 -n ($qvxian_D+"_bolang_cu_loc_"+$a);
+     group -n ($qvxian_D+"_bolang_cu_grp_D_"+$a);
+     group -n ($qvxian_D+"_bolang_cu_grp_C_"+$a);
+     group -n ($qvxian_D+"_bolang_cu_grp_B_"+$a);
+     group -n ($qvxian_D+"_bolang_cu_grp_A_"+$a);
+     setAttr ($qvxian_D+"_bolang_cu_grp_A_"+$a+".visibility") 0;
+     setAttr -lock true -keyable false -channelBox false ($qvxian_D+"_bolang_cu_grp_A_"+$a+".v");
+     delete`pointConstraint  ($qvxian_D+"_bolang_cu_"+$a) ($qvxian_D+"_bolang_cu_grp_A_"+$a)`;
+     parent ($qvxian_D+"_bolang_cu_"+$a) ($qvxian_D+"_bolang_cu_loc_"+$a);
+     parent ($qvxian_D+"_bolang_cu_grp_A_"+$a) $boliang;
+      }
+     
+     ///////////////////////蔟控制复制出来定位器//////////////////////////////
+     
+     
+      int $panduan_A=`objExists ($qvxian_D+"_bolanggrp"+"_A")`;
+      if ($panduan_A==0)
+      { select -cl  ;
+        group -empty -n ($qvxian_D+"_bolanggrp"+"_A");
+        setAttr ($qvxian_D+"_bolanggrp"+"_A"+".visibility") 0;
+        setAttr -lock true -keyable false -channelBox false ($qvxian_D+"_bolanggrp"+"_A"+".v");
+       }
+    string $qvxian_D_boliang_shp[]=`listRelatives -s ($qvxian_D+"_bolang")`;
+   connectAttr -force ($qvxian_D_boliang_shp[0]+".worldSpace[0]")  ($qvxian_D+"qvxianzuijingdianjiedian"+".inputCurve");//曲线链接到曲线信息节点
+   for($aa=0;$aa<size($objloc_d);$aa++)
+   {
+        string $loc_d=$objloc_d[$aa];
+        float $pos[]=`xform -q -ws -t $loc_d`;
+       setAttr -type float3  ($qvxian_D+"qvxianzuijingdianjiedian.inPosition") $pos[0] $pos[1] $pos[2];
+      float $weozh=`getAttr  ($qvxian_D+"qvxianzuijingdianjiedian.parameter")`;
+      
+      int $panduan_l=`objExists ($loc_d+"_pointOnCurveInfo_"+$aa)`;
+      if($panduan_l==1){delete ($loc_d+"_pointOnCurveInfo_"+$aa); }
+     createNode "pointOnCurveInfo" -n ($loc_d+"_pointOnCurveInfo_"+$aa);//创建曲线最近点节点
+     connectAttr -force  ($qvxian_D_boliang_shp[0]+".worldSpace[0]")  ($loc_d+"_pointOnCurveInfo_"+$aa+".inputCurve");
+     setAttr ($loc_d+"_pointOnCurveInfo_"+$aa+".parameter") $weozh;
+     
+     spaceLocator -p 0 0 0 -n ( $loc_d+"_A_loc_"+$a);
+     connectAttr -force ($loc_d+"_pointOnCurveInfo_"+$aa+".position") ( $loc_d+"_A_loc_"+$a+".t");
+     parent ( $loc_d+"_A_loc_"+$a) ($qvxian_D+"_bolanggrp"+"_A");
+     pointConstraint -mo ( $loc_d+"_A_loc_"+$a)   $loc_d;
+   }
+  
+   delete  ($qvxian_D+"qvxianzuijingdianjiedian");
+   parent ($qvxian_D+"_bolanggrp"+"_A") $boliang;
+   
+   ///////////////////创建控制器////////////////////////
+   
+   string $qvxianname=($qvxian_D+"UP_bolangqvxian");
+   if($i==1){$qvxianname=($qvxian_D+"DN_bolangqvxian");}
+   float $kaishi_pos_A[]=`xform -q -ws -t  ($qvxian_D+".cv[0]")`;
+   float $qvxian_MM_pos[]=`xform -q -ws -t  ($qvxian_D+"_bolang.cv[2]")`;
+   float $rsd= `abs($kaishi_pos_A[0]*0.2)`;
+  circle -c 0 0 0 -nr 0 1 0 -sw 360 -r $rsd -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $qvxianname; 
+  group -n ($qvxianname+"_grp_B");
+  group -n ($qvxianname+"_grp_A");
+  select -r  ($qvxianname+".cv[0]") ($qvxianname+".cv[2]") ($qvxianname+".cv[4]") ($qvxianname+".cv[6]") ;
+  scale -r -p 0cm 0cm 0cm 0.417937 0.417937 0.417937 ;
+  if($i==0)
+  {  
+  move -r -os -wd 0 ($rsd*0.5) 0 ;
+  select -r  ($qvxianname+".cv[0:99999999]");
+  move -r -os -wd 0 ($rsd*0.5) ($rsd*1.5) ;
+  }else
+  {
+  move -r -os -wd 0 ($rsd*-0.5) 0 ;
+  select -r  ($qvxianname+".cv[0:99999999]");
+  move -r -os -wd 0 ($rsd*-0.5) ($rsd*1.5) ;
+  }
+ 
+  xform  -ws -t $qvxian_MM_pos[0] $qvxian_MM_pos[1] $qvxian_MM_pos[2]($qvxianname+"_grp_A");
+  
+  string $shape[]=`listRelatives -s $qvxianname`;
+    setAttr ($shape[0]+".overrideEnabled") 1;
+    setAttr ($shape[0]+".overrideColor") 16;
+  //parent   ($qvxianname+"_grp_A") $boliang;
+    
+    
+    ////////////////////表达式//////////////////////////
+   
+    float $rsd= ($kaishi_pos_A[0]*0.35);
+    float$aaaa= `abs ($rsd)`;
+     float $temp=$aaaa;
+    addAttr -ln "upty"  -at double  -dv 1 -k 1 $qvxianname;
+    addAttr -ln "dnty"  -at double  -dv 1 -k 1 $qvxianname;
+    addAttr -ln "pianyi"  -at double  -dv 0 -k 1 $qvxianname;
+    addAttr -ln "upsl"  -at double  -dv $temp -k 1 $qvxianname;
+    addAttr -ln "dntsl"  -at double  -dv ($temp*-1) -k 1 $qvxianname;
+    setAttr -keyable false -channelBox true ($qvxianname+".upsl");
+    setAttr -keyable false -channelBox true ($qvxianname+".dntsl");
+    
+    
+
+    string $grp_C1=($qvxian_D+"_bolang_cu_grp_C_1");
+    string $grp_C2=($qvxian_D+"_bolang_cu_grp_C_2");
+    string $grp_C3=($qvxian_D+"_bolang_cu_grp_C_3");
+    
+    string $grp_B1=($qvxian_D+"_bolang_cu_grp_B_1");
+    string $grp_B2=($qvxian_D+"_bolang_cu_grp_B_2");
+    string $grp_B3=($qvxian_D+"_bolang_cu_grp_B_3");
+   //select -r $grp_C3;
+   // print $grp_C3;
+    float $temp_[]=`xform -q -ws -t  $grp_C2`;
+    move -rpr $temp_[0] $temp_[1] $temp_[2] ($grp_B3+".scalePivot") ($grp_B3+".rotatePivot") ;
+    move -rpr $temp_[0] $temp_[1] $temp_[2] ($grp_B1+".scalePivot") ($grp_B1+".rotatePivot") ;
+    string $exp="";
+    $exp+=($grp_C1+".ty=clamp(("+$qvxianname+".dntsl*"+$qvxianname+".dnty),("+$qvxianname+".upsl*"+$qvxianname+".upty),("+$qvxianname+".ty*0.6+"+$qvxianname+".tx));\n");
+    $exp+=($grp_C3+".ty=clamp(("+$qvxianname+".dntsl*"+$qvxianname+".dnty),("+$qvxianname+".upsl*"+$qvxianname+".upty),("+$qvxianname+".ty*0.6-"+$qvxianname+".tx));\n");
+    $exp+=($grp_C2+".ty=("+$grp_C1+".ty+"+$grp_C3+".ty);\n");
+    $exp+=($grp_C1+".tz="+$grp_C3+".tz=("+$qvxianname+".tz*0.5);\n");
+    $exp+=($grp_B2+".tz=("+$grp_B1+".tz+"+$grp_B3+".tz);\n");
+    $exp+=($grp_B1+".sx="+$grp_B3+".sx=("+$qvxianname+".sx);\n");
+    $exp+=($grp_C1+".tx="+$grp_C2+".tx="+$grp_C3+".tx="+$qvxianname+".pianyi*0.1;\n");
+    $exp+=($grp_B3+".rx="+$grp_B1+".rx="+$qvxianname+".rx;\n");
+    $exp+=($grp_B3+".ry="+$grp_B1+".ry="+$qvxianname+".ry;\n");
+    $exp+=($grp_B3+".rz="+$grp_B1+".rz="+$qvxianname+".rz;\n");
+    //print $exp;
+    
+int$panduan_biaodashi=`objExists ($qvxian_D+"_biaodashi")`;
+if($panduan_biaodashi==1){delete ($qvxian_D+"_biaodashi") ;}
+expression -s $exp  -o ($qvxian_D+"_biaodashi") -ae 1 -uc all ;
+
+}
+}
+
+
+
+global proc string zxb_extract_Curves_proc(int$a,string$mingzi,string$qianzui,string$xian_A)//int 区分线段的平均值或者法线朝向 $mingzi名字 $qianzui前缀 $xian_A 线段名称
+{
+
+//string$xian=$xian_A;
+string $xian=`textFieldGrp -q -tx  zxb_ganjie `;
+string$Axianxian=$qianzui;
+string$mingzi=$mingzi;
+string$qvxianss[]= stringToStringArray($xian, " ");//字符串转化数组
+string $bianliang[]=$qvxianss;//提取曲线名字
+string$temp_qvxian[];
+clear $temp_qvxian;
+int $nemt=`tokenize $bianliang[0]"."  $temp_qvxian`;//分离字符串存到变量
+string$moxing=$temp_qvxian[0];
+select -r $bianliang;
+ConvertSelectionToVertices;
+string $dingdian[]=`ls -sl -fl`;
+
+
+      string$R_cv="";
+      string$L_cv="";
+     string$vtxs[]=$dingdian;
+     float$dd=-100000000000000;
+     float$xx=1000000000000000;
+     string$dian_L="";
+     string$dian_R="";
+     for ($i=0;$i<size($vtxs);$i++)
+          {
+           string$vtx=$vtxs[$i];
+           float$bn_pos[]=`xform -q -ws -t $vtx`;
+           if($bn_pos[0]>$dd)
+             {
+             $dd=$bn_pos[0];
+             $dian_L=$vtx;
+             }
+             if($bn_pos[0]<$xx)
+             {
+             $xx=$bn_pos[0];
+             $dian_R=$vtx;
+             }
+             
+           }
+           
+           
+     $L_cv=$dian_L;   
+     $R_cv=$dian_R;
+ float $R_POS[]=`xform -q -ws -t $R_cv`; 
+ string$qvxian_mingzi=$Axianxian+"_temp_curve";
+  select -r $qvxianss;
+  polyToCurve -form 2 -degree 1 -conformToSmoothMeshPreview 1 -n $qvxian_mingzi;
+ DeleteHistory;
+ float$pamte=zxb_return_curve_U($R_POS[0],$R_POS[1],$R_POS[2],$qvxian_mingzi);
+ select -r ($qvxian_mingzi+".u["+$pamte+"]") ;
+float $tempp_POS[]=`xform -q -ws -t $dingdian[0]`; 
+int$jisuan=size($dingdian)-1;
+float $tempp_POS_A[]=`xform -q -ws -t $dingdian[$jisuan]`; 
+float $R_POaS=$R_POS[0]+$R_POS[1]+$R_POS[2];
+float $R_PObS=$tempp_POS[0]+$tempp_POS[1]+$tempp_POS[2];
+if($R_POaS!=$R_PObS)
+  {
+    moveNurbsCurveSeam;
+   }
+ 
+
+ select -r ($qvxian_mingzi+".cv[0:999999999]");
+ 
+ string $qvxian_A[]=`ls -sl -fl`;
+ 
+ 
+string$dianLL="";
+float $cv_pos[]=`xform -q -ws -t $L_cv`;
+float$maga=1000000000000;
+     
+for($iii=0;$iii<size($qvxian_A);$iii++)
+   { 
+     string$mag_cv=$qvxian_A[$iii];
+     float $mag_po[]=`xform -q -ws -t $mag_cv`;
+     float $weizhi=mag(<<$cv_pos[0],$cv_pos[1],$cv_pos[2]>>-<< $mag_po[0] ,$mag_po[1] ,$mag_po[2]>>);////////计算距离
+     if($weizhi<$maga){$maga=$weizhi;$dianLL=$mag_cv;}
+     } 
+    
+//print $dianLL;
+  string$ccv[];
+  clear $ccv;
+  int $nemt=`tokenize $dianLL"[" $ccv`;//分离字符串存到变量
+   int $nemt=`tokenize $ccv[1]"]" $ccv`;//分离字符串存到变量
+  string$shu=$ccv[0];
+ 
+ 
+ int$qvxiancv_size=size($qvxian_A);
+int$temp_a=$shu;
+
+float$exa=0;
+float$exb=0;
+
+
+if($a==0)
+{
+select -r ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+$exb=`zxb_qvfengshangzi`;
+
+select -r ($qvxian_mingzi+".cv[0:999999999]");
+select -d  ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+$exa=`zxb_qvfengshangzi`;
+}
+if($a==1)
+ {
+  select -r ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+  $exa=zxb_normal_pingjunshu($moxing);
+  
+  select -r ($qvxian_mingzi+".cv[0:999999999]");
+  select -d  ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+  $exb=`zxb_normal_pingjunshu($moxing)`;
+  }
+
+print $exa;
+print $exb;
+string$up_qvxiancvs[];
+clear$up_qvxiancvs;
+string$dw_qvxiancvs[];
+clear$dw_qvxiancvs;
+
+
+
+if($exb>$exa)
+  {
+  select -r ($qvxian_mingzi+".cv[0:999999999]");
+  select -d  ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+ $dw_qvxiancvs =`ls -sl -fl`;
+  select -r ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+  $up_qvxiancvs =`ls -sl -fl`;
+  }
+if($exa>$exb)
+  {
+  select -r ($qvxian_mingzi+".cv[0:999999999]");
+  select -d  ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+  $up_qvxiancvs =`ls -sl -fl`;
+  select -r ($qvxian_mingzi+".cv[0:"+$temp_a+"]");
+  $dw_qvxiancvs=`ls -sl -fl`;
+   }
+string$UP_zuijing="";
+string$DW_zuijing="";
+
+
+for($o=0;$o<2;$o++)
+{
+    string$temp_suzu[];
+    clear$temp_suzu;
+   if($o==0){$temp_suzu=$up_qvxiancvs;}
+   if($o==1){$temp_suzu=$dw_qvxiancvs;}
+   for($i=0;$i<size($temp_suzu);$i++)
+    {
+     string$temp_cv=$temp_suzu[$i];
+     float $cv_pos[]=`xform -q -ws -t $temp_cv`;
+     float$mag=1000000000000;
+     string$dian="";
+     for($ii=0;$ii<size($dingdian);$ii++)
+        { 
+         string$mag_cv=$dingdian[$ii];
+         float $mag_po[]=`xform -q -ws -t $mag_cv`;
+         float $weizhi=mag(<<$cv_pos[0],$cv_pos[1],$cv_pos[2]>>-<< $mag_po[0] ,$mag_po[1] ,$mag_po[2]>>);////////计算距离
+         if($weizhi<$mag){$mag=$weizhi;$dian=$mag_cv+" ";}
+         } 
+     if($o==0){$UP_zuijing+=$dian;}
+     if($o==1){$DW_zuijing+=$dian;}  
+     }
+    
+ }   
+string$up_zuijingdw[]= stringToStringArray($UP_zuijing, " ");//字符串转化数组
+string$dw_zuijingdw[]= stringToStringArray($DW_zuijing, " ");//字符串转化数组       
+string$head_qvxian=$Axianxian+"_"+$mingzi+"_UP";//open  
+select -r $up_zuijingdw;
+select -add $R_cv;
+select -add $L_cv;
+ConvertSelectionToContainedEdges;
+polyToCurve -form 2 -degree 1 -conformToSmoothMeshPreview 1 -n $head_qvxian;
+
+string$head_qvxian_b=$Axianxian+"_"+$mingzi+"_DW";//open
+select -r $dw_zuijingdw;
+select -add $R_cv;
+select -add $L_cv;
+ConvertSelectionToContainedEdges;
+polyToCurve -form 2 -degree 1 -conformToSmoothMeshPreview 1 -n $head_qvxian_b;
+
+
+string$temp_mingzi="";
+$temp_mingzi+=$head_qvxian+" "+$head_qvxian_b+" ";
+delete $qvxian_mingzi;
+
+
+
+string$dian_LRA=$head_qvxian+".cv[0]";
+float $pos_A[]=`xform -q -ws -t$dian_LRA`;
+string$dian_LRB=$head_qvxian_b+".cv[0]";
+float $pos_B[]=`xform -q -ws -t $dian_LRB`;
+
+if($pos_A[0]!=$pos_B[0]){reverseCurve -ch 1 -rpo 1 $head_qvxian;}
+
+
+ return $temp_mingzi;
+}
+
+
+/////////////////////计算位置的平均值///////////////////////////
+global proc float zxb_qvfengshangzi ()
+{
+string$tempString[]=`ls -sl -fl`;
+
+float $tys[];
+float $tysAverage;
+for ($y=0;$y<size($tempString);$y++)
+	{
+	$pos=`xform -q -ws -t $tempString[$y]`;
+	$tys[$y]=$pos[1];
+	$tysAverage+=$tys[$y];
+	}
+$tysAverage=$tysAverage/size($tempString);
+return $tysAverage;
+}
+
+
+
+///////////////////////计算Y轴法线的朝向///////////////////////////
+
+global proc float zxb_normal_pingjunshu(string$mode)
+{
+string$tempString[]=`ls -sl -fl`;
+string$temp_mode=$mode;
+
+float$shu=0;
+string$mode_shps[]=`listRelatives -s $temp_mode`; 
+for ($y=0;$y<size($tempString);$y++)
+	{
+	string$mesh_OnMesh="Temp_closestPointOnMesh";
+	zxb_ADD_createNode_proc($mesh_OnMesh, "closestPointOnMesh");
+	connectAttr -force ($mode_shps[0]+".worldMesh[0]") ($mesh_OnMesh+".inMesh");
+	string$temp_cv=$tempString[$y];
+	float $cv_pos[]=`xform -q -ws -t $temp_cv`;
+	setAttr -type float3 ($mesh_OnMesh+".inPosition") $cv_pos[0] $cv_pos[1] $cv_pos[2];
+	float$a=getAttr ($mesh_OnMesh+".result.normal.normalY");
+    $shu+=$a;
+    delete $mesh_OnMesh;
+	}
+int$r=size($tempString);
+float$pingjun=$shu/$r;
+return $pingjun;
+}
+
+
+////////////////////////////选择其他模型上的线
+global proc string zxb_xuanzebutongmoxing_jiluxuanzhededian(int $panduan, string $mesh_name)
+{
+    
+   //string $mesh_name="head_mesh_zuiba_nianlian";
+   string $bianliang[]=`ls -sl -fl`;
+
+ //int $panduan=0;
+   string $dian="vtx";
+   if($panduan==0)
+    {
+    $dian="e";
+    }else
+    {
+     $dian="vtx";
+     }
+
+   select -cl  ;
+
+
+  for ($ll=0;$ll<size($bianliang);$ll++)
+  {
+    string $temp_name[];
+    int $chafen=`tokenize $bianliang[$ll] "[" $temp_name`;
+    int $chafen=`tokenize $temp_name[1] "]" $temp_name`;
+    int $xuhao=$temp_name[0];
+    select -add ($mesh_name+"."+$dian+"["+$xuhao+"]");
+   // print  $temp_name;
+    
+   }
+   
+   string$aaa="";
+   string $qq[]=`ls -sl -fl`;
+    for ($ll=0;$ll<size($qq);$ll++)
+        {
+         string$temp=$qq[$ll];
+         $aaa+=$temp+" " ;
+         }
+   return $aaa;
+}
+
+
+///////////////////////骨骼跟随曲线
+
+
+global proc xiao_gugegengsuiqvxian_proc_columnLayout() 
+{
+if(`window -ex zxb_chibangWin_columnLayout`) deleteUI zxb_chibangWin_columnLayout; 
+
+window -t "翅膀" zxb_chibangWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+ 
+ text -l " 关节跟随曲线 " -h 25;
+ text -l "  " -h 25;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+
+textFieldGrp  -cw2 100 300 -l "曲线" -tx "曲线" -ed 0  qvxian;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"qvxian"+"\")") ;
+
+
+setParent ..; 
+
+text -l "  " -h 25;
+button -l "创建(自动根据CV点生成骨骼)" -c "zxb_gugegengsuiqvxian_a_proc" ;
+showWindow zxb_chibangWin_columnLayout; 
+}
+ 
+
+
+global proc zxb_gugegengsuiqvxian_a_proc()
+{
+      string $qvxianss=`textFieldGrp -q -tx  qvxian `;
+      string$qvxian_s[]= stringToStringArray($qvxianss, " ");//关节
+      
+     string $bianliang[]=$qvxian_s;//
+
+ int $panduan_A=`objExists ("temp_qvxian_nearestPointOnCurve")`;//查询这个物体是否纯在
+ if($panduan_A==1){delete ("temp_qvxian_nearestPointOnCurve"); }
+createNode nearestPointOnCurve -n  ("temp_qvxian_nearestPointOnCurve");//创建曲线最近点节点
+
+for($i=0;$i<size($bianliang);$i++) 
+{
+    string $qvxian=$bianliang[$i]; 
+     string $qvxian_shp[]=`listRelatives -s $qvxian`;
+     connectAttr -force ($qvxian_shp[0]+".worldSpace[0]") ("temp_qvxian_nearestPointOnCurve.inputCurve") ;
+    
+     string$qvxian_grp=($qvxian+"_bn_Grp");
+    
+     int $panduan=`objExists $qvxian_grp`;//查询这个物体是否纯在
+    if($panduan==1)
+        {
+         delete $qvxian_grp;
+        }
+     select -cl  ;
+     group -empty -n $qvxian_grp;
+     setAttr ($qvxian_grp+".visibility") 0;
+    // setAttr -lock true ($qvxian_grp+".v");
+     
+  
+
+   select -r ($qvxian+".cv[0:99999999999]");
+    string $cvs[]=`ls -sl -fl`;
+    
+  global string $gSelect;
+global string $gMainProgressBar;
+setToolTo $gSelect;
+progressBar -e -st ("创建骨骼...") -bp -ii 1 -min 0 -max `size($cvs)` $gMainProgressBar;
+    for($j=0;$j<size($cvs);$j++) 
+    {
+         if(`progressBar -q -ic $gMainProgressBar`)
+         break;
+         progressBar -e -s 1 $gMainProgressBar;
+         string $cv_dian=$cvs[$j];
+         string$bn=($qvxian+"_bn_"+$j);
+         select -cl  ;
+         joint -p 0 0 0 -n $bn;
+       
+        parent $bn  $qvxian_grp;
+        float $pos_a[]=`xform -q -ws -t $cvs[$j]`;
+        setAttr  -type float3 ("temp_qvxian_nearestPointOnCurve.inPosition")  $pos_a[0] $pos_a[1] $pos_a[2];
+         addAttr -ln ("canshu")  -at double   -dv 0 -k  1 $bn;//添加属性
+        float $canshu=`getAttr "temp_qvxian_nearestPointOnCurve.parameter"`;
+        setAttr  ($bn+".canshu") $canshu;
+        setAttr -lock true ($bn+".canshu");
+        
+         int $panduan_A=`objExists ($qvxian+"_pointOnCurveInfo_loc_"+$j)`;//查询这个物体是否纯在
+         if($panduan_A==1){delete ($qvxian+"_pointOnCurveInfo_loc_"+$j); }
+        createNode "pointOnCurveInfo" -n ($qvxian+"_pointOnCurveInfo_loc_"+$j);//创建曲线信息节点
+        connectAttr -force ($qvxian_shp[0]+".worldSpace[0]") ($qvxian+"_pointOnCurveInfo_loc_"+$j+".inputCurve");
+        connectAttr -force ($bn+".canshu") ($qvxian+"_pointOnCurveInfo_loc_"+$j+".parameter");
+        connectAttr -force ($qvxian+"_pointOnCurveInfo_loc_"+$j+".position") ($bn+".t");
+        
+        float $pos_c[]=`getAttr ($qvxian+"_pointOnCurveInfo_loc_"+$j+".position")`;
+        // setAttr -type float3 ($qvxian+"_loc_B_"+$j+".t") $pos_c[0] $pos_c[1] $pos_c[2];
+     }
+     progressBar -e -ep $gMainProgressBar;
+    
+}
+delete ("temp_qvxian_nearestPointOnCurve");
+      
+      
+
+}
+
+
+
+
+

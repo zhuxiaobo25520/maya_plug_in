@@ -1,0 +1,76 @@
+
+global proc zxb_editor_cluster_proc()
+{
+   string $cu_s[]=`ls -sl -fl`;//选中簇编辑簇的位置
+   
+   //////////////////找到////////////////////////
+   string$mesh="";
+   string $obj_A[]=`listConnections  -s 0 -d 1 ($cu_s[0]+".worldMatrix[0]")`;
+   string$cluster_a=$obj_A[0];
+    
+   string $temp_lingshi[]=`listConnections  -s 0 -d 1 ($cluster_a+".message")`;
+    string$cluster="";
+   
+   for ($j=0;$j<size($temp_lingshi);$j++)
+         {
+          string$type=`nodeType $temp_lingshi[$j]`;
+          if($type=="objectSet")
+             {
+                 $cluster=$temp_lingshi[$j];
+             }
+         }
+   
+ 
+   select`sets -q $cluster`;
+   string $sets_temp[]=`ls -sl -fl`;//
+   string$sets[];
+   int$shu=`tokenize $sets_temp[0] "." $sets`;
+   $mesh=$sets[0];
+   
+   
+   string $obj_A_shep[]=`listRelatives -ni -s $mesh`; 
+   string$mode_shep=$obj_A_shep[0];
+ 
+   string$mesh_closestPointOnMesh= ($mesh+"_temp_closestPointOnMesh");
+   int$panduan_a=`objExists $mesh_closestPointOnMesh`;
+   if($panduan_a==1){delete $mesh_closestPointOnMesh;}
+   createNode "closestPointOnMesh"  -n $mesh_closestPointOnMesh;
+   connectAttr -force ($mode_shep+".worldMesh[0]") ($mesh_closestPointOnMesh+".inMesh");
+  
+   for ($i=0;$i<size($cu_s);$i++)
+        {
+            string$cu=$cu_s[$i];
+            string$cu_loc=($cu+"_temp_loc");
+            string$cu_sid=($cu+"sid");
+            int$ex=`objExists $cu_loc`;
+            if($ex==1)
+              {
+                float$pos_temp[]=`xform -ws -q -t  $cu_loc`;
+                setAttr -type float3 ($mesh_closestPointOnMesh+".inPosition") $pos_temp[0] $pos_temp[1] $pos_temp[2];
+                float$cpos[]=`getAttr  ($mesh_closestPointOnMesh+".position")`;
+                
+                
+                
+                 string $clustersheps[]=`listRelatives -ni -s $cu`; 
+                 string $clustershep=$clustersheps[0];
+                 setAttr -type float3  ($clustershep+".origin") $cpos[0] $cpos[1] $cpos[2] ;
+                 select -r $cu;
+                 move -a $cpos[0] $cpos[1] $cpos[2] ($cu+".scalePivot") ($cu+".rotatePivot") ;
+                 
+                 
+                 int$ex=`objExists $cu_sid`;
+                 if($ex==1)
+                   {
+                   string $clustersheps[]=`listRelatives -ni -s $cu_sid`; 
+                   string $clustershep=$clustersheps[0];
+                   setAttr -type float3  ($clustershep+".origin") ($cpos[0]*-1) $cpos[1] $cpos[2] ;
+                   select -r $cu_sid;
+                   move -a ($cpos[0]*-1) $cpos[1] $cpos[2] ($cu_sid+".scalePivot") ($cu_sid+".rotatePivot") ;
+                   }
+              }
+
+         }
+ delete $mesh_closestPointOnMesh;
+
+}
+
