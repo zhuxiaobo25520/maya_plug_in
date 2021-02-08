@@ -16,7 +16,7 @@ button -l "曲线创建关节" -c "zxb_jiazai(\"zxb_curved_to_joints_proc\")";
 button -l "关节跟随曲面" -c "zxb_jiazai(\"zxb_joints_nex\")";
 button -l "选中顶点创建簇对称" -c "zxb_jiazai(\"zxb_vertices_to_Cluster_procLayout\")";
 button -l "选中顶点创建簇不对称" -c "zxb_jiazai(\"zxb_vertices_to_Cluster_procLayout_M\")";
-button -l "编辑簇权的位置(定位器没删的情况)" -c "zxb_jiazai(\"\")";
+button -l "编辑簇权的位置(定位器没删的情况)" -c "zxb_jiazai(\"zxb_editor_cluster_proc\")";
 button -l "编辑簇权重工具" -c "zxb_jiazai(\"gtClusterDeformToolEditWin\")";
 button -l "簇权重绘制工具" -c "zxb_jiazai(\"gtClusterWeightPaintWin\")";
 button -l "镜像簇权重工具" -c "zxb_jiazai(\"gtClusterDeformToolMirrorWin\")";
@@ -28,6 +28,8 @@ button -l "提取上下曲线" -c "zxb_jiazai(\"zxb_extract_Curves_proc_columnLayout\"
 button -l "曲面控制器骨骼" -c "zxb_jiazai(\"zxb_child_bn_proc\")";
 button -l "次级控制器" -c "zxb_jiazai(\"zxb_child_object_control_proc\")";
 button -l "计算嘴巴权重" -c "zxb_jiazai(\"zxb_confirmed_weight\")";
+button -l "计算次级权重" -c "zxb_jiazai(\"zxb_Secondary_proc\")";
+
 button -l "瞳孔绑定" -c "zxb_jiazai(\"zxb_pupil_child_proc\")";
 button -l "拉链绑定" -c "zxb_jiazai(\"zxb_zipper_proc_Win\")";
 

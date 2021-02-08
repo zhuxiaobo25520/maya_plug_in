@@ -1,0 +1,145 @@
+global proc zxb_Secondary_proc()
+{
+if(`window -ex zxb_myxiaobo_quanzhong_A`)
+deleteUI zxb_myxiaobo_quanzhong_A;
+
+window -t "小波的插件_计算权重"zxb_myxiaobo_quanzhong_A;
+columnLayout -adjustableColumn 0; 
+textFieldButtonGrp -cw3 300 200 65 -l (" 被计算的骨骼:") -text "骨骼" -bl   "载    入" -bc "zxb_jisuanquanzhong_A_zairu_guge" baocun_guge_mingzi;
+textFieldButtonGrp -cw3 300 200 65 -l (" 模型1最终被分配权重的模型:") -text "模型" -bl   "载    入" -bc "zxb_jisuanquanzhong_A_zairu_mode" baocun_mode_A_mingzi ;
+textFieldButtonGrp -cw3 300 200 65 -l (" 模型2交互式权重模型:") -text "模型" -bl   "载    入" -bc "zxb_jisuanquanzhong_B_zairu_mode" baocun_mode_B_mingzi ;
+textFieldButtonGrp -cw3 300 200 65 -l (" 所有子关节:") -text "关节" -bl   "载    入" -bc "zxb_jisuanquanzhong_B_zairu_bn_jisuanquanzhong_A" baocun_zi_bn_B_mingzi ;
+
+button -l "                                                 计算权重  选中权重关节                                                      "   -c"zxb_jisuanquanzhong_A_jisuan";
+        
+
+showWindow zxb_myxiaobo_quanzhong_A;
+
+}
+
+
+global proc zxb_jisuanquanzhong_A_zairu_guge()
+{
+    string $bianliang[]=`ls -sl`;//
+    string$BN=$bianliang[0];
+    textFieldButtonGrp -e -tx $BN baocun_guge_mingzi;
+}
+
+
+global proc zxb_jisuanquanzhong_A_zairu_mode()
+{
+    string $bianliang[]=`ls -sl`;//
+    string$mode=$bianliang[0];
+    textFieldButtonGrp -e -tx $mode baocun_mode_A_mingzi;
+}
+
+
+global proc zxb_jisuanquanzhong_B_zairu_mode()
+{
+    string $bianliang[]=`ls -sl`;//
+    string$mode=$bianliang[0];
+    textFieldButtonGrp -e -tx $mode baocun_mode_B_mingzi;
+}
+global proc zxb_jisuanquanzhong_B_zairu_bn_jisuanquanzhong_A()
+{
+    string $bianliang[]=`ls -sl`;//
+    string$bn="";
+    
+     for($i=0;$i<size($bianliang);$i++)
+     {
+     string$temp=($bianliang[$i]+" ") ;
+     $bn+=$temp;
+     }
+    textFieldButtonGrp -e -tx $bn baocun_zi_bn_B_mingzi;
+}
+
+
+global proc zxb_jisuanquanzhong_A_jisuan()
+{
+      string$bnA=`textFieldButtonGrp -q -tx baocun_guge_mingzi`;
+      string$mode_A=`textFieldButtonGrp -q -tx baocun_mode_A_mingzi`;
+      string$mode_B=`textFieldButtonGrp -q -tx baocun_mode_B_mingzi`;
+      string$all_bn=`textFieldButtonGrp -q -tx baocun_zi_bn_B_mingzi`;
+      string $bns[]=stringToStringArray($all_bn," ");
+     // select -r $bns;
+     // string $bns[]=`ls -sl`;//选中骨骼
+  
+      
+      select -r ($mode_A+".vtx[0:999999999]");
+      string $mode_vtx_A[]=`ls -sl -fl`;//
+      
+      select -r ($mode_B+".vtx[0:999999999]");
+      string $mode_vtx_B[]=`ls -sl -fl`;//
+      
+      string$sking_AA= `findRelatedSkinCluster $mode_A`;
+      string$sking_BB= `findRelatedSkinCluster $mode_B`;
+      
+      string$dian[];
+      clear $dian;
+       for($i=0;$i<size($mode_vtx_A);$i++)
+           {
+              string$temp_dian=$mode_vtx_A[$i];
+             float$quan=`skinPercent -t $bnA -q  $sking_AA  $temp_dian`;//输出模型的权重
+             if($quan>0)
+                 {
+                    int $siaze=size($dian);
+                    $dian[$siaze]=$temp_dian;
+                 }
+
+           }
+     // select -r $dian;
+      
+      string$dian_A[];
+      clear $dian_A;
+      string$closestPointOnMesh_A=($mode_A+"_closestPointOnMesh_A");
+      int$panduan=`objExists $closestPointOnMesh_A`;
+      if($panduan==1){delete $closestPointOnMesh_A;}
+   
+       createNode closestPointOnMesh -n $closestPointOnMesh_A;
+      string$mode_shep_A[]=`listRelatives -s $mode_A`; 
+      string$modeshep=$mode_shep_A[0];
+      connectAttr -force ($modeshep+".worldMesh[0]") ($closestPointOnMesh_A+".inMesh");
+      for($i=0;$i<size($dian);$i++)
+      {
+       float$pos_a[] =`xform -q -ws -t  $dian[$i]`;
+       setAttr -type float3  ($closestPointOnMesh_A+".inPosition") $pos_a[0] $pos_a[1] $pos_a[2];
+       int$index=`getAttr ($closestPointOnMesh_A+".closestVertexIndex")`;
+       $dian_A[$i]=($mode_B+".vtx["+$index+"]");
+       }
+       //select -r $dian_A;
+      delete $closestPointOnMesh_A;
+     
+      
+   global string $gSelect;
+  global string $gMainProgressBar;
+  setToolTo $gSelect;
+  progressBar -e -st ("计算权重...") -bp -ii 1 -min 0 -max `size($bns)` $gMainProgressBar;
+      
+      
+      for($i=0;$i<size($bns);$i++)
+         {
+             
+           if(`progressBar -q -ic $gMainProgressBar`)
+            break;
+            progressBar -e -s 1 $gMainProgressBar;  
+         string$bn=$bns[$i];
+         
+         for($j=0;$j<size($dian);$j++)
+            {
+             string$vtx_A=$dian[$j];
+             string$vtx_B= $dian_A[$j];
+             float$quznhzong=`skinPercent -t $bn -q $sking_BB  $vtx_B`;//权重是1的时候跟A模型权重相乘
+             float$quznhzong_A=`skinPercent -t $bnA -q  $sking_AA  $vtx_A `;//输出模型的权重
+             float$cok=$quznhzong*$quznhzong_A;
+             if($cok>0)
+                {
+                skinPercent -tv $bn $cok $sking_AA   $vtx_A;
+                }
+             }
+         
+         }
+      progressBar -e -ep $gMainProgressBar;
+}
+
+
+

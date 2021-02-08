@@ -15,7 +15,7 @@ string$mode="zxb_zairumode";
 button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+$mode+"\")") ;
 
 setParent ..; 
-button -l "重新蒙皮" -c "zxb_zuiba_tiaozhengkongzhiqi_zaimengpi_pinghua";
+button -l "重新蒙皮" -c "zxb_Toskin_content";
 
 showWindow  ;
 }
@@ -59,4 +59,3 @@ string$meshe_s[]=$array;//选中要重新蒙皮的模型
   }
  select -r $meshe_s;
  }
-
