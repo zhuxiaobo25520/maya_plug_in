@@ -5,176 +5,92 @@ window -wh 420 200 -t "面部" zxb_jisuanlianbu_ciji_Win;
 scrollLayout; 
 columnLayout; 
 columnLayout -adjustableColumn 0; 
-// 第一种：可折叠边框 
-// 你熟悉的Attribute Editor和Tool Settings等窗口就是用的这种边框 
-frameLayout -label "准备"   -collapsable 3 -cl 0   -labelWidth 20 -width 500  ; // 可折叠 
+frameLayout -label "准备"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; 
 rowColumnLayout -nc 1 -cw 1 500  ;
-
 text -l "--------------准备--------------"   ;
 separator;
-
-
-
 rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
-string$head_mode="UI_head_mode";
-string$headmode_butt="UI_head_mode_butt";
-text -l "  " ;
-checkBox -l "不检查头部对称" -value 0 hede_vs;
-text -l "  " ;
-textFieldGrp  -cw2 100 130 -l "头部模型"  -ed 0  $head_mode;
-button -l  "载入"  -c ("zxb_zairufangfa_toubu_proc(\""+$head_mode+"\",\""+$headmode_butt+"\")") $headmode_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$headmode_butt+"\",\""+$head_mode+"\")") ;
 
+checkBox -l "眼睛镜像方式(方向)" -value 1 xingwei;
+checkBox -l "不检查头部对称" -value 1 hede_vs;
+checkBox -l "对称角色" -value 1 duicheng;
+/*checkBox -l "面部次级簇创建" -value 1 hede_cluster;
+text -l "  "   ;
+text -l "  "   ;*/
+string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode"};
+string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型==>","R眼球模型<=="};
+int$ui_size=size($UI_array);
+int$uiname_size=size($UI_name);
+if($ui_size!=$uiname_size){error ("UI数组不一致\n");}
+for ($i=0;$i<size($UI_array);$i++)
+{
+ string$UI_in_maya=$UI_array[$i];
+ string$UI_in_vs=$UI_name[$i];
+ string$UI_in_maya_button=$UI_array[$i]+"_button";
+textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
+button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
+button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
+ }
+setParent ..; 
+frameLayout -label "瞳孔"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; 
+rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
+string$UI_pupil[]={"UI_pupil_middle","UI_pupil_up"};
+string$UI_pupil_name[]={"瞳孔中间点","瞳孔最高点"};
+int$ui_pupil_size=size($UI_pupil);
+int$uiname_pupil_size=size($UI_pupil_name);
+if($ui_pupil_size!=$uiname_pupil_size){error ("UI数组不一致\n");}
+for ($i=0;$i<size($UI_pupil);$i++)
+{
+ string$UI_in_maya=$UI_pupil[$i];
+ string$UI_in_vs=$UI_pupil_name[$i];
+ string$UI_in_maya_button=$UI_array[$i]+"_button";
+textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
+button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
+button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
+ }
 
-
-textFieldGrp  -cw2 100 130 -l "头部控制器"  -ed 0 UI_head_controller ;  
-string$head_com="UI_head_controller";
-string$head_com_butt="UI_head_controller_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$head_com+"\",\""+$head_com_butt+"\")") $head_com_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$head_com_butt+"\",\""+$head_com+"\")") ;
-
-textFieldGrp  -cw2 100 130 -l "载入头部关节" -tx " " -ed 0  UI_head_bn;
-string$zxb_head_bn="UI_head_bn";
-string$zxb_head_bnbutt="UI_head_bnbutt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$zxb_head_bn+"\",\""+$zxb_head_bnbutt+"\")") $zxb_head_bnbutt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$zxb_head_bnbutt+"\",\""+$zxb_head_bn+"\")") ;
-
-
-textFieldGrp  -cw2 100 130 -l "载入眼睛关节=>L" -tx "注意重命名" -ed 0  UI_zxb_eye;
-string$zxb_eye="UI_zxb_eye";
-string$zxb_eye_butt="zxb_eye_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$zxb_eye+"\",\""+$zxb_eye_butt+"\")") $zxb_eye_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$zxb_eye_butt+"\",\""+$zxb_eye+"\")") ;
-text -l "  " ;
-checkBox -l "眼睛镜像关节(对称角色)" -value 1 duicheng;
-
-checkBox -l "镜像方式(方向)" -value 1 xingwei;
-
-
-textFieldGrp  -cw2 100 130 -l "眼皮最高点" -tx " " -ed 0  UI_zxb_eye_point_up ;
-string$UI_zxb_eye_point_up="UI_zxb_eye_point_up";
-string$UI_zxb_eye_point_up_butt="UI_zxb_eye_point_up_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_zxb_eye_point_up+"\",\""+$UI_zxb_eye_point_up_butt+"\")") $UI_zxb_eye_point_up_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_zxb_eye_point_up_butt+"\",\""+$UI_zxb_eye_point_up+"\")") ;
-
-
-
-
-textFieldGrp  -cw2 100 130 -l "眼皮最低点" -tx " " -ed 0  UI_zxb_eye_point_dw ;
-string$UI_zxb_eye_point_dw="UI_zxb_eye_point_dw";
-string$UI_zxb_eye_point_dw_butt="UI_zxb_eye_point_dw_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_zxb_eye_point_dw+"\",\""+$UI_zxb_eye_point_dw_butt+"\")") $UI_zxb_eye_point_dw_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_zxb_eye_point_dw_butt+"\",\""+$UI_zxb_eye_point_dw+"\")") ;
-
-
-
-
-
-
-
-
-textFieldGrp  -cw2 100 130 -l "下巴关节"  -ed 0  UI_jaw_bn;
-string$jaw_bn="UI_jaw_bn";
-string$jaw_bn_butt="UI_jaw_bn_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$jaw_bn+"\",\""+$jaw_bn_butt+"\")") $jaw_bn_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$jaw_bn_butt+"\",\""+$jaw_bn+"\")") ;
-
-
-textFieldGrp  -cw2 100 130 -l "下巴控制器"  -ed 0  UI_jaw_controller ;
-string$mouth_mouth_xiabakongzhiqi="UI_jaw_controller";
-string$mouth_mouth_xiabakongzhiqi_butt="UI_jaw_controller_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$mouth_mouth_xiabakongzhiqi+"\",\""+$mouth_mouth_xiabakongzhiqi_butt+"\")") $mouth_mouth_xiabakongzhiqi_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$mouth_mouth_xiabakongzhiqi_butt+"\",\""+$mouth_mouth_xiabakongzhiqi+"\")") ;
-
-
-textFieldGrp  -cw2 100 130 -l "嘴巴外环线"  -ed 0  UI_mouth_outer_wire ;
-string$mouth_xianduan_outer="UI_mouth_outer_wire";
-string$mouth_xianduan_outer_butt="UI_mouth_outer_wire_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_suzu_proc(\""+$mouth_xianduan_outer+"\",\""+$mouth_xianduan_outer_butt+"\")") $mouth_xianduan_outer_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$mouth_xianduan_outer_butt+"\",\""+$mouth_xianduan_outer+"\")") ;
-
-
-textFieldGrp  -cw2 100 130 -l "嘴巴内环线"  -ed 0  UI_mouth_inside_wire ;
-string$mouth_xianduan_inside="UI_mouth_inside_wire";
-string$mouth_xianduan_inside_butt="UI_mouth_inside_wire_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_suzu_proc(\""+$mouth_xianduan_inside+"\",\""+$mouth_xianduan_inside_butt+"\")") $mouth_xianduan_inside_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$mouth_xianduan_inside_butt+"\",\""+$mouth_xianduan_inside+"\")") ;
-
-
-textFieldGrp  -cw2 100 130 -l "口腔环线"  -ed 0  UI_mouth_oral_wire ;
-string$UI_mouth_oral_wire="UI_mouth_oral_wire";
-string$UI_mouth_oral_wire_butt="UI_mouth_oral_wire_butt";
-button -l  "载入"  -c ("zxb_zairufangfa_suzu_proc(\""+$UI_mouth_oral_wire+"\",\""+$UI_mouth_oral_wire_butt+"\")") $UI_mouth_oral_wire_butt ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_mouth_oral_wire_butt+"\",\""+$UI_mouth_oral_wire+"\")") ;
-
-
-
+setParent ..; 
 setParent ..; 
 setParent ..; 
 setParent ..; 
 separator;
-frameLayout -label "创建"   -collapsable 3 -cl 0   -labelWidth 20 -width 500  ; // 可折叠 
+frameLayout -label "创建"   -collapsable 3 -cl 1   -labelWidth 20 -width 500  ; // 可折叠 
 rowColumnLayout -nc 1 -cw 1 500  ;
 
 text -l "--------------创建--------------"   ;
 separator;
 rowColumnLayout -nc 2 -cw 1 250 -cw 2 250 ;
-string$zuibazhengti_button="zuibazhengti_button";
-button -l "创建嘴巴整体绑定" -c "zxb_xiababangding_proc" $zuibazhengti_button ;
 
-string$zuibazhengti_button_delete="zuibazhengti_button_delete";
-button -l  "删除嘴巴整体绑定"  -c "zxb_xiababangding_delete_proc" -en 0  $zuibazhengti_button_delete; 
+string$UI_establish[]={"zuibazhengti_button","zuibazhengti_button_delete","hedebs_button","headhunhebianxing_button","headhunhebianxing_edit_button","headhunhebianxing_add_button","hedemianbankuan_button","hedemianbankuan_delete_button","hedemianbankuan_wancheng_button","hedemianbankuan_bianji_button","hedemianbankuan_Add_button","hedemianbankuan_Add_delete_button","hede_open_reverse_button","lip_BN_button","lip_controller_button","lip_Curve_button","lip_bs_button","UI_face_Cluster_button","eye_button","eyelid_button","UI_serve_button"};
+string$UI_establish_name[]={"创建嘴巴整体绑定","删除嘴巴整体绑定","创建head混合变形","删除混合变形","编辑混合变形","添加混合变形","创建表情面板","删除表情面板","完成表情面板框","编辑表情面板框","添加表情控制控框制器","删除表情控制控框制器","链接嘴巴混合变形","创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","保存UI上的名称"};
+string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_xiababangding_delete_proc","zxb_hunhebianx_proc","zxb_delete_head_bs_proc","","","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_UI_mingzi_serve"};
+int$ui_establish_size=size($UI_establish);
+int$uiname_establish_size=size($UI_establish_name);
+int$UI_establish_proc_size=size($UI_establish_proc);
+if($ui_establish_size==$uiname_establish_size&&$ui_establish_size==$UI_establish_proc_size)
+  {
+  for ($i=0;$i<size($UI_establish);$i++)
+      {
+       string$establish_button=$UI_establish[$i];
+       string$establish_name=$UI_establish_name[$i];
+       string$establish_proc=$UI_establish_proc[$i];
+       button -l  $establish_name  -c $establish_proc  -en 1 $establish_button;
+      }
+      
+       
+  }
+else
+    {error ("UI数组不一致\n");}
 
-string$hedebs_button="hedebs_button";
-button -l "创建head混合变形" -c "zxb_hunhebianx_proc" $hedebs_button ;
-
-string$headhunhebianxing_button="headhunhebianxing_button";
-button -l "删除混合变形" -c "zxb_delete_head_bs_proc"  -en 0 $headhunhebianxing_button ; 
-
-string$headhunhebianxing_edit_button="headhunhebianxing_edit_button";
-button -l "编辑混合变形" -c "" -en 0 $headhunhebianxing_edit_button ;
 
 
-string$headhunhebianxing_add_button="headhunhebianxing_add_button";
-button -l "添加混合变形" -c "" -en 0 $headhunhebianxing_add_button ;
 
-separator;
-separator;
-string$hedemianbankuan_button="hedemianbankuan_button";
-button -l  "创建表情面板"  -c "zxb_head_biankuang" $hedemianbankuan_button ;
-
-string$hedemianbankuan_delete_button="hedemianbankuan_delete_button";
-button -l  "删除表情面板"  -c "zxb_head_chongxing"  -en 0 $hedemianbankuan_delete_button;   
-string$hedemianbankuan_wancheng_button="hedemianbankuan_wancheng_button";
-button -l  "完成表情面板框"  -c "zxb_mianbanwancheng_proc"  -en 0 $hedemianbankuan_wancheng_button;
-string$hedemianbankuan_bianji_button="hedemianbankuan_bianji_button";
-button -l  "编辑表情面板框"  -c "zxb_mianbanbianji_proc" -en 0  $hedemianbankuan_bianji_button;
-
-string$hedemianbankuan_Add_button="hedemianbankuan_Add_button";
-button -l  "添加表情控制控框制器"  -c "zxb_mianban_Addmianban_proc" -en 0 $hedemianbankuan_Add_button;
-
-string$hedemianbankuan_Add_delete_button="hedemianbankuan_Add_delete_button";
-button -l  "删除表情控制控框制器"  -c "zxb_mianban_Add_delete_proc"  -en 0 $hedemianbankuan_Add_delete_button;
-
-string$hedeopen_reverse_button="hede_open_reverse_button";
-button -l  "链接嘴巴混合变形"  -c "zxb_open_reverse_proc"  -en 1 $hedeopen_reverse_button;
-button -l  "创建嘴巴次级关节"  -c "zxb_button_lipjoint_proc"  -en 1 "lip_BN_button";
-button -l  "创建嘴巴次级控制器"  -c "zxb_secondary_controller"  -en 1 "lip_controller_button";
-button -l  "创建抿嘴曲线"  -c "zxb_extract_Curves_lip"  -en 1 "lip_Curve_button";
-button -l  "创建抿嘴曲线混合变形"  -c "zxb_extract_Curves_bs_lip"  -en 1 "lip_bs_button";
-button -l  "创建眼睛目标约束"  -c "zxb_chuangjianyanjingguyanjie_fangfa_proc"  -en 1 "eye_button";
-button -l  "创建眼皮绑定"  -c "zxb_chuangjianyanjingguyanjie_fangfa_proc"  -en 1 "eyelid_button";
-
-button -l  "保存UI上的名称"  -c " zxb_UI_mingzi_serve"  -en 1 UI_serve_button;
-
-separator;
-separator;
 setParent ..; 
 columnLayout -adj 1 -w 300 gtBSColumlayout;
 
 text -l " " -h 25;
 button -l  "自动动创建拉链绑定"  -c "zxb_zuibalalian_all_proc"  -en 1 zidong_button ;
-frameLayout -label "创建拉链"   -collapsable 3 -cl 0   -labelWidth 20 -width 500   ; // 可折叠 
+frameLayout -label "创建拉链"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; // 可折叠 
 
 
 text -l " " -h 25;
@@ -294,7 +210,7 @@ separator;
 
 setParent ..; 
 
-frameLayout -label "创建嘴巴波浪"   -collapsable 3 -cl 0   -labelWidth 20 -width 500  ; // 可折叠 
+frameLayout -label "创建嘴巴波浪"   -collapsable 3 -cl 1   -labelWidth 20 -width 500  ; // 可折叠 
 
 text -l "--------------生成波浪--------------" -h 20  -bgc 0.3 0.7 0.3;
 button -l "选中D曲线" -c "zxb_bolangzui";
@@ -392,10 +308,12 @@ if($ex_A==1)
 
 
 
+
 global proc string zxb_UI_mingzi()
 {
 string$mingzi="";
 string$UI_array[]={"UI_head_mode","UI_head_controller","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_temp_wire","UI_mouth_zipper_prefix","UI_mouth_zipper_wire_follow_D","UI_mouth_zipper_wire_open_A","UI_mouth_zipper_wire_close_B","UI_mouth_zipper_wire_close_open"};
+
 for($i=0;$i<size($UI_array);$i++)
    {
    $mingzi+=($UI_array[$i]+" ");
@@ -554,6 +472,13 @@ global proc zxb_ADD_shuxing_double_A_proc(string$kongzhiqi,string$shuxing)
   if($ex==0){addAttr -ln $shuxing -at double  -min 0 -max 10  -dv 0 -k 1;} 
 }
 
+//////////////////添加属性/////////////////////
+global proc zxb_ADD_shuxing_double_B_proc(string$kongzhiqi,string$shuxing,float$min,float$max)
+{
+  int$ex=`objExists ($kongzhiqi+"."+$shuxing)`;    ///判断
+  select -r $kongzhiqi;
+  if($ex==0){addAttr -ln $shuxing -at double  -min $min -max $max  -dv 0 -k 1;} 
+}
 
 
 ///////////////////////创建空组
@@ -4511,6 +4436,8 @@ zxb_ADD_kongzu_proc("zxb_fase_eye_ikHandle");
 zxb_ADD_kongzu_proc("zxb_fase_eye_joints");
 zxb_ADD_kongzu_proc("zxb_fase_eye_grp");
 zxb_ADD_kongzu_proc("Face_Group");
+zxb_ADD_kongzu_proc("zxb_eye_loc");
+parent ("zxb_eye_loc")("head_all_loc_Group");
 parent ("zxb_fase_eye_loc")("zxb_fase_eye_grp");
 parent ("zxb_fase_eye_ikHandle")("zxb_fase_eye_grp");
 parent ("zxb_fase_eye_joints")("zxb_fase_eye_grp");
@@ -4690,17 +4617,19 @@ parent("zxb_fase_eye_grp")("Face_Group");
       group -empty -n  $kongzu_A;
       group -n $kongzu_Aa;
       delete`parentConstraint $c_bn $kongzu_Aa`;
-      parent   $kongzu_Aa  $c_bn;
+      parentConstraint   $c_bn $kongzu_Aa;
+      parent   $kongzu_Aa ("head_all_loc_Group") ;
       
       select -cl  ;
       group -empty -n  $kongzu_B;
       group -n $kongzu_Bb;
       delete`parentConstraint  $c_bn $kongzu_Bb`;
-      parent  $kongzu_Bb $toubuguanjie;
+      parentConstraint $toubuguanjie $kongzu_Bb;
+      parent  $kongzu_Bb ("zxb_eye_loc");
       orientConstraint  $kongzu_A $kongzu_B ;
       
       
-     string$root_gensui_bn_root=($c_bn+"_gensui_root_bn");
+     string$root_gensui_bn_root=("zxb_eye_loc");
      float$temp_pos[]=`xform -q -ws -t $yanpi_UP_bn`;
      select -cl  ;
      joint -p 0 0 0 -n $root_gensui_bn_root;
@@ -4986,6 +4915,7 @@ parent("zxb_fase_eye_grp")("Face_Group");
      // parent $yanpi_DW_bn  $root_bn;
  }
  
+ 
 } 
 
 
@@ -4996,7 +4926,9 @@ global proc string zxb_zuibajici_joint_proc(int$chongjian,string$qianzui)
 {
 
   /*string $qvxianssa=`textFieldGrp -q -tx zxb_zairuqvxian `;*/
-  
+ string $head_qvxian=`textFieldGrp -q -tx UI_head_controller `;
+float $temp[]=`getAttr ($head_qvxian+".boundingBoxSize")`;//头的BOX
+float $con_size=$temp[2]/70.0;//半径
 string $xiaba_bn=`textFieldGrp -q -tx  UI_mouth_outer_wire  `;
 string$name_lip=zxb_extract_Curves_proc(0,"lip","place",$xiaba_bn);
 string$qvxiansaa[]=stringToStringArray($name_lip, " ");
@@ -5104,6 +5036,7 @@ for($i=0;$i<size($bianliang);$i++)
       float $temp_pos_B[]=`xform -q -ws -t $CVdian`;
       select -r  $zuiba_bn_root;
       joint -p $temp_pos_B[0] $temp_pos_B[1] $temp_pos_B[2]-n  $qvxian_bn ;
+      setAttr ($qvxian_bn+".radius") $con_size;
       $xing_bn[$bn_int]=$qvxian_bn;
       $bn_int=$bn_int+1;
       }
@@ -5538,7 +5471,8 @@ zxb_ADD_kongzu_proc("head_follow_curve_Group");
 $ex=`objExists ("Face_Group")`;
 if($ex==1)
   {
-   
+    parent ("head_follow_loc_Group")("head_all_loc_Group");
+    parent ("head_follow_curve_Group")("head_all_curve_Group");
    }else
        {zxb_ADD_kongzu_proc("lip_temp_ciji_GRP");
          parent ("head_follow_loc_Group")("lip_temp_ciji_GRP");
@@ -5568,7 +5502,7 @@ string $qvxian_grp=($mensh+"_qvxian_grp");//总组
 
 
 float $temp[]=`getAttr ($head_qvxian+".boundingBoxSize")`;//头的BOX
-float $con_size=$temp[2]/100.0;//半径
+float $con_size=$temp[2]/50.0;//半径
 
 $ex=`objExists $root_grp`;
 if($ex==0){group -empty -n $root_grp ;parent $root_grp ("head_follow_curve_Group");}//创建组
@@ -5997,6 +5931,100 @@ global proc zxb_secondary_controller()
 
 }
 
+
+
+
+
+
+/////////////////////////////////面部簇创建簇//////////////////////////////////////////////
+global proc zxb_face_to_Cluster_proc(){
+string$mianban_UI[]={"UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point"};
+string$dian="";
+int$fan=`checkBox -q -v duicheng`;
+for($i=0;$i<size($mianban_UI);$i++)
+{
+    string$ui_string=$mianban_UI[$i];
+    string $xiaba_temp=`textFieldGrp -q -tx  $ui_string `;
+    $dian+=$xiaba_temp+" ";
+ }
+//string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;
+string$bns[]= stringToStringArray($dian, " ");//关节
+string $dingdian_s[]=$bns;//选中顶点创建簇
+int$jingxiang=$fan;
+float$threshoud=0.01;
+string$cu_mode_s[];
+clear$cu_mode_s;
+int $nemt=`tokenize $dingdian_s[0] "." $cu_mode_s`;//分离字符串存到变量
+string$cu_mode=$cu_mode_s[0];
+string$zu_root=("face_cu_grp");
+string$shep_zi[]=`listRelatives -s $cu_mode`;
+string$shep=$shep_zi[0];
+int$ex_panduan=`objExists $zu_root`;
+if($ex_panduan==0){group -empty -n $zu_root; }
+
+int$ex=`objExists ("head_all_Cluster_Group")`;
+if($ex==1){parent ("face_cu_grp") ("head_all_Cluster_Group");}
+string$closestPointOnMesh=$cu_mode+"_closestPointOnMesh_temp";
+int$panduan=`objExists$closestPointOnMesh`;
+if($panduan==1){delete $closestPointOnMesh;} 
+createNode "closestPointOnMesh" -n $closestPointOnMesh; //模型信息节点	
+connectAttr -force ($shep+".worldMesh[0]") ($closestPointOnMesh+".inMesh");
+int$fanxiang=$fan;
+string$mingzi="";
+for ($i=0;$i<size($dingdian_s);$i++)
+    {
+        string$dingdian=$dingdian_s[$i];
+        string$sikn_cu=($cu_mode+"_cluster_Handle"+$i);
+        select -r  $dingdian;
+        newCluster " -envelope 1  " ;
+         string$temp_s[]=`ls -sl`;//选中顶点创建簇
+        parent $temp_s[0] $zu_root;
+        /*string $loc=($temp_s[0]+"_temp_loc");
+        spaceLocator -p 0 0 0 -n $loc ;
+        delete`pointConstraint $temp_s[0] $loc`;*/
+        $mingzi+=$temp_s[0]+" ";
+        if($jingxiang==1)
+           {
+             float$pos_temp[]=`xform -q -ws -t $dingdian`;
+             if($pos_temp[0]>$threshoud||$pos_temp[0]<($threshoud*-1))
+                {
+                    setAttr -type float3 ($closestPointOnMesh+".inPosition") ($pos_temp[0]*-1) $pos_temp[1] $pos_temp[2];
+                    int$index=`getAttr ($closestPointOnMesh+".closestVertexIndex")`;
+                     select -r ($cu_mode+".vtx["+$index+"]");
+                     newCluster " -envelope 1 " ;
+                        string$temp_s_a[]=`ls -sl`;//选中顶点创建簇
+                        rename $temp_s_a[0] ($temp_s[0]+"sid");
+                         $mingzi+=($temp_s[0]+"sid")+" ";
+                        parent ($temp_s[0]+"sid") $zu_root;
+                        
+                     
+                 }
+            }
+       
+    }
+    
+  
+
+delete $closestPointOnMesh;
+select -r $zu_root;
+string $head_qvxian=`textFieldGrp -q -tx UI_head_controller `;
+zxb_ADD_shuxing_string_proc($head_qvxian,"face_Cluster_name");
+setAttr -type "string"($head_qvxian+".face_Cluster_name") $mingzi;
+/////////////////////////////////////创建面部控制器///////////////////////////
+ string $head_controller=`textFieldGrp -q -tx UI_head_controller `;
+  string$bn_ss=`getAttr ($head_controller+".face_Cluster_name")`;
+  string $head_mode=`textFieldGrp -q -tx UI_head_mode `;
+  string $head_joinr=`textFieldGrp -q -tx UI_head_bn `;
+  zxb_child_object_proc($head_mode,$head_joinr,$bn_ss,0,1,0,0); 
+
+}
+
+
+
+
+
+
+   
 
 
 
