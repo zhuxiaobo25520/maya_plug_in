@@ -29,10 +29,9 @@ button -l "曲面控制器骨骼" -c "zxb_jiazai(\"zxb_child_bn_proc\")";
 button -l "次级控制器" -c "zxb_jiazai(\"zxb_child_object_control_proc\")";
 button -l "计算嘴巴权重" -c "zxb_jiazai(\"zxb_confirmed_weight\")";
 button -l "计算次级权重" -c "zxb_jiazai(\"zxb_Secondary_proc\")";
-
 button -l "瞳孔绑定" -c "zxb_jiazai(\"zxb_pupil_child_proc\")";
 button -l "拉链绑定" -c "zxb_jiazai(\"zxb_zipper_proc_Win\")";
-
+button -l "A类表情增加" -c "zxb_jiazai(\"zxb_MH_ALEI_face\")";
 
 setParent ..; 
 int$liang_A=200;

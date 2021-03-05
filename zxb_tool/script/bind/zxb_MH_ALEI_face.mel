@@ -1,0 +1,826 @@
+
+
+global proc zxb_MH_ALEI_face() 
+{
+if(`window -ex zxb__A_Lei_BSWin_columnLayout`) deleteUI zxb__A_Lei_BSWin_columnLayout; 
+
+window -t "创建次级" zxb__A_Lei_BSWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "模型" -tx "模型" -ed 0  zxb_mode;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_mode"+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "载入前缀" -tx "前缀" -ed 1  zxb_qianzui;
+//button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
+
+text -l " "  ;
+string$UI_bs_string_array[]={"悲伤","愤怒","坏笑","惊喜","纠结","微笑","严肃"};
+string$UI_bs_name_string_array[]={"sadness","rage","snicker","surprise","Tangle","smile","serious"};
+
+for ($i=0;$i<size($UI_bs_string_array);$i++)
+    {
+     string$ui_name=$UI_bs_string_array[$i];
+     string$bs_name=$UI_bs_name_string_array[$i];
+     button -l $ui_name -c ("zxb_A_lei_bs_mode(\""+$bs_name+"\",\""+"zxb_qianzui"+"\")") ;
+     }
+
+setParent ..; 
+
+button -l "复制模型" -c "zxb_Alei_bs_proc_maonang" ;
+
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+string$UI_bs_mode_array[]={"脸部模型","上牙","下牙","舌头","L==>眼球","R==>眼球","睫毛","眼线","眼模","其他"};
+string$UI_bs_modeui_string_array[]={"face","upper","lower","tooth","eyeball_L","eyeball_R","eyelash","police","eyemask","else"};
+for ($i=0;$i<size($UI_bs_mode_array);$i++)
+{
+ string$temp_neme=$UI_bs_mode_array[$i];
+ string$temp_fielf=$UI_bs_modeui_string_array[$i];
+ textFieldGrp  -cw2 100 130 -l ("载入"+$temp_neme) -ed 1  $temp_fielf;
+ button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+$temp_fielf+"\")") ;
+ }
+
+setParent ..; 
+
+button -l "创建混合变形" -c "zxb_Alei_bs_chuangjian_proc_maonang" ;
+showWindow zxb__A_Lei_BSWin_columnLayout; 
+}
+ 
+
+
+
+global proc zxb_Alei_bs_chuangjian_proc_maonang()
+{
+ string$UI_bs_modeui_string_array[]={"face","upper","lower","tooth","eyeball_L","eyeball_R","eyelash","police","eyemask","else"};
+ string$UI_bs_name_string_array[]={"sadness","rage","snicker","surprise","Tangle","smile","serious"};
+//string$bs_sss[]= stringToStringArray($UI_bs_name_string_array, " ");//关节
+
+ string$modessss="";
+ for ($i=0;$i<size($UI_bs_modeui_string_array);$i++)
+     {
+      string$temp=$UI_bs_modeui_string_array[$i];
+      string $namea=`textFieldGrp -q -tx  $temp `;
+      $modessss+=$namea;
+     }
+string$kongzhiqi_B="face_mianban";
+string$mingzi="mianban";
+$gtCN=$kongzhiqi_B;
+$teststring="face";     
+string $gtCname;
+$gtCname=$gtCN+"_";   
+string$eee=$gtCname+$mingzi;
+curve -d 3 -p -6 -6 0 -p 6 -6 0 -p 6 -6 0 -p 6 -6 0 -p 6 6 0 -p 6 6 0 -p 6 6 0 -p -6 6 0 -p -6 6 0 
+-p -6 6 0 -p -6 -6 0 -k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 8 -k 8  -n ($gtCname+"faceFrame");
+setAttr ($gtCname+"faceFrame.scaleX") 0.5;
+select -r ($gtCname+"faceFrame");
+channelBoxCommand -freezeScale;
+select -r ($gtCname+"faceFrame");
+duplicate -rr -n ($gtCname+"faceFrame1");
+scale 0.975 0.975 0.975;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+
+pickWalk -d down;
+select -add ($gtCname+"faceFrame");
+parent -s -r;
+delete ($gtCname+"faceFrame1");
+
+select -r ($gtCname+"faceFrame");
+addAttr -ln "FrameHnum"  -at long;
+
+float $Progress = 0.0; 
+    progressWindow
+
+        -title "创建混合变形"
+        -progress $Progress
+        -status "创建混合变形"
+        -isInterruptable true
+        -min 0
+        -max 100;
+string$mode_s[]= stringToStringArray($modessss, " ");//关节
+for ($i=0;$i<size($mode_s);$i++)
+    {
+     if ( `progressWindow -query -isCancelled` ) break;
+     $Progress=$i;
+     string$mode=$mode_s[$i];
+     
+    
+     for ($ii=0;$ii<size($UI_bs_name_string_array);$ii++)
+         {
+             
+          string$lishi[]=`listHistory   $mode`;//列出历史
+          select -r  $lishi;
+          string$bs_blendShape[]=`ls -sl -type "blendShape" `;
+          int$ex=`objExists$bs_blendShape[0]`;
+          string$mingcheng=$UI_bs_name_string_array[$ii];
+          string$bs_mingzi=$mode+"_"+$mingcheng;
+          int$ex_A=`objExists$bs_mingzi`;
+          if($ex_A==1)
+             {
+               string$baidashi="";
+               if($ex==1)
+                 {
+                  string $attr[]=`listAttr -k -m  ($bs_blendShape[0])`;//列出混合变形的属性
+                  int$bs_size=size($attr)-2;
+                  select -r $bs_mingzi;
+                  select -add $mode;
+                  blendShape -e  -t $mode $bs_size $bs_mingzi 1 $bs_blendShape[0];
+                  string$kongzhiqi="face_"+$mingcheng;
+                  string$kongzhiqi_A="face_grp_"+$mingcheng;
+                  string$kongzhiqi_ww=$gtCname+"face_grp_"+$mingcheng;
+                  string$sss=$gtCname+$kongzhiqi;
+                  int$ex_B=`objExists$kongzhiqi`;
+                  if($ex_B==0)
+                    {
+                      zxb_chuangjananniu_proc(2,$kongzhiqi,0,$kongzhiqi_A,$gtCname);
+                      transformLimits -tx 0 1 -etx 1 1 $sss;
+                      if($ii==0)
+                        {
+                         setAttr ($kongzhiqi_ww+".translateY") 5;
+                         }
+                      if($ii==1)
+                        {
+                           setAttr ($kongzhiqi_ww+".translateY") 3.5;
+                         }
+                       if($ii==2)
+                        {
+                           setAttr ($kongzhiqi_ww+".translateY") 2;
+                         }
+                         
+                       if($ii==3)
+                        {
+                           setAttr ($kongzhiqi_ww+".translateY") 0.5;
+                         }
+                       if($ii==4)
+                        {
+                           setAttr ($kongzhiqi_ww+".translateY") -1;
+                         }
+                       if($ii==5)
+                        {
+                           setAttr ($kongzhiqi_ww+".translateY") -2.5;
+                         }
+                         if($ii==6)
+                        {
+                           setAttr ($kongzhiqi_ww+".translateY") -4;
+                         }
+
+                     }
+                  
+                  $baidashi+=$bs_blendShape[0]+"."+$bs_mingzi+"="+$sss+".tx;";
+                  }
+                  else
+                  {
+                  select -r $bs_mingzi;
+                  select -add $mode;
+                  string$temp_bs[]=`blendShape`;
+                  string$bs_new=$mode+"bs";
+                  rename $temp_bs[0] $bs_new;
+                  
+                  string $attr[]=`listAttr -k -m  $bs_new`;//列出混合变形的属性
+                  int$bs_size=size($attr)-2;
+                  //select -r $bs_mingzi;
+                 // select -add $mode;
+                 // blendShape -e  -t $mode $bs_size $bs_mingzi 1 $bs_blendShape[0];
+                  string$kongzhiqi="face_"+$mingcheng;
+                  string$kongzhiqi_A="face_grp_"+$mingcheng;
+                  string$kongzhiqi_B="face"+$mingcheng;
+                  string$sss=$gtCname+$kongzhiqi;
+                  int$ex_B=`objExists$kongzhiqi`;
+                  if($ex_B==0)
+                    {
+                      zxb_chuangjananniu_proc(2,$kongzhiqi,0,$kongzhiqi_A,$gtCname);
+                      
+                      transformLimits -tx 0 1 -etx 1 1 $sss;
+                     }
+                   $baidashi+=$bs_new+"."+$bs_mingzi+"="+$sss+".tx;";
+                  }
+                  
+                expression -s $baidashi -n ($bs_mingzi+"exp");  
+              }
+          }
+    
+      
+      progressWindow -endProgress;
+      zxb_mianbanwancheng_proc($gtCname);
+     }
+ }
+
+
+global proc zxb_A_lei_bs_mode(string$tex,string$FieldGrp)
+{
+ textFieldGrp -e -tx  $tex $FieldGrp;
+ }
+
+global proc zxb_Alei_bs_proc_maonang()
+{
+      string $xiaba_bn=`textFieldGrp -q -tx  zxb_mode `;
+      string$modes[]= stringToStringArray($xiaba_bn, " ");//关节
+      string $qianzui=`textFieldGrp -q -tx  zxb_qianzui `;//mode
+      string$bs_grp=$qianzui+"_bs_grp";
+      zxb_ADD_kongzu_proc($bs_grp);
+      
+      for($i=0;$i<size($modes);$i++)
+         {
+             string$temp_bn=$modes[$i];
+             string $mingzi[];
+             clear $mingzi;//清除数组
+             string$aa="";
+             string$mode_namen=$temp_bn+"_"+$qianzui;
+             int $nemt=`tokenize $temp_bn ":" $mingzi`;//分离字符串存到变量
+             if($nemt>1)
+                {
+                    
+                  $aa=$mingzi[1];
+                  $mode_namen=$mingzi[1]+"_"+$qianzui;
+                }
+             int$ex=`objExists $mode_namen`;    ///判断
+             if($ex==0)
+               { 
+               select -r $temp_bn;
+               duplicate -rr -n $mode_namen;
+               parent $mode_namen $bs_grp;
+               }else
+                {error ($mode_namen+"模型名称重复");}
+          }
+      
+      
+
+}
+
+///////////////////////创建空组
+global proc zxb_ADD_kongzu_proc(string$kongzu)
+{  
+ int$ex=`objExists $kongzu`; ///判断
+ if($ex==0){ group -empty -n $kongzu;}
+   
+}
+
+global proc zxb_zairufangfa_A_proc(string$tempname)
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=(" "+$sel[$i]);
+    }
+textFieldGrp -e -tx ($obj) $tempname;
+}
+
+
+
+
+///////////////按钮////////////////////
+global proc zxb_chuangjananniu_proc(int$xinghzuang,string $xiaba,int$fangxiang,string$mingzi,string$zu)
+{
+    //int$xinghzuang=2;string $xiaba="xiaba";$fangxiang=0;
+    
+//$teststring=`textFieldGrp -q -tx UI_head_mode `;
+$teststring=$zu;
+$gtCN=$teststring;
+
+string $gtCname;
+$gtCname=$gtCN;
+int $selec=$xinghzuang;
+float $minH=-1;
+float $maxH=1;
+float $minV=-1;
+float $maxV=1;
+string $name=$xiaba;
+//int $fnm=`getAttr ($gtCname+"faceFrame.FrameHnum")`;
+//setAttr ($gtCname+"faceFrame.FrameHnum") ($fnm+1);
+
+if($selec==1){
+int $vv=$fangxiang;
+//////////////////////////////
+curve -d 3 -p -1 1 0 -p 1 1 0 -p 1 1 0 -p 1 1 0 -p 1 -1 0 -p 1 -1 0 -p 1 -1 0 -p -1 -1 0 -p -1 -1 0 
+-p -1 -1 0 -p -1 1 0 -k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 8 -k 8 -n ($gtCname+$mingzi);
+
+select -r ($gtCname+$mingzi);
+
+duplicate -rr -n ($gtCname+$mingzi+"_temp");
+scale 1.1 1.1 1.1;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+pickWalk -d down;
+
+select -add ($gtCname+$mingzi);
+parent -s -r;
+delete ($gtCname+$mingzi+"_temp");
+
+select -r ($gtCname+$mingzi);
+scale 1.2 1.2 1.2;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+
+if($vv==1)
+{
+setAttr ($gtCname+$mingzi+".rz") 45;
+select -r ($gtCname+$mingzi+".cv[0:*]");
+rotate -r 0 0 -45;
+}
+
+circle -ch 0 -o on -r 0.15 -n ($gtCname+$name);
+string $b[]=`ls -sl`;
+
+setAttr -lock true ($b[0]+".rx");
+setAttr -lock true ($b[0]+".ry");
+setAttr -lock true ($b[0]+".rz");
+setAttr -lock true ($b[0]+".sx");
+setAttr -lock true ($b[0]+".sy");
+setAttr -lock true ($b[0]+".sz");
+setAttr -lock true ($b[0]+".v");
+setAttr -lock true ($b[0]+".tz");
+
+select -add ($gtCname+$mingzi);
+parent;
+string $tempN[]=`ls -sl`;
+transformLimits -tx $minH $maxH -etx 1 1 ($tempN[0]);
+transformLimits -ty $minV $maxV -ety 1 1 ($tempN[0]);
+transformLimits -tz 0 0  -etz 1 1 ($tempN[0]);
+
+textCurves -ch 0 -f "Times New Roman|h-13|w400|c0" -t $name;
+string $sel[]=`ls -sl`;
+rename $sel[0] ($gtCname+$name+"temp");
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+
+for($i=0;$i<size($childs);$i++)
+{
+  string $c[]=`listRelatives -fullPath -c ($childs[$i])`;
+  for($j=0;$j<size($c);$j++)
+  {
+  select -r ($c[$j]);
+  select -add ($gtCname+$name+"temp");
+  parent;
+  }
+delete ($childs[$i]);
+}
+
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+select -r $childs[0];
+rename $name;
+string $currentN[]=`ls -sl`;
+
+for($i=1;$i<size($childs);$i++)
+   {
+  select -r ($childs[$i]);
+  makeIdentity -apply true -t 1 -r 1 -s 0 -n 0;
+  pickWalk -d down;
+  select -add $currentN[0];
+  parent -s -r;
+  delete ($childs[$i]);
+}
+
+
+select -r $currentN[0];
+CenterPivot;
+scale 0.75 0.75 0.75;
+spaceLocator -p 0 0 0 -n ($name+"temp");
+move 0 -1.5 0 ;
+select -add $currentN[0];
+delete `pointConstraint`;
+delete ($name+"temp");
+select -r $currentN[0];
+
+group -n ($xiaba+"faceConName");
+CenterPivot;
+select -add ($gtCname+$mingzi);
+parent;
+delete ($gtCname+$name+"temp");
+
+
+select -r ($gtCname+$mingzi);
+select -add ($gtCname+"faceFrame") ;
+parent;
+setAttr ($gtCname+$mingzi+".tx") 0;
+setAttr ($gtCname+$mingzi+".ty") 0;
+setAttr ($gtCname+$mingzi+".tz") 0;
+setAttr ($gtCname+$mingzi+".sx") 1;
+setAttr ($gtCname+$mingzi+".sy") 1;
+setAttr ($gtCname+$mingzi+".sz") 1;
+
+}
+/////////////////////////////////////////////////
+if($selec==2){
+curve -d 3 -p -1 1 0 -p 1 1 0 -p 1 1 0 -p 1 1 0 -p 1 0 0 -p 1 0 0 -p 1 0 0 -p -1 0 0 -p -1 0 0 -p -1 0 0 -p -1 1 0 
+-k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 8 -k 8 -n ($gtCname+$mingzi);
+
+select -r ($gtCname+$mingzi);
+CenterPivot;
+setAttr ($gtCname+$mingzi+".scaleY") 0.15;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+
+duplicate -rr -n ($gtCname+$mingzi+"_temp");
+scale 1.1 2 1.1;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+pickWalk -d down;
+
+select -add ($gtCname+$mingzi);
+parent -s -r;
+delete ($gtCname+$mingzi+"_temp");
+
+circle -ch 0 -o on -r 0.24 -n ($gtCname+$name);
+move 0 0.5 0;
+makeIdentity -apply true -t 1 -r 1 -s 0 -n 0;
+
+string $b[]=`ls -sl`;
+
+
+select -r ($b[0]+".cv[1]") ($b[0]+".cv[5]") ;
+select -tgl ($b[0]+".cv[3]") ($b[0]+".cv[7]") ;
+scale  0.6 0.6 0.6 ;
+select -r ($b[0]+".cv[0:7]");
+scale 1 1.3 1;
+
+setAttr -lock true ($b[0]+".rx");
+setAttr -lock true ($b[0]+".ry");
+setAttr -lock true ($b[0]+".rz");
+setAttr -lock true ($b[0]+".sx");
+setAttr -lock true ($b[0]+".sy");
+setAttr -lock true ($b[0]+".sz");
+setAttr -lock true ($b[0]+".v");
+setAttr -lock true ($b[0]+".tz");
+setAttr -lock true ($b[0]+".ty");
+select -r $b;
+select -add ($gtCname+$mingzi);
+parent;
+
+
+string $tempN[]=`ls -sl`;
+transformLimits -tx $minH $maxH -etx 1 1 ($tempN[0]);
+transformLimits -ty 0 0 -ety 1 1 ($tempN[0]);
+transformLimits -tz 0 0  -etz 1 1 ($tempN[0]);
+
+textCurves -ch 0 -f "Times New Roman|h-13|w400|c0" -t $name;
+string $sel[]=`ls -sl`;
+rename $sel[0] ($gtCname+$name+"temp");
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+
+for($i=0;$i<size($childs);$i++)
+{
+string $c[]=`listRelatives -fullPath -c ($childs[$i])`;
+for($j=0;$j<size($c);$j++)
+{
+select -r ($c[$j]);
+select -add ($gtCname+$name+"temp");
+parent;
+}
+delete ($childs[$i]);
+}
+
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+select -r $childs[0];
+rename $name;
+string $currentN[]=`ls -sl`;
+for($i=1;$i<size($childs);$i++)
+{
+select -r ($childs[$i]);
+makeIdentity -apply true -t 1 -r 1 -s 0 -n 0;
+pickWalk -d down;
+select -add $currentN[0];
+parent -s -r;
+delete ($childs[$i]);
+}
+
+
+select -r $currentN[0];
+CenterPivot;
+scale 0.75  0.75 0.75;
+spaceLocator -p 0 0 0 -n ($name+"temp");
+move 0 -0.05 0 ;
+select -add $currentN[0];
+delete `pointConstraint`;
+delete ($name+"temp");
+select -r $currentN[0];;
+group -n ($xiaba+"faceConName");
+CenterPivot;
+select -add ($gtCname+$mingzi);
+parent;
+delete ($gtCname+$name+"temp");
+
+
+select -r ($gtCname+$mingzi);
+select -add ($gtCname+"faceFrame") ;
+parent;
+setAttr ($gtCname+$mingzi+".tx") 0;
+setAttr ($gtCname+$mingzi+".ty") 0;
+setAttr ($gtCname+$mingzi+".tz") 0;
+setAttr ($gtCname+$mingzi+".sx") 1;
+setAttr ($gtCname+$mingzi+".sy") 1;
+setAttr ($gtCname+$mingzi+".sz") 1;
+setAttr ($gtCname+$mingzi+".rx") 0;
+setAttr ($gtCname+$mingzi+".ry") 0;
+setAttr ($gtCname+$mingzi+".rz") 0;
+}
+///////////////////////////////////////////////////////
+
+
+if($selec==3){
+curve -d 3 -p 0 -1 0 -p 1 -1 0 -p 1 -1 0 -p 1 -1 0 -p 1 1 0 -p 1 1 0 -p 1 1 0 -p 0 1 0 -p 0 1 0 -p 0 1 0 -p 0 -1 0 
+-k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 8 -k 8 -n ($gtCname+$mingzi);
+
+select -r ($gtCname+$mingzi);
+CenterPivot;
+
+scale 0.15 1 1 ($gtCname+$mingzi);
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+
+duplicate -rr -n ($gtCname+$mingzi+"_temp");
+scale 2 1.1 1.1;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+pickWalk -d down;
+
+select -add ($gtCname+$mingzi);
+parent -s -r;
+delete ($gtCname+$mingzi+"_temp");
+
+circle -ch 0 -o on -r 0.25 -n ($gtCname+$name);
+move 0.5 0 0;
+makeIdentity -apply true -t 1 -r 1 -s 0 -n 0;
+string $b[]=`ls -sl`;
+select -r ($b[0]+".cv[1]") ($b[0]+".cv[5]") ;
+select -tgl ($b[0]+".cv[3]") ($b[0]+".cv[7]") ;
+scale  0.6 0.6 0.6 ;
+select -r ($b[0]+".cv[0:7]");
+scale 1.3 1 1;
+
+setAttr -lock true ($b[0]+".rx");
+setAttr -lock true ($b[0]+".ry");
+setAttr -lock true ($b[0]+".rz");
+setAttr -lock true ($b[0]+".sx");
+setAttr -lock true ($b[0]+".sy");
+setAttr -lock true ($b[0]+".sz");
+setAttr -lock true ($b[0]+".v");
+setAttr -lock true ($b[0]+".tz");
+setAttr -lock true ($b[0]+".tx");
+
+select -r $b;
+select -add ($gtCname+$mingzi);
+parent;
+
+
+string $tempN[]=`ls -sl`;
+transformLimits -tx 0 0 -etx 1 1 ($tempN[0]);
+transformLimits -ty $minV $maxV -ety 1 1 ($tempN[0]);
+transformLimits -tz 0 0  -etz 1 1 ($tempN[0]);
+
+textCurves -ch 0 -f "Times New Roman|h-13|w400|c0" -t $name;
+string $sel[]=`ls -sl`;
+rename $sel[0] ($gtCname+$name+"temp");
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+
+for($i=0;$i<size($childs);$i++){
+string $c[]=`listRelatives -fullPath -c ($childs[$i])`;
+for($j=0;$j<size($c);$j++){
+select -r ($c[$j]);
+select -add ($gtCname+$name+"temp");
+parent;
+}
+delete ($childs[$i]);
+}
+
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+select -r $childs[0];
+rename $name;
+string $currentN[]=`ls -sl`;
+for($i=1;$i<size($childs);$i++){
+select -r ($childs[$i]);
+makeIdentity -apply true -t 1 -r 1 -s 0 -n 0;
+pickWalk -d down;
+select -add $currentN[0];
+parent -s -r;
+delete ($childs[$i]);
+}
+
+
+select -r $currentN[0];
+CenterPivot;
+scale 0.75 0.75 0.75;
+spaceLocator -p 0 0 0 -n ($name+"temp");
+move 0.5 -1.5 0 ;
+select -add $currentN[0];
+delete `pointConstraint`;
+delete ($name+"temp");
+select -r $currentN[0];;
+group -n ($xiaba+"faceConName");
+CenterPivot;
+select -add ($gtCname+$mingzi);
+parent;
+delete ($gtCname+$name+"temp");
+
+
+
+
+select -r ($gtCname+$mingzi);
+select -add ($gtCname+"faceFrame") ;
+parent;
+setAttr ($gtCname+$mingzi+".tx") 0;
+setAttr ($gtCname+$mingzi+".ty") 0;
+setAttr ($gtCname+$mingzi+".tz") 0;
+setAttr ($gtCname+$mingzi+".sx") 1;
+setAttr ($gtCname+$mingzi+".sy") 1;
+setAttr ($gtCname+$mingzi+".sz") 1;
+setAttr ($gtCname+$mingzi+".rx") 0;
+setAttr ($gtCname+$mingzi+".ry") 0;
+setAttr ($gtCname+$mingzi+".rz") 0;
+}
+
+//////////////////////////////////////////////
+
+
+if($selec==4){
+curve -d 3 -p -1 1 0 -p 1 1 0 -p 1 1 0 -p 1 1 0 -p 1 -1 0 -p 1 -1 0 -p 1 -1 0 -p -1 -1 0 -p -1 -1 0 
+-p -1 -1 0 -p -1 1 0 -k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 8 -k 8 -n ($gtCname+$mingzi);
+
+select -r ($gtCname+$mingzi);
+
+duplicate -rr -n ($gtCname+$mingzi+"_temp");
+scale 1.1 1.1 1.1;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+pickWalk -d down;
+
+select -add ($gtCname+$mingzi);
+parent -s -r;
+delete ($gtCname+$mingzi+"_temp");
+
+select -r ($gtCname+$mingzi);
+scale 1.2 1.2 1.2;
+makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
+
+
+circle -ch 0 -o on -r 0.35 -n ($gtCname+$name);
+string $b[]=`ls -sl`;
+scale 1 0.75 1 $b[0];
+
+setAttr -lock true ($b[0]+".rx");
+setAttr -lock true ($b[0]+".ry");
+setAttr -lock true ($b[0]+".rz");
+setAttr -lock true ($b[0]+".sx");
+setAttr -lock true ($b[0]+".sy");
+setAttr -lock true ($b[0]+".sz");
+setAttr -lock true ($b[0]+".v");
+setAttr -lock true ($b[0]+".tz");
+select -r $b;
+select -add ($gtCname+$mingzi);
+parent;
+string $tempN[]=`ls -sl`;
+transformLimits -tx -1 1 -etx 1 1 ($tempN[0]);
+transformLimits -ty -.5 .5 -ety 1 1 ($tempN[0]);
+transformLimits -tz 0 0  -etz 1 1 ($tempN[0]);
+///////////////
+circle -ch 0 -o on -r 0.35 -n ($gtCname+$name+"Up");
+string $b[]=`ls -sl`;
+move 0 0.5 0 $b[0];
+select -r $b;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0;
+
+
+select -r ($b[0]+".cv[5]") ;
+move -r 0 0.225 0 ;
+select -r ($b[0]+".cv[4:6]") ;
+move -r 0 0.225 0 ;
+
+
+setAttr -lock true ($b[0]+".rx");
+setAttr -lock true ($b[0]+".ry");
+setAttr -lock true ($b[0]+".rz");
+setAttr -lock true ($b[0]+".sx");
+setAttr -lock true ($b[0]+".sy");
+setAttr -lock true ($b[0]+".sz");
+setAttr -lock true ($b[0]+".v");
+setAttr -lock true ($b[0]+".tz");
+select -r ($b);
+select -add ($gtCname+$mingzi);
+parent;
+string $tempN[]=`ls -sl`;
+
+transformLimits -tx -1 1 -etx 1 1 ($tempN[0]);
+transformLimits -ty -.5 .5 -ety 1 1 ($tempN[0]);
+transformLimits -tz 0 0  -etz 1 1 ($tempN[0]);
+
+///////////////////////////
+
+circle -ch 0 -o on -r 0.35 -n ($gtCname+$name+"Down");
+string $b[]=`ls -sl`;
+move 0 -0.5 0 $b[0];
+select -r ($b);
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0;
+
+select -r ($b[0]+".cv[1]") ;
+move -r 0 -0.225 0 ;
+select -r ($b[0]+".cv[0:2]") ;
+move -r 0 -0.225 0 ;
+
+setAttr -lock true ($b[0]+".rx");
+setAttr -lock true ($b[0]+".ry");
+setAttr -lock true ($b[0]+".rz");
+setAttr -lock true ($b[0]+".sx");
+setAttr -lock true ($b[0]+".sy");
+setAttr -lock true ($b[0]+".sz");
+setAttr -lock true ($b[0]+".v");
+setAttr -lock true ($b[0]+".tz");
+select -r ($b);
+select -add ($gtCname+$mingzi);
+parent;
+string $tempN[]=`ls -sl`;
+
+transformLimits -tx -1 1 -etx 1 1 ($tempN[0]);
+transformLimits -ty -.5 .5 -ety 1 1 ($tempN[0]);
+transformLimits -tz 0 0  -etz 1 1 ($tempN[0]);
+//////////////////////////////////////////
+
+textCurves -ch 0 -f "Times New Roman|h-13|w400|c0" -t $name;
+string $sel[]=`ls -sl`;
+rename $sel[0] ($gtCname+$name+"temp");
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+
+for($i=0;$i<size($childs);$i++){
+string $c[]=`listRelatives -fullPath -c ($childs[$i])`;
+for($j=0;$j<size($c);$j++){
+select -r ($c[$j]);
+select -add ($gtCname+$name+"temp");
+parent;
+}
+delete ($childs[$i]);
+}
+
+string $childs[]=`listRelatives -fullPath -c  ($gtCname+$name+"temp")`;
+select -r $childs[0];
+rename $name;
+string $currentN[]=`ls -sl`;
+for($i=1;$i<size($childs);$i++){
+select -r ($childs[$i]);
+makeIdentity -apply true -t 1 -r 1 -s 0 -n 0;
+pickWalk -d down;
+select -add $currentN[0];
+parent -s -r;
+delete ($childs[$i]);
+}
+
+select -r $currentN[0];
+CenterPivot;
+scale 0.75  0.75  0.75 ;
+spaceLocator -p 0 0 0 -n ($name+"temp");
+move 0 -1.5 0 ;
+select -add $currentN[0];
+delete `pointConstraint`;
+delete ($name+"temp");
+select -r $currentN[0];;
+group -n ($xiaba+"faceConName");
+CenterPivot;
+select -add ($gtCname+$mingzi);
+parent;
+delete ($gtCname+$name+"temp");
+
+select -r ($gtCname+$mingzi);
+select -add ($gtCname+"faceFrame") ;
+parent;
+setAttr ($gtCname+$mingzi+".tx") 0;
+setAttr ($gtCname+$mingzi+".ty") 0;
+setAttr ($gtCname+$mingzi+".tz") 0;
+setAttr ($gtCname+$mingzi+".sx") 1;
+setAttr ($gtCname+$mingzi+".sy") 1;
+setAttr ($gtCname+$mingzi+".sz") 1;
+    }
+}
+
+
+ //////////////完成表情控制面板////////////////////////////
+global proc zxb_mianbanwancheng_proc(string$sss){
+
+
+$gtCN=$sss;
+
+string $gtCname;
+$gtCname=$gtCN;
+string $shape[]=`listRelatives  -s ($gtCname+"faceFrame")`;
+
+for($j=0;$j<size($shape);$j++){
+setAttr ($shape[$j]+".overrideEnabled") 1;
+setAttr ($shape[$j]+".overrideColor") 22;
+}
+
+string $frameH[]=`listRelatives  -c -type "transform" ($gtCname+"faceFrame")`;
+for($i=0;$i<size($frameH);$i++)
+{
+
+string $shape[]=`listRelatives  -c -s ($frameH[$i])`;
+for($j=0;$j<size($shape);$j++)
+ {
+setAttr ($shape[$j]+".overrideEnabled") 1;
+setAttr ($shape[$j]+".overrideDisplayType") 1;
+  }
+
+string $childs[]=`listRelatives -fullPath -c -type "transform" ($frameH[$i])`;
+int $size=size($childs);
+
+setAttr ($childs[($size-1)]+".overrideEnabled") 1;
+setAttr ($childs[($size-1)]+".overrideDisplayType") 1;
+
+for($j=0;$j<size($childs)-1;$j++)
+     {
+setAttr ($childs[$j]+".overrideEnabled") 1;
+setAttr ($childs[$j]+".overrideColor") 22;
+        }
+    } 
+
+      
+}
+

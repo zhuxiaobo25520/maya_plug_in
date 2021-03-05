@@ -282,3 +282,22 @@ float$pingjun=$shu/$r;
 return $pingjun;
 }
 
+ //////////////////////////通过曲线返回U参数///////////////////////////////
+  global proc float zxb_return_curve_U(float$x,float$y,float$z,string$qvxian)
+{
+    
+float$u=0;
+string$shangxiaqvxian_nearestPointOnCurve=$qvxian+"zxb_return_curve_U_nearestPointOnCurve";
+string $xingjiedian[]=`listRelatives -s $qvxian`;
+string$qvxian_shap=$xingjiedian[0];
+zxb_ADD_createNode_proc($shangxiaqvxian_nearestPointOnCurve,"nearestPointOnCurve");
+connectAttr -force ($qvxian_shap+".worldSpace[0]")  ($shangxiaqvxian_nearestPointOnCurve+".inputCurve");
+setAttr ($shangxiaqvxian_nearestPointOnCurve+".inPositionX") $x;
+setAttr ($shangxiaqvxian_nearestPointOnCurve+".inPositionY") $y;
+setAttr ($shangxiaqvxian_nearestPointOnCurve+".inPositionZ") $z;
+string$parameter=`getAttr ($shangxiaqvxian_nearestPointOnCurve+".parameter")`;
+$u=$parameter;
+return$u;
+delete $shangxiaqvxian_nearestPointOnCurve;
+}
+  

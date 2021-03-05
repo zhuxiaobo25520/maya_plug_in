@@ -57,29 +57,30 @@ global proc zxb_chibang_proc_maonang()
       string $jaw_bnss=`textFieldGrp -q -tx   UI_zxb_jaw_bn `;
       string$jaw_bns[]= stringToStringArray($jaw_bnss, " ");//关节
       string $loc=`textFieldGrp -q -tx   UI_zxb_loc `;//mode
-
-string $Globalsetting="Globalsetting";
+      string$locsssss[]= stringToStringArray($loc, " ");//关节
+      $loc=$locsssss[0];
+string $Globalsetting=$loc+"Globalsetting";
 zxb_ADD_kongzu_proc($Globalsetting); 
-string$wave_loc_AAAA="wave_loc_AAAA";
-string$wave_loc_BBBB="wave_loc_BBBB";
+string$wave_loc_AAAA=$loc+"wave_loc_AAAA";
+string$wave_loc_BBBB=$loc+"wave_loc_BBBB";
 spaceLocator -p 0 0 0 -n $wave_loc_AAAA;
 spaceLocator -p 0 0 0 -n $wave_loc_BBBB;
 
 
 setAttr ($wave_loc_BBBB+".visibility") 0;
 setAttr -lock true ($wave_loc_BBBB+".v");
-string$wave_loc_AAAA_grp="wave_loc_AAAA_grp";
+string$wave_loc_AAAA_grp=$loc+"wave_loc_AAAA_grp";
 zxb_ADD_kongzu_proc($wave_loc_AAAA_grp); 
 
 parent $wave_loc_AAAA$wave_loc_AAAA_grp;
 parent $wave_loc_BBBB $wave_loc_AAAA_grp;
 parent $wave_loc_AAAA_grp $Globalsetting;
-string$wave_loc_FK_grp="wave_loc_FK_grp";
+string$wave_loc_FK_grp=$loc+"wave_loc_FK_grp";
 zxb_ADD_kongzu_proc($wave_loc_FK_grp); 
 parent $wave_loc_FK_grp $Globalsetting;
 circle -c 0 0 0 -nr 0 1 0 -sw 360 -r ($chang_b*10) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n "Main";       
 group -n "Curves"; 
-string$loc_A="loc_A";
+string$loc_A=$loc+"loc_A";
 spaceLocator -p 0 0 0 -n $loc_A;
 parent$loc_A "Main";
 delete` parentConstraint $loc  $loc_A`;
@@ -198,7 +199,7 @@ select -r  $jaw_grp ;
 
 
 
-string$hedd_con="heed_con_A";
+string$hedd_con=$loc+"heed_con_A";
 circle -c 0 0 0 -nr 0 1 0 -sw 360 -r $chang_b -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $hedd_con; 
 string$head_grp_A=$hedd_con+"_GRP_A";
 string$head_grp_B=$hedd_con+"_GRP_B";
@@ -214,8 +215,8 @@ string $hedd_con_temp_zi[]=`listRelatives -s  $hedd_con `;
 setAttr ($hedd_con_temp_zi[0]+".overrideEnabled") 1;
 setAttr ($hedd_con_temp_zi[0]+".overrideColor") 17;  
 //////////////////////创建曲线    
-string$Curve="she_IK_Curve";
-string$Wave_Curve="Wave_Curve";
+string$Curve=$loc+"she_IK_Curve";
+string$Wave_Curve=$loc+"Wave_Curve";
 zxb_curve_establish_proc($bns,$Curve);
 parent $Curve $Globalsetting;
 string $Curve_curveShapes[]=`listRelatives -s $Curve`;
@@ -308,7 +309,7 @@ parent $IkHandle_Wave[0]$Globalsetting;
 int$Temp=size($Paths)-1;
 select -r $Paths[$Temp];
 RerootSkeleton;
-string$LU_jing="IK_lujing";
+string$LU_jing=$loc+"IK_lujing";
 string$mingzi="curve -bezier -d 3";
 float $pos_Aee[]=`xform -q -ws -t $Paths[1]`;
 float $pos_Arr[]=`xform -q -ws -t $Paths[0]`;
@@ -355,7 +356,7 @@ string$lujing_grp=$LU_jing+"_rp";
 group -n $lujing_grp;
 parentConstraint -mo  "Main" $lujing_grp;
 scaleConstraint -mo "Main" $lujing_grp;
-parent $lujing_grp "Globalsetting";
+parent $lujing_grp $Globalsetting;
 
 
 select -r ($LU_jing+".cv[0:9999999999]") ;
@@ -449,9 +450,9 @@ float$changdu_Wave=`getAttr ($Wave_Curve_info+".arcLength")`;
 setAttr ($Wave_Curve_multiplyDivide+".input2X") $changdu_Wave;
 connectAttr -f ($Wave_Curve_multiplyDivide+".outputX") ($Wave_Curve_multiplyDivide_B+".input2X");
 
-string$man_plusMinusAverage_paths_A="man_plusMinusAverage_paths_A";
+string$man_plusMinusAverage_paths_A=$loc+"man_plusMinusAverage_paths_A";
 zxb_ADD_createNode_proc($man_plusMinusAverage_paths_A,"plusMinusAverage");
-string$man_setRange_paths_A="man_setRange_paths_A";
+string$man_setRange_paths_A=$loc+"man_setRange_paths_A";
 zxb_ADD_createNode_proc($man_setRange_paths_A,"setRange");
 connectAttr -f "Main.Paths" ($man_setRange_paths_A+".valueX");
 //connectAttr -f "Main.Paths" ($man_plusMinusAverage_paths_A+".valueX");
@@ -471,7 +472,7 @@ select -r $Paths[$Temp];
 select -add $Paths[0];
 select -add $LU_jing;
 string$ikHandle[]=`ikHandle -sol ikSplineSolver -ccv false -pcv false -ns 3`;
-parent $ikHandle[0]  "Globalsetting";
+parent $ikHandle[0]  $Globalsetting;
 
 
 setAttr ($ikHandle[0]+".dTwistControlEnable") 1;
@@ -506,7 +507,7 @@ select -r  $Paths_loc_a;
 select -add $Paths[$aa];
 pointConstraint -mo ;
 setAttr ($ikHandle[0]+".rootOnCurve") 0;
-parent   $Paths_loc_a "Globalsetting";
+parent   $Paths_loc_a $Globalsetting;
 string$condition_LU_jing=$LU_jing+"_condition_A";
 zxb_ADD_createNode_proc($condition_LU_jing,"condition");
 connectAttr -f ($dingwi_kongzhiqi+".follow") ($condition_LU_jing+".firstTerm");
@@ -830,13 +831,13 @@ for($i=0;$i<size($cvss);$i++)
               {
                float$chushu=($i+1)*0.2;
             
-               $expression_yuesu+="float$dis=mag(<<wave_loc_AAAA.tx,wave_loc_AAAA.ty,wave_loc_AAAA.tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".wave_Distance;\n";
+               $expression_yuesu+="float$dis=mag(<<"+$wave_loc_AAAA+".tx,"+$wave_loc_AAAA+".ty,"+$wave_loc_AAAA+".tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".wave_Distance;\n";
                $expression_yuesu+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
                $expression_yuesu+=$yuesu_ss[0]+"."+$wave_loc_BBBB+"W0=clamp(0,1,$pinghua*"+$chushu+");\n";
                $expression_yuesu+=$yuesu_ss[0]+"."+$FK_loc+"W1=1-clamp(0,1,$pinghua*"+$chushu+");\n"; 
                }
                else
-            {$expression_yuesu+="float$dis=mag(<<wave_loc_AAAA.tx,wave_loc_AAAA.ty,wave_loc_AAAA.tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".wave_Distance;\n";
+            {$expression_yuesu+="float$dis=mag(<<"+$wave_loc_AAAA+".tx,"+$wave_loc_AAAA+".ty,"+$wave_loc_AAAA+".tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".wave_Distance;\n";
             $expression_yuesu+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
             $expression_yuesu+=$yuesu_ss[0]+"."+$wave_loc_BBBB+"W0=$pinghua;\n";
             $expression_yuesu+=$yuesu_ss[0]+"."+$FK_loc+"W1=1-$pinghua;\n";
@@ -846,7 +847,7 @@ for($i=0;$i<size($cvss);$i++)
             
             
             string$expression_yuesu_suofang=""; 
-            $expression_yuesu_suofang+="float$dis=mag(<<wave_loc_AAAA.tx,wave_loc_AAAA.ty,wave_loc_AAAA.tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".sz;\n";
+            $expression_yuesu_suofang+="float$dis=mag(<<"+$wave_loc_AAAA+".tx,"+$wave_loc_AAAA+".ty,"+$wave_loc_AAAA+".tz>>-<<("+$FK_loc+".tx),("+$FK_loc+".ty),("+$FK_loc+".tz)>>)/"+$dingwi_kongzhiqi+".sz;\n";
             $expression_yuesu_suofang+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
             $expression_yuesu_suofang+=$Wave_ik_bn+".sy=1+$pinghua*("+$dingwi_kongzhiqi+".sy-1);\n";
             $expression_yuesu_suofang+=$Wave_ik_bn+".sz=1+$pinghua*("+$dingwi_kongzhiqi+".sx-1);\n";
@@ -1251,4 +1252,4 @@ setAttr -lock true ($loc_shape_zi[0]+".v");
 setAttr ($xiaba_bn+".visibility") 0;
 setAttr -lock true ($xiaba_bn+".v");
 } 
-
+xiao_snake_proc;
