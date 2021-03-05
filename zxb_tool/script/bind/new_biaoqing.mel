@@ -31,23 +31,7 @@ textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
 button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
 button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
  }
-setParent ..; 
-frameLayout -label "瞳孔"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; 
-rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
-string$UI_pupil[]={"UI_pupil_middle","UI_pupil_up"};
-string$UI_pupil_name[]={"瞳孔中间点","瞳孔最高点"};
-int$ui_pupil_size=size($UI_pupil);
-int$uiname_pupil_size=size($UI_pupil_name);
-if($ui_pupil_size!=$uiname_pupil_size){error ("UI数组不一致\n");}
-for ($i=0;$i<size($UI_pupil);$i++)
-{
- string$UI_in_maya=$UI_pupil[$i];
- string$UI_in_vs=$UI_pupil_name[$i];
- string$UI_in_maya_button=$UI_array[$i]+"_button";
-textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
-button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
- }
+
 
 setParent ..; 
 setParent ..; 
@@ -85,15 +69,78 @@ else
 
 
 
+
+
+setParent ..; 
+frameLayout -label "瞳孔"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; 
+rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
+string$UI_pupil[]={"UI_pupil_middle","UI_pupil_up","UI_eyr_mode_L","UI_eyr_mode_R","UI_eye_create_mesh","UI_eye_create_Surfaces","UI_eye_mode_mesh"};
+string$UI_pupil_name[]={"瞳孔中间点","瞳孔最高点","->L眼球模型","<-R眼球模型","生成模型","曲面模型","当前模型"};
+int$ui_pupil_size=size($UI_pupil);
+int$uiname_pupil_size=size($UI_pupil_name);
+if($ui_pupil_size!=$uiname_pupil_size){error ("UI数组不一致\n");}
+for ($i=0;$i<size($UI_pupil);$i++)
+{
+ string$UI_in_maya=$UI_pupil[$i];
+ string$UI_in_vs=$UI_pupil_name[$i];
+ string$UI_in_maya_button=$UI_array[$i]+"_button";
+if($i>3)
+   {
+    textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
+    text -l "----------------------------"   ;
+    text -l "----------------------------"   ;
+//button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
+//button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
+    }
+else
+   {
+    textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
+    button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
+    button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;  
+    }
+ }
+setParent ..; 
+textFieldGrp  -cw2 100 400 -l "预设混合变形" -tx " tongBSA tongBSB tongBSC tongBSD tongBSE "   UI_eye_name_preinstall_BS;
+setParent ..; 
+
+columnLayout -adj 1 -w 300 ;
+button -l  "生成曲面以及模型"  -c "zxb_pupil_bs_mode_extract_proc"  -en 1 UI_pupil_bs_mode_extract_button ;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 240;
+
+textFieldGrp  -cw2 130 130 -l "添加属性控制器" -tx "" -ed 0  kongzhiqi;
+string$kongzhiqi="kongzhiqi";
+button -l "添加属性控制器" -c ("zxb_zairufangfa_A_proc(\""+$kongzhiqi+"\")") ;
+textFieldGrp  -cw2 130 130 -l "载入AB控制器:内瞳孔" -tx "" -ed 0  kongzhiqi_ab;
+string$kongzhiqi_ab="kongzhiqi_ab";
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+$kongzhiqi_ab+"\")") ;
+
+textFieldGrp  -cw2 130 130 -l "载入A控制器:外瞳孔" -tx "" -ed 0  kongzhiqi_a;
+string$kongzhiqi_a="kongzhiqi_a";
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+$kongzhiqi_a+"\")") ;
+
+textFieldGrp  -cw2 100 100 -l "放大 " -tx "2"   fangda;
+textFieldGrp  -cw2 100 100 -l "缩小 " -tx "0.2"   suoxiao;
+textFieldGrp  -cw2 100 100 -l "缩小x轴" -tx "0.2"   suoxiaox;
+textFieldGrp  -cw2 100 100 -l "放大x轴" -tx "1.5"   fangdax;
+
+textFieldGrp  -cw2 100 100 -l "缩小Y轴" -tx "0.2"   suoxiaoy;
+textFieldGrp  -cw2 100 100 -l "放大Y轴" -tx "1.5"   fangday;
+//floatSlider; 
+setParent ..; 
+textFieldGrp  -cw2 100 400 -l "放大缩小 " -tx " tongBSAA tongBSBB tongBSCC tongBSDD tongBSEE tongBSFF " -ed 0   yueshe_BS_A;
+
+button -l  "生成瞳孔绑定"  -c ""  -en 1 UI_pupil_bs_extract_button ;
+setParent ..; 
 setParent ..; 
 columnLayout -adj 1 -w 300 gtBSColumlayout;
 
 text -l " " -h 25;
 button -l  "自动动创建拉链绑定"  -c "zxb_zuibalalian_all_proc"  -en 1 zidong_button ;
+text -l " " -h 25;
 frameLayout -label "创建拉链"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; // 可折叠 
 
 
-text -l " " -h 25;
+
 text -l "--------------提取曲线--------------" -h 25;
 
 rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
@@ -6020,6 +6067,83 @@ setAttr -type "string"($head_qvxian+".face_Cluster_name") $mingzi;
 }
 
 
+///////////////////////////////////////创建瞳孔控制器/////////////////////////////////////////////////////
+global proc zxb_pupil_bs_mode_extract_proc()
+{
+    
+string $dian_aa=`textFieldGrp -q -tx UI_pupil_middle `;
+string $dian_bb=`textFieldGrp -q -tx UI_pupil_up `;
+string$temp_string=$dian_aa+" "+$dian_bb;
+string $ves[]= stringToStringArray($temp_string, " ");//字符串转化数组
+//string $ves[]=`ls -sl -fl`;//顶点  中间  上面
+string$temp[];
+ clear$temp;
+int$shuliang=`tokenize $ves[0] "." $temp`;
+string$mode=$temp[0];
+float$pos_teme[]=`xform -q -ws -t $ves[0]`;
+float$pos_teme_a[]=`xform -q -ws -t $ves[1]`;
+if($pos_teme[1]>$pos_teme_a[1])
+  {
+   $pos_teme=`xform -q -ws -t$ves[1]`;
+   $pos_teme_a= `xform -q -ws -t $ves[0]`;
+  }
+string$loc_A=($mode+"_loca");
+string$loc_B=($mode+"_locb");
+spaceLocator -p 0 0 0 -n $loc_A;
+spaceLocator -p 0 0 0 -n $loc_B;
+setAttr -type float3($loc_A+".translate") $pos_teme[0] $pos_teme[1] $pos_teme[2];
+setAttr -type float3($loc_B+".translate") $pos_teme_a[0] $pos_teme_a[1] $pos_teme_a[2];
+
+//创建眼球模型跟曲面
+string$qiu=($mode+"_qiu");
+string$qiunurb=($mode+"_nurb");
+polySphere -r 1 -sx 20 -sy 20 -ax 0 0 1 -cuv 2 -ch 1 -n ($mode+"_qiu");
+sphere -p 0 0 0 -ax 0 1 0 -ssw 0 -esw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -nsp 4 -ch 0 -n $qiunurb;
+string$qvmian_shapes[]=`listRelatives -s $qiunurb`;
+string$qvmian_shape=$qvmian_shapes[0];
+select -cl  ;
+select -r $mode;
+newCluster " -envelope 1";
+string$cua[]=`ls -sl`;
+delete` pointConstraint $cua[0]  ($mode+"_qiu")`;
+select -r $loc_A;
+select -add $qiu;
+aimConstraint -offset 0 0 0 -weight 1 -aimVector 0 0 1 -upVector 0 1 0 -worldUpType "object" -worldUpObject $loc_B;
+delete $loc_B $loc_A $cua[0] ;
+
+//创建的模型尽量靠近原始模型
+float$boxs[]=`getAttr ($mode+".boundingBoxSize")`;
+float$beishu=0.5;
+setAttr ($qiu+".s") ($boxs[0]*$beishu) ($boxs[1]*$beishu) ($boxs[2]*$beishu);
+delete` pointConstraint $qiu $qiunurb`;
+delete` scaleConstraint $qiu $qiunurb`;
+string$modejiedian=($mode+"yanqiu_closestPointOnMesh");
+string$shaps[]=`listRelatives -s $mode`;
+string$shap=$shaps[0];
+int$ex=`objExists $modejiedian`;
+if($ex==1){delete $modejiedian; }
+createNode "closestPointOnMesh" -n $modejiedian; //多边型最近点节点
+select -r ($qiu+".vtx[0:999999999]");
+connectAttr -force ($shap+".worldMesh[0]")  ($modejiedian+".inMesh");
+string $qiu_ves[]=`ls -sl -fl`;//顶点
+for($i=0;$i<size($qiu_ves);$i++)
+   {
+       string$dian=$qiu_ves[$i];
+       float$pos_temps[]=`xform -q -ws -t  $dian`;
+       setAttr -type float3 ($modejiedian+".inPosition") $pos_temps[0] $pos_temps[1] $pos_temps[2] ;
+       float $xingpos[]=`getAttr ($modejiedian+".position")`;
+       xform -ws -t $xingpos[0] $xingpos[1] $xingpos[2] $dian;
+       
+   }
+
+
+
+
+textFieldGrp -e -tx  $qiu UI_eye_create_mesh;
+textFieldGrp -e -tx $qiunurb UI_eye_create_Surfaces;
+textFieldGrp -e -tx $mode  UI_eye_mode_mesh;
+
+}
 
 
 
