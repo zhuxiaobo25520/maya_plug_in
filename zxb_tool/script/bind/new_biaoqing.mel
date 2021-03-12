@@ -19,6 +19,7 @@ text -l "  "   ;
 text -l "  "   ;*/
 string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode"};
 string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型==>","R眼球模型<=="};
+string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0"};
 int$ui_size=size($UI_array);
 int$uiname_size=size($UI_name);
 if($ui_size!=$uiname_size){error ("UI数组不一致\n");}
@@ -26,9 +27,10 @@ for ($i=0;$i<size($UI_array);$i++)
 {
  string$UI_in_maya=$UI_array[$i];
  string$UI_in_vs=$UI_name[$i];
+ int$jiaobiao=$UI_EX[$i];
  string$UI_in_maya_button=$UI_array[$i]+"_button";
 textFieldGrp  -cw2 100 130 -l $UI_in_vs  -ed 0  $UI_in_maya;
-button -l  "载入"  -c ("zxb_zairufangfa_B_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\")") $UI_in_maya_button ;
+button -l  "载入"  -c ("zxb_zairufangfa_int_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\","+$jiaobiao+")") $UI_in_maya_button ;
 button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
  }
 
@@ -137,7 +139,7 @@ textFieldGrp  -cw2 100 100 -l "放大Y轴" -tx "1.5"   fangday;
 setParent ..; 
 textFieldGrp  -cw2 100 400 -l "放大缩小 " -tx " tongBSAA tongBSBB tongBSCC tongBSDD tongBSEE tongBSFF " -ed 0   yueshe_BS_A;
 
-button -l  "生成瞳孔绑定"  -c "zxb_tongkong_BSProc"  -en 1 UI_pupil_bs_extract_button ;
+button -l  "生成瞳孔混合变形"  -c "zxb_tongkong_BSProc"  -en 1 UI_pupil_bs_extract_button ;
 setParent ..; 
 setParent ..; 
 columnLayout -adj 1 -w 300 gtBSColumlayout;
@@ -462,6 +464,32 @@ global proc zxb_zairufangfa_B_proc(string$tempname,string$butt)
 string $sel[]=`ls -sl`;
 textFieldGrp -e -tx $sel[0] $tempname;
 button -e -en 0 $butt;
+}
+
+
+/////////编辑文字并隐藏按钮///////
+ global proc zxb_zairufangfa_int_proc(string$tempname,string$butt,int$vs)
+{
+string $sel[];
+clear $sel;
+if($vs==0)
+  {
+  $sel=`ls -sl`;
+  textFieldGrp -e -tx $sel[0] $tempname;
+  button -e -en 0 $butt;
+  }
+if($vs==1)
+  {
+  $sel=`ls -sl -fl`;
+  string$temp="";
+  for ($i=0;$i<size($sel);$i++)
+      {
+        $temp+=$sel[$i]+" ";
+        }
+  textFieldGrp -e -tx $temp $tempname;
+  button -e -en 0 $butt;
+  }
+
 }
 
 
@@ -913,8 +941,9 @@ global proc zxb_xiababangding_proc()
   parent ("head_all_curve_Group")("Face_Group");
   parent("head_all_Cluster_Group")("Face_Group");
   parent("head_all_hairfollicle")("Face_Group");
+  parent("head_pupil_curve_Group")("head_all_curve_Group");
   parentConstraint$head_qvxian("head_curve_Group");
-  parentConstraint("head_pupil_curve_Group")("head_all_curve_Group");
+ 
   
   int$ex=`objExists ($head_qvxian+".jaw")`;    ///判断
   select -r $head_qvxian;
@@ -4501,6 +4530,8 @@ global proc zxb_chuangjianyanpiguanjie_fangfa_proc()
 
   string $diana=`textFieldGrp -q -tx UI_zxb_eye_point_up`;
    string $dianb=`textFieldGrp -q -tx  UI_zxb_eye_point_dw`;
+   
+zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_lip_ik");
 zxb_ADD_kongzu_proc("zxb_fase_eye_loc");
 zxb_ADD_kongzu_proc("zxb_fase_eye_ikHandle");
 zxb_ADD_kongzu_proc("zxb_fase_eye_joints");
@@ -4512,6 +4543,8 @@ parent ("zxb_fase_eye_loc")("zxb_fase_eye_grp");
 parent ("zxb_fase_eye_ikHandle")("zxb_fase_eye_grp");
 parent ("zxb_fase_eye_joints")("zxb_fase_eye_grp");
 parent("zxb_fase_eye_grp")("Face_Group");
+
+string$ik_eye_ikHandle="";
  //string $zongkongzhiqi=`textFieldGrp -q -tx  zxb_zairuzongkongzhiqi`;
   float$diana_pos[]=`xform -q -ws -t $diana`;
   float$dianb_pos[]=`xform -q -ws -t $dianb`;
@@ -4699,7 +4732,7 @@ parent("zxb_fase_eye_grp")("Face_Group");
       orientConstraint  $kongzu_A $kongzu_B ;
       
       
-     string$root_gensui_bn_root=("zxb_eye_loc");
+     string$root_gensui_bn_root="zxb_eye_loc_bn_"+$c_bn;;
      float$temp_pos[]=`xform -q -ws -t $yanpi_UP_bn`;
      select -cl  ;
      joint -p 0 0 0 -n $root_gensui_bn_root;
@@ -4834,6 +4867,7 @@ parent("zxb_fase_eye_grp")("Face_Group");
      string$ikhade[]=`ikHandle`;
      delete`parentConstraint  $ikhade[0]  $lik_loc_grp`;
      parent$ikhade[0]("zxb_fase_eye_ikHandle");
+     $ik_eye_ikHandle+=$ikhade[0]+" ";
      setAttr  ($ikhade[0]+".visibility") 0;
      setAttr -lock true ($ikhade[0]+".v");
      select -r $lik_loc_grp;
@@ -4985,7 +5019,8 @@ parent("zxb_fase_eye_grp")("Face_Group");
      // parent $yanpi_DW_bn  $root_bn;
  }
  
- 
+ setAttr -type "string" ($toubukongzhiqi+".eye_lip_ik") $ik_eye_ikHandle;
+zxb_eye_lip_con_controller;
 } 
 
 
@@ -5541,8 +5576,14 @@ zxb_ADD_kongzu_proc("head_follow_curve_Group");
 $ex=`objExists ("Face_Group")`;
 if($ex==1)
   {
-    parent ("head_follow_loc_Group")("head_all_loc_Group");
-    parent ("head_follow_curve_Group")("head_all_curve_Group");
+    string $temp_fu[]=`listRelatives -p ("head_follow_loc_Group")`; 
+    $ex_a=`objExists $temp_fu[0]`; 
+    if($ex_a==0)
+       {
+         parent ("head_follow_loc_Group")("head_all_loc_Group");
+         parent ("head_follow_curve_Group")("head_all_curve_Group");
+        }
+   
    }else
        {zxb_ADD_kongzu_proc("lip_temp_ciji_GRP");
          parent ("head_follow_loc_Group")("lip_temp_ciji_GRP");
@@ -6001,6 +6042,18 @@ global proc zxb_secondary_controller()
 
 }
 
+/////////创建眼眼皮IK控制器
+
+global proc zxb_eye_lip_con_controller()
+{
+  string $head_controller=`textFieldGrp -q -tx UI_head_controller `;
+  string$bn_ss=`getAttr ($head_controller+".eye_lip_ik")`;
+  string $head_mode=`textFieldGrp -q -tx UI_head_mode `;
+  string $head_joinr=`textFieldGrp -q -tx UI_head_bn `;
+  zxb_child_object_proc($head_mode,$head_joinr,$bn_ss,0,1,0,0); 
+
+
+}
 
 
 
@@ -6764,9 +6817,9 @@ for($i=0;$i<size($yushes);$i++)
 string$grp_root=$kongzhiA+"_bs_grp_root";
 string$zu_zong=("head_pupil_curve_Group");
 zxb_ADD_kongzu_proc("head_pupil_curve_Group");
-parent $grp_root ("head_pupil_curve_Group");
+
 int$ex=`objExists$grp_root`;    ///判断
-if($ex==0){ group -em -n $grp_root ;setAttr  ($grp_root+".visibility") 0;setAttr -lock true ($grp_root+".v");}
+if($ex==0){ group -em -n $grp_root ;setAttr  ($grp_root+".visibility") 0;setAttr -lock true ($grp_root+".v"); parent $grp_root ("head_pupil_curve_Group");}
 for($i=0;$i<size($mode_S);$i++) 
    {
     string$temp_mode=$mode_S[$i];
