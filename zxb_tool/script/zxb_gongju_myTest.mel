@@ -32,12 +32,14 @@ button -l "计算次级权重" -c "zxb_jiazai(\"zxb_Secondary_proc\")";
 button -l "瞳孔绑定" -c "zxb_jiazai(\"zxb_pupil_child_proc\")";
 button -l "拉链绑定" -c "zxb_jiazai(\"zxb_zipper_proc_Win\")";
 button -l "A类表情增加" -c "zxb_jiazai(\"zxb_MH_ALEI_face\")";
-
+button -l "原始版插件不定时更新" -c "zxb_jiazai(\"xiao_biaoqing_proc_columnLayout\")";
+button -l "移动关键帧" -c "zxb_jiazai(\"craOffsetKeys\")";
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
 button -l "蛇" -c "zxb_jiazai(\"xiao_snake_proc\")";
 button -l "鸟类" -c "zxb_jiazai(\"xiao_bird_proc\")";
+button -l "面部--更新中" -c "zxb_jiazai(\"zxb_fase_window_proc\")";
 setParent ..; 
 
 

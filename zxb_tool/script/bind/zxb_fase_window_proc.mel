@@ -1,4 +1,4 @@
-global proc zxb_suoyouxuyao_proc(){
+global proc zxb_fase_window_proc(){
 
 if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
 window -wh 420 200 -t "面部" zxb_jisuanlianbu_ciji_Win;
@@ -17,9 +17,9 @@ checkBox -l "对称角色" -value 1 duicheng;
 /*checkBox -l "面部次级簇创建" -value 1 hede_cluster;
 text -l "  "   ;
 text -l "  "   ;*/
-string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode"};
-string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型==>","R眼球模型<=="};
-string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0"};
+string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire"};
+string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型==>","R眼球模型<==","眼眶线"};
+string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","1"};
 int$ui_size=size($UI_array);
 int$uiname_size=size($UI_name);
 if($ui_size!=$uiname_size){error ("UI数组不一致\n");}
@@ -2330,6 +2330,50 @@ global proc zxb_open_reverse_proc()
    button -e -en 0 hede_open_reverse_button;
    
 }
+
+
+
+////////////////////////////选择其他模型上的线
+global proc string zxb_xuanzebutongmoxing_jiluxuanzhededian(int $panduan, string $mesh_name)
+{
+    
+   //string $mesh_name="head_mesh_zuiba_nianlian";
+   string $bianliang[]=`ls -sl -fl`;
+
+ //int $panduan=0;
+   string $dian="vtx";
+   if($panduan==0)
+    {
+    $dian="e";
+    }else
+    {
+     $dian="vtx";
+     }
+
+   select -cl  ;
+
+
+  for ($ll=0;$ll<size($bianliang);$ll++)
+  {
+    string $temp_name[];
+    int $chafen=`tokenize $bianliang[$ll] "[" $temp_name`;
+    int $chafen=`tokenize $temp_name[1] "]" $temp_name`;
+    int $xuhao=$temp_name[0];
+    select -add ($mesh_name+"."+$dian+"["+$xuhao+"]");
+   // print  $temp_name;
+    
+   }
+   
+   string$aaa="";
+   string $qq[]=`ls -sl -fl`;
+    for ($ll=0;$ll<size($qq);$ll++)
+        {
+         string$temp=$qq[$ll];
+         $aaa+=$temp+" " ;
+         }
+   return $aaa;
+}
+
 /////////////////////////////////自动创建拉链嘴巴/////////////////////////////////////////////
 global proc zxb_zuibalalian_all_proc() 
 {
@@ -3071,46 +3115,7 @@ delete ("temp_qvxian_nearestPointOnCurve");
 
 
 
-////////////////////////////选择其他模型上的线
-global proc string zxb_xuanzebutongmoxing_jiluxuanzhededian(int $panduan, string $mesh_name)
-{
-    
-   //string $mesh_name="head_mesh_zuiba_nianlian";
-   string $bianliang[]=`ls -sl -fl`;
 
- //int $panduan=0;
-   string $dian="vtx";
-   if($panduan==0)
-    {
-    $dian="e";
-    }else
-    {
-     $dian="vtx";
-     }
-
-   select -cl  ;
-
-
-  for ($ll=0;$ll<size($bianliang);$ll++)
-  {
-    string $temp_name[];
-    int $chafen=`tokenize $bianliang[$ll] "[" $temp_name`;
-    int $chafen=`tokenize $temp_name[1] "]" $temp_name`;
-    int $xuhao=$temp_name[0];
-    select -add ($mesh_name+"."+$dian+"["+$xuhao+"]");
-   // print  $temp_name;
-    
-   }
-   
-   string$aaa="";
-   string $qq[]=`ls -sl -fl`;
-    for ($ll=0;$ll<size($qq);$ll++)
-        {
-         string$temp=$qq[$ll];
-         $aaa+=$temp+" " ;
-         }
-   return $aaa;
-}
 
 global proc string zxb_zuiba_tiqv_lalian_open_proc()
 {
@@ -6969,7 +6974,7 @@ for($i=0;$i<size($mode_S);$i++)
 }
 
 /////////////////////////////////初始化UI//////////////////////////////////////////////////////
-zxb_suoyouxuyao_proc;
+zxb_fase_window_proc;
 string$face_loc="zxb_face_loc";
 int$ex=`objExists $face_loc`;    ///判断
 if($ex==1)
