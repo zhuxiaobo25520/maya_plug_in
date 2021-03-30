@@ -48,7 +48,9 @@ separator;
 rowColumnLayout -nc 2 -cw 1 250 -cw 2 250 ;
 
 string$UI_establish[]={"zuibazhengti_button","zuibazhengti_button_delete","hedebs_button","headhunhebianxing_button","headhunhebianxing_edit_button","headhunhebianxing_add_button","hedemianbankuan_button","hedemianbankuan_delete_button","hedemianbankuan_wancheng_button","hedemianbankuan_bianji_button","hedemianbankuan_Add_button","hedemianbankuan_Add_delete_button","hede_open_reverse_button","lip_BN_button","lip_controller_button","lip_Curve_button","lip_bs_button","UI_face_Cluster_button","eye_button","eyelid_button","UI_serve_button"};
+                         //          1           2                 3             4            5                6            7          8             9                10               11                  12               13                   1            15              16             17                 18              19             20            21                                                                                                      
 string$UI_establish_name[]={"创建嘴巴整体绑定","删除嘴巴整体绑定","创建head混合变形","删除混合变形","编辑混合变形","添加混合变形","创建表情面板","删除表情面板","完成表情面板框","编辑表情面板框","添加表情控制控框制器","删除表情控制控框制器","链接嘴巴混合变形","创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","保存UI上的名称"};
+//                                   1                       2                                  3                    4                5  6         7                    8                   9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21   
 string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_xiababangding_delete_proc","zxb_hunhebianx_proc","zxb_delete_head_bs_proc","","","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_UI_mingzi_serve"};
 int$ui_establish_size=size($UI_establish);
 int$uiname_establish_size=size($UI_establish_name);
@@ -1132,6 +1134,7 @@ global proc zxb_xiababangding_delete_proc()
 }
 
 /////////////////创建混合变形////////
+/////////////////创建混合变形////////
 global proc zxb_hunhebianx_proc()
 {
   string $xiaba_mode=`textFieldGrp -q -tx  UI_head_mode`;
@@ -1156,102 +1159,109 @@ global proc zxb_hunhebianx_proc()
   
   int$ex=`objExists $jaw_bn`; 
   if($ex==0){ error  "下巴关节不存在 请创建下巴绑定";}
-  
+  int$ex=`objExists "zxb_face_bs"`; 
+  if($ex==1){ error  "混合变形已经创建 请清除 zxb_face_bs";}
   zxb_zairufangfa_D_proc("hedebs_button");
   
   
   string$mode=$xiaba_mode;
-  string$zhangzui=($mode+"_open_mouth_lay");
+ /* string$zhangzui=($mode+"_open_mouth_lay");
   string$zhengti=($mode+"_mouth_whole_lay");
   string$fanxiang=($mode+"_repeated_mouth_lay");
-  string$zhangzui_A=($mode+"_open_A_mouth_lay");
-  //string$reverse=($mode+"_reverse_mouth_lay");
-  zxb_ADD_shuxing_string_proc($xiaba_head_con,"base_bs_mode");
-  string$base_bs_string="";
-  $base_bs_string+=($zhangzui+" "+$zhengti+" "+$fanxiang+" ");
-  setAttr -type "string"($xiaba_head_con+".base_bs_mode") $base_bs_string;
-  
+  string$zhangzui_A=($mode+"_open_A_mouth_lay");*/
   
 
   
-  string$modegrp=$xiaba_mode+"_head_bs_lay";
-  zxb_ADD_shuxing_string_proc($xiaba_head_con,$modegrp);
+  string$modegrp="head_bs_grop_lay";
+  zxb_ADD_shuxing_string_proc($xiaba_head_con,$modegrp);//添加混合变形模型组得属性
   setAttr -type "string"($xiaba_head_con+"."+$modegrp) $modegrp;
   select -cl  ;
   zxb_ADD_kongzu_proc($modegrp);
   string $fuwuti[]=`listRelatives -p $modegrp`; 
   int$ex=`objExists $fuwuti[0]`; ///判断
   if($ex==0){ parent $modegrp "Face_Group" ;}
- 
   
+  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay"};//混合变形模型列表
+  string$mode_lst="";
   select -r $mode;
-  duplicate -rr -n $zhangzui;
-  parent $zhangzui $modegrp;
-  select -r $jaw_root;
-  select -add $jaw_bn;
-  select -add $zhangzui;
-  skinCluster; 
-    
-    
-  
-  
-  select -r $mode;
-  duplicate -rr -n $zhengti;
-  parent $zhengti $modegrp;
-  select -r $jaw_root;
-  select -add $jaw_zhengti;
-  select -add $zhengti;
-  skinCluster; 
-  
-  
-  select -r $mode;
-  duplicate -rr -n $fanxiang;
-  parent $fanxiang $modegrp;
-  select -r $jaw_root;
-  select -add $jaw_bn;
-  select -add $fanxiang;
-  skinCluster; 
-  
-  select -r $mode;
-  duplicate -rr -n$zhangzui_A ;
-  parent $zhangzui_A $modegrp;
-  select -r $jaw_root;
-  select -add $jaw_bn;
-  select -add $zhangzui_A;
-  skinCluster; 
-  setAttr ($zhangzui_A+".visibility") 0;
-  
-  select -r $zhangzui;
-  select -add $zhengti;
-  select -add $fanxiang;
-  select -add $mode;
   string$bss[]=`blendShape`;
-  rename $bss[0] "base_bs";
+  rename $bss[0] "zxb_face_bs";//创建混合变形
+  string $mode_shepe[]=`listRelatives -s $mode`; 
+  string $tweak1_s[]=`listConnections -d 0 -s 1  ($mode_shepe[0]+".tweakLocation")`;//列出链接属性  -d输入   -s输出  -p 列出属性
+  string $skinCluster_s[]=`listConnections -d 0 -s 1  ($mode_shepe[0]+".inMesh")`;//列出链接属性  -d输入   -s输出  -p 列出属性
   
-  setAttr ("base_bs."+$zhangzui) 1;
-  setAttr ("base_bs."+$zhengti) 1;
-  setAttr ("base_bs."+$fanxiang) 1;
-  zxb_ADD_shuxing_string_proc($xiaba_head_con,"base_bs_shuxing");
-  
-  string$lailian="";
-  $lailian+=$zhangzui_A+" "+$fanxiang+" ";
-  zxb_ADD_shuxing_string_proc($xiaba_head_con,"base_bs_lalian");
-  setAttr -type "string" ($xiaba_head_con+".base_bs_lalian") $lailian;
-   
-  string$base_bs_shuxing="";
-  $base_bs_shuxing+="base_bs";
-  setAttr -type "string"($xiaba_head_con+".base_bs_shuxing") $base_bs_shuxing;
-  
-  string$base_bs_string_shuzu[]= stringToStringArray($base_bs_string, " ");//字符串转化数组
-  for ($i=0;$i<size($base_bs_string_shuzu);$i++)
+  reorderDeformers $tweak1_s[0] "zxb_face_bs" $mode;
+  for ($i=0;$i<size($fase_bs_mode_nemes);$i++)
       {
-      string$temp=$base_bs_string_shuzu[$i];
-      setAttr ($temp+".visibility") 0;
+       string$temp_mode=$fase_bs_mode_nemes[$i]; 
+       $mode_lst+=$temp_mode+" ";
+       select -r $mode;
+       duplicate -rr -n $temp_mode;
+       parent$temp_mode $modegrp;
+       setAttr ($temp_mode+".visibility") 0;
+       string $listOfShapesInNode[] =`listAttr -k -m "zxb_face_bs"`;
+       int$idex=0;
+       $idex=size($listOfShapesInNode)-2;
+       blendShape -e  -t $mode $idex $temp_mode 1 "zxb_face_bs";
+       setAttr ("zxb_face_bs."+$temp_mode) 1;
+
+       if($i==0)
+         {
+          select -r $jaw_root;
+          select -add $jaw_bn;
+          select -add $temp_mode;
+          skinCluster; 
+          }
+       if($i==1)
+         {
+          select -r $jaw_root;
+          select -add $jaw_zhengti;
+          select -add $temp_mode;
+          skinCluster; 
+          }
+       if($i==2)
+         {
+          select -r $jaw_root;
+          select -add $jaw_bn;
+          select -add $temp_mode;
+          skinCluster; 
+          }
+       if($i==3)
+         {
+          select -r $jaw_root;
+          select -add $jaw_bn;
+          select -add $temp_mode;
+          skinCluster; 
+          }
       }
   
+  //string$reverse=($mode+"_reverse_mouth_lay");
+  zxb_ADD_shuxing_string_proc($xiaba_head_con,"base_bs_mode");//添加保存混合变形模型得名字属性
+  //string$base_bs_string="";
+  //$base_bs_string+=($zhangzui+" "+$zhengti+" "+$fanxiang+" ");
+  setAttr -type "string"($xiaba_head_con+".base_bs_mode") $mode_lst;//保存混合变形模型名
+print $mode_lst;
+
+  
+  
+  zxb_ADD_shuxing_string_proc($xiaba_head_con,"base_bs_shuxing");//添加混合变形属性
+   string$base_bs_shuxing="";
+  $base_bs_shuxing+="zxb_face_bs";
+  setAttr -type "string"($xiaba_head_con+".base_bs_shuxing") $base_bs_shuxing;//保存混合变形属性
+  
+  
+  string$lailian="";
+  $lailian+=$fase_bs_mode_nemes[2]+" "+$fase_bs_mode_nemes[3]+" ";
+  zxb_ADD_shuxing_string_proc($xiaba_head_con,"base_bs_lalian");//添加拉链嘴巴模型
+  setAttr -type "string" ($xiaba_head_con+".base_bs_lalian") $lailian;//保存拉链嘴巴混合变形模型数据
+   
+ 
+  
+
   
   zxb_zairufangfa_vsanniu_proc("headhunhebianxing_button"); 
 }
+
 
 
 
