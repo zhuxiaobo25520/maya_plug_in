@@ -12696,8 +12696,3 @@ global proc zxb_jiancha_cengji_Character(string$Character,string$jiancha_name)
 
  
 }
-
-
-
-  xiao_biaoqing_proc_columnLayout; 
-  
