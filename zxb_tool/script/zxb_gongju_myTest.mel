@@ -35,6 +35,7 @@ button -l "A类表情增加" -c "zxb_jiazai(\"zxb_MH_ALEI_face\")";
 button -l "原始版插件不定时更新" -c "zxb_jiazai(\"xiao_biaoqing_proc_columnLayout\")";
 button -l "移动关键帧" -c "zxb_jiazai(\"craOffsetKeys\")";
 button -l "关键帧转驱动" -c "zxb_jiazai(\"xiao_MH_QVDONG_columnLayout\")";
+button -l "传递UV" -c "zxb_jiazai(\"TransferUV_RiggedModle\")";
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
