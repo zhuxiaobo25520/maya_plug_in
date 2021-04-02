@@ -1,3 +1,6 @@
+
+global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire"};
+
 global proc zxb_fase_window_proc(){
 
 if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
@@ -17,7 +20,7 @@ checkBox -l "对称角色" -value 1 duicheng;
 /*checkBox -l "面部次级簇创建" -value 1 hede_cluster;
 text -l "  "   ;
 text -l "  "   ;*/
-string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire"};
+global string$UI_array[];
 string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型==>","R眼球模型<==","眼眶线"};
 string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","1"};
 int$ui_size=size($UI_array);
@@ -326,38 +329,7 @@ if($ex_A==1)
      string$temp_shuxing=`getAttr ($face_loc+"."+$shuxing)`;
      textFieldGrp -e -tx $temp_shuxing $shuxing; 
       }
-  button -e -en 0  UI_head_mode_butt ;
-  button -e -en 0 UI_head_controller_butt;
  
-  button -e -en 0 UI_jaw_bn_butt;
-  button -e -en 0 UI_jaw_controller_butt;
-   
-  button -e -en 0 UI_mouth_outer_wire_butt;
-  button -e -en 0 UI_mouth_inside_wire_butt;
-  button -e -en 0 lalian_button_zairuxian;
-  button -e -en 0 lalian_button_fanxiang;
-  button -e -en 0 lalian_button_qvxianA;
-  button -e -en 0 lalian_button_qvxian;
-  
-  button -e -en 0 lalian_button_qvxianD;
-  button -e -en 0  UI_mouth_zipper_wire_follow_D_button;
-  button -e -en 0 UI_mouth_zipper_wire_close_open_button;
-  button -e -en 0 UI_mouth_zipper_wire_open_A_button ;
-  button -e -en 0 UI_mouth_zipper_wire_close_B_button;
-  button -e -en 0 UI_mouth_zipper_follow_DD_button;
-  button -e -en 0 UI_mouth_zipper_open_AABB_button;
-  button -e -en 0 UI_mouth_zipper_Create_button;
-  button -e -en 0 zuibazhengti_button;
-  button -e -en 0 hedebs_button;
-  button -e -en 0  hedemianbankuan_button;
-  button -e -en 0 hede_open_reverse_button;
-  button -e -en 0 UI_serve_button ;
-  button -e -en 0  zidong_button;
-  button -e -en 1  zuibazhengti_button_delete;
-  button -e -en 1 headhunhebianxing_button;
-  button -e -en 1 hedemianbankuan_delete_button;
- // button -e -en 0 ;
-  
             
   }
 
@@ -371,7 +343,8 @@ if($ex_A==1)
 global proc string zxb_UI_mingzi()
 {
 string$mingzi="";
-string$UI_array[]={"UI_head_mode","UI_head_controller","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_temp_wire","UI_mouth_zipper_prefix","UI_mouth_zipper_wire_follow_D","UI_mouth_zipper_wire_open_A","UI_mouth_zipper_wire_close_B","UI_mouth_zipper_wire_close_open"};
+global string$UI_array[];
+//string$UI_array[]={"UI_head_mode","UI_head_controller","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_temp_wire","UI_mouth_zipper_prefix","UI_mouth_zipper_wire_follow_D","UI_mouth_zipper_wire_open_A","UI_mouth_zipper_wire_close_B","UI_mouth_zipper_wire_close_open"};
 
 for($i=0;$i<size($UI_array);$i++)
    {
@@ -1181,7 +1154,7 @@ global proc zxb_hunhebianx_proc()
   int$ex=`objExists $fuwuti[0]`; ///判断
   if($ex==0){ parent $modegrp "Face_Group" ;}
   
-  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay"};//混合变形模型列表
+  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay","eye_lip_lay"};//混合变形模型列表
   string$mode_lst="";
   select -r $mode;
   string$bss[]=`blendShape`;
@@ -2315,7 +2288,7 @@ global proc zxb_open_reverse_proc()
  
    string$FKJaw_M_kongzhiqi=`textFieldGrp -q -tx UI_jaw_controller `;
     string$toubu=`textFieldGrp -q -tx UI_head_controller `;
-   string$hean_mode=` getAttr ($toubu+".base_bs_mode")`;
+   string$hean_mode=` getAttr ($toubu+".base_bs_lalian")`;
    string $array[]= stringToStringArray($hean_mode, " ");//字符串转化数组
    
    string$hean_bs=` getAttr ($toubu+".base_bs_shuxing")`;
@@ -2335,8 +2308,8 @@ global proc zxb_open_reverse_proc()
    zxb_ADD_jiedian_proc($erverse_jiedian,"reverse");
    
    connectAttr -f  ($jiedian+".outValueX") ($erverse_jiedian+".inputX");
-   connectAttr -f ($erverse_jiedian+".outputX") ($hean_bs+"."+$array[0]);
-   connectAttr -f ($jiedian+".outValueX") ($hean_bs+"."+$array[2]);
+   connectAttr -f ($erverse_jiedian+".outputX") ($hean_bs+"."+$array[1]);
+   connectAttr -f ($jiedian+".outValueX") ($hean_bs+"."+$array[0]);
    button -e -en 0 hede_open_reverse_button;
    
 }
