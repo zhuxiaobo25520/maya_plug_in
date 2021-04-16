@@ -171,7 +171,7 @@ parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
           parent  $zu $kong;
         }  
       parent  $kongzhiqizus[0]  $heir_kongzhiqi_grp;
-  setDrivenKeyframe -itt "linear" -ott "spline" -v 1 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+  setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
   setDrivenKeyframe -itt "linear" -ott "spline" -v 3 -dv 1 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
     }
    

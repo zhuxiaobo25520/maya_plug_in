@@ -36,6 +36,214 @@ button -l "创建" -c "zxb_chibang_proc_maonang" ;
 showWindow zxb_sheWin_columnLayout; 
 }
  
+//////////反向保存关节名称//////////////
+global proc string zxb_baocunguanjie_mingzi_proc(string$mingzi, int$qunlujing)
+{
+         string $IKS[];
+         clear$IKS;
+         if($qunlujing==0){$IKS=`listRelatives -c -ad   -type "joint"$mingzi `; }
+         if($qunlujing==1){$IKS=`listRelatives -c -ad    -type "joint"-pa $mingzi `; }
+         string$all_bn[];
+         clear $all_bn;  
+         $all_bn[0]=$mingzi; 
+        for($j=0;$j<size($IKS);$j++)
+           {
+               string$temp_bn=$IKS[$j];
+               int$temp_a=size($IKS)-$j;
+               $all_bn[$temp_a]=$temp_bn;
+               
+               
+           }
+           
+          string$mingziss="";
+         for($j=0;$j<size($all_bn);$j++)
+             {
+              string$temp=$all_bn[$j]+" ";
+              $mingziss+=$temp;
+              }
+              
+              
+         return $mingziss;
+
+}
+
+
+///////////////////////创建空组
+global proc zxb_ADD_kongzu_proc(string$kongzu)
+{  
+ int$ex=`objExists $kongzu`; ///判断
+ if($ex==0){ group -empty -n $kongzu;}
+   
+}
+
+
+
+/////////////////////////////////////////创建节点
+global proc zxb_ADD_createNode_proc(string$jiedian_name,string$jiedia)
+
+{
+   int$ex=`objExists $jiedian_name`;    ///判断
+   if($ex==0){createNode   $jiedia -n $jiedian_name;//创建范围节点
+   }
+   
+}
+
+
+
+/////////////////////////////////////////创建节点
+global proc zxb_ADD_jiedian_proc(string$jiedian_name,string$jiedia)
+
+{
+   int$ex=`objExists $jiedian_name`;    ///判断
+   if($ex==0){shadingNode -asUtility  $jiedia -n $jiedian_name;//创建范围节点
+   }
+   
+}
+
+
+////////////////////////////////////////关节创建曲线/////////////////////////////////////////////////////////////////
+global proc  zxb_curve_establish_proc(string$cbns[],string$qvxian)
+{
+  string$mingzi="curve -d 3 ";
+  for($jj=0;$jj<size($cbns);$jj++)
+      {
+          string$mingzi_bnn=$cbns[$jj];
+          float $temp[]=`xform -q -ws -t $mingzi_bnn`;
+          $mingzi+="-p "+$temp[0]+" "+$temp[1]+" "+$temp[2]+" ";
+      }
+   $mingzi+=" -n "+ $qvxian;
+   eval($mingzi); 
+}
+      
+
+
+///////////////////复制关节并重新命名////////////////////////////////////////
+
+global proc string zxb_chongxingmingming_bn_mingzi_proc(string$bn,string$qianzui)
+  {
+  select -r $bn;
+  string$mingzi=$bn+$qianzui+"temp";
+  string$mingzi_a=$bn+$qianzui;
+  duplicate -rr -n $mingzi ;
+  string$pa_bn=zxb_baocunguanjie_mingzi_proc($mingzi,1);
+  string$pa_bns[]= stringToStringArray($pa_bn, " ");//关节
+  string$bn_name="";
+  string$bn_namea="";
+  for($ii=size($pa_bns)-1;$ii>=0;$ii--)
+     {
+            string$temp_bn=$pa_bns[$ii];
+            string$name=$mingzi_a+$ii;
+            select -r $temp_bn;
+            rename $temp_bn $name;
+            if($ii==0)
+               {
+                 $bn_namea=$name;
+                 }
+       }
+  string$bn_name=zxb_baocunguanjie_mingzi_proc($bn_namea,0);   
+  return  $bn_name;
+   
+   }
+  
+  
+  
+
+
+//////////////////////////创建FK控制器//////////////////////////////////////////////////
+global proc  zxb_FK_controller_proc(string$head_bn)
+{
+string$temp_a_bn[];
+ clear$temp_a_bn;
+$temp_a_bn[0]=$head_bn;
+string $bn[]=$temp_a_bn;
+int $bnnum=size($bn);
+
+for($jj=0;$jj<$bnnum;$jj++)
+   {
+    select -r ($bn[$jj]);
+	string $sels[] = `ls -sl`;
+	
+	int $size=size($sels);	
+	/////////////////////////////
+	string $baseJoint = $sels[0];
+	
+	string $endJoint;
+	
+	string $childs[]=`listRelatives -c -ad $sels[0]`;
+	int $num=size($childs);
+	$endJoint=$childs[0];
+	//////////////////////////////////////	
+	string $typs=`nodeType  $baseJoint`;
+	string $type=`nodeType  $endJoint`;
+	if($typs!="joint")error "需要选择两个关节";
+	if($type!="joint")error "需要选择两个关节";
+
+	select -r  $baseJoint;
+	
+    for($a=($num-1);$a>0;$a--){
+    
+    select -add ($childs[$a]);
+}
+
+string $sel[]=`ls -sl`;
+
+string $tokem[];
+int $tonum=`tokenize ($sel[0]) "_" $tokem`;
+string $side=$tokem[1];
+
+for($i=0;$i<size($sel);$i++){
+  circle -ch 0 -o on -nr 1 0 0 -r 1 -n ($sel[$i]+"Con") ;
+  select -r ($sel[$i]+"Con");
+  group -n ($sel[$i]+"ConGrp");
+  group -n ($sel[$i]+"ConGrpA");
+  select -r ($sel[$i]);
+  select -add ($sel[$i]+"ConGrpA");
+  delete `parentConstraint`;
+  
+  select -r ($sel[$i]+"Con");
+  select -add ($sel[$i]);
+  parentConstraint;
+  //scaleConstraint; 
+ 
+  setAttr -lock true ($sel[$i]+"Con.v");
+  string $shape[]=`listRelatives -s ($sel[$i]+"Con")`;
+    setAttr ($shape[0]+".overrideEnabled") 1;
+  if($side=="l"){
+    setAttr ($shape[0]+".overrideColor") 22;   
+  }else if($side=="r"){
+    setAttr ($shape[0]+".overrideColor") 13;   
+  }else{
+        setAttr ($shape[0]+".overrideColor") 6;     
+  }  
+}
+
+for($i=0;$i<(size($sel)-1);$i++){
+    $j=$i+1;
+    select -r ($sel[$j]+"ConGrpA");
+    select -add ($sel[$i]+"Con");
+    parent;
+}
+
+int $size=size($sel);
+/////////////////////
+addAttr -ln "rotx"  -at double -k 1 ($sel[$size-1]+"Con");
+addAttr -ln "roty"  -at double -k 1 ($sel[$size-1]+"Con");
+addAttr -ln "rotz"  -at double -k 1 ($sel[$size-1]+"Con");
+addAttr -ln "showCon"  -at bool -k 1 ($sel[$size-1]+"Con");
+
+for($i=0;$i<size($sel);$i++){
+    connectAttr -f ($sel[$size-1]+"Con.rotx") ($sel[$i]+"ConGrp.rotateX");
+    connectAttr -f ($sel[$size-1]+"Con.roty") ($sel[$i]+"ConGrp.rotateY");
+    connectAttr -f ($sel[$size-1]+"Con.rotz") ($sel[$i]+"ConGrp.rotateZ");    
+}
+
+for($i=0;$i<(size($sel)-1);$i++){
+    string $shap[]=`listRelatives -s ($sel[$i]+"Con")`;
+
+    connectAttr -f ($sel[$size-1]+"Con.showCon") ($shap[0]+".v");
+        }
+    }
+}
 
 
 global proc zxb_chibang_proc_maonang()
