@@ -1,5 +1,5 @@
-//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12           13             14            15         16          17                18               19              20              21            22                                                         
-global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire","UI_eye_L_wire"};
+//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12           13             14            15         16          17                18               19              20              21            22           23                                                  
+global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire","UI_eye_L_wire","UI_eye_L_lash"};
 
 global proc zxb_fase_window_proc(){
 
@@ -21,9 +21,10 @@ checkBox -l "对称角色" -value 1 duicheng;
 text -l "  "   ;
 text -l "  "   ;*/
 global string$UI_array[];
-///                  1           2        3            4       5            6          7         8            9          10         11     12     13     14    15     16     17       18         19           20              21        22                                                      
-string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型或眼膜","R眼球模型或眼膜","眼眶线R","眼眶线L"};
-string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","1","1"};
+///                  1           2        3            4       5            6          7         8            9          10         11     12     13     14    15     16     17       18         19           20              21        22          23                                            
+string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴尖","L眼球模型或眼膜","R眼球模型或眼膜","眼眶线R","眼眶线L","睫毛泪腺模型"};
+          //     1   2   3   4   5   6   7   8   9   10 11  12  13  14  15  16  17  18  19  20   21  22 23                                                              
+string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","1","1","1"};
 int$ui_size=size($UI_array);
 int$uiname_size=size($UI_name);
 if($ui_size!=$uiname_size){error ("UI数组不一致\n");}
@@ -55,7 +56,7 @@ string$UI_establish[]={"zuibazhengti_button","zuibazhengti_button_delete","hedeb
                          //          1           2                 3             4            5                6            7          8             9                10               11                  12               13                   1            15              16             17                 18              19             20            21              22             23          24                                                                  
 string$UI_establish_name[]={"创建嘴巴整体绑定","删除嘴巴整体绑定","创建head混合变形","删除混合变形","编辑混合变形","添加混合变形","创建表情面板","删除表情面板","完成表情面板框","编辑表情面板框","添加表情控制控框制器","删除表情控制控框制器","链接嘴巴混合变形","创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","创建眼皮次级绑定","创建拉链绑定","创建嘴巴波浪","保存UI上的名称"};
 //                                   1                       2                                  3                    4                5  6         7                    8                   9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21                                      22                 23       24
-string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_xiababangding_delete_proc","zxb_hunhebianx_proc","zxb_delete_head_bs_proc","","","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc"," zxb_yanjing_yanpi_qvxian_fangfa_proc","zxb_zuibalalian_all_proc","","zxb_UI_mingzi_serve"};
+string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_xiababangding_delete_proc","zxb_hunhebianx_proc","zxb_delete_head_bs_proc","","","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","zxb_zuibalalian_all_proc","","zxb_UI_mingzi_serve"};
 int$ui_establish_size=size($UI_establish);
 int$uiname_establish_size=size($UI_establish_name);
 int$UI_establish_proc_size=size($UI_establish_proc);
@@ -1151,7 +1152,7 @@ global proc zxb_hunhebianx_proc()
   int$ex=`objExists $fuwuti[0]`; ///判断
   if($ex==0){ parent $modegrp "Face_Group" ;}
   
-  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay","eye_lip_lay"};//混合变形模型列表
+  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay","eye_lip_lay","eye_lip_ciji_lay"};//混合变形模型列表
   string$mode_lst="";
   select -r $mode;
   string$bss[]=`blendShape`;
@@ -1202,6 +1203,7 @@ global proc zxb_hunhebianx_proc()
           select -add $jaw_bn;
           select -add $temp_mode;
           skinCluster; 
+          setAttr ("zxb_face_bs."+$temp_mode) 0;
           }
       }
   
@@ -6970,7 +6972,10 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
     
     string$ui_name_s[]={"UI_eye_L_wire","UI_eye_R_wire"};
     string$ui_name_A[]={"UI_eye_L_mode","UI_eye_R_mode"};
-    string $UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;//查询眼眶线的变量    
+    string $UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;//查询眼眶线的变量   
+    string$eye_bs_name_s=`getAttr ($UI_head_controller+".base_bs_mode")`;
+    string $eye_bs_name_ss[]= stringToStringArray($eye_bs_name_s, " ");//字符串转化数组
+     string$eye_bs_name=$eye_bs_name_ss[4];
     string$EYE_com_SS=`getAttr ($UI_head_controller+".eye_con")`;
     string $EYE_com_S[]= stringToStringArray($EYE_com_SS, " ");//字符串转化数组
     zxb_ADD_shuxing_string_proc($UI_head_controller,"eye_qvmian");
@@ -6989,8 +6994,18 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
          string$zhangkai_qvxian_A="";
          string$gensui_qvxian_D="";
          string$bihe_qvxian="";
-         string $mnianss=`textFieldGrp -q -tx  $ui_mingzi`;//查询眼眶线的变量
-         string $mnians[]= stringToStringArray($mnianss, " ");//字符串转化数组
+         string $mnian_temp=`textFieldGrp -q -tx  $ui_mingzi`;//查询眼眶线的变量
+         string $mnians[]= stringToStringArray($mnian_temp, " ");//字符串转化数组
+         string$mnianss="";
+         for ($zz=0;$zz<size($mnians);$zz++)
+             {
+              string$xianduan=$mnians[$zz];
+              string$temp_clear[];
+              clear $temp_clear;//清除数组
+              int $nemt=`tokenize $xianduan "." $temp_clear`;//分离字符串存到变量
+              $mnianss+=$eye_bs_name+"."+$temp_clear[1]+" ";
+              }
+         
          string $head_qvxian=`textFieldGrp -q -tx  UI_head_controller`;//查询眼眶线的变量
          string $head_mode=`textFieldGrp -q -tx UI_head_mode `;
          string $head_joinr=`textFieldGrp -q -tx UI_head_bn `;
