@@ -1,5 +1,57 @@
-global proc zxb_fx_Hair()
+
+
+global proc xiao_hair_fx_proc_columnLayout() 
 {
+if(`window -ex xiao_hair_fx_proc_columnLayout`) deleteUI xiao_hair_fx_proc_columnLayout; 
+
+window -t "动力学" xiao_hair_fx_proc_columnLayout; 
+columnLayout -adj 1 -w 300 zxb_fx;
+rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "载入关节" -tx "关节" -ed 0  zxb_fx_ganjie;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_fx_ganjie"+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "表达式IK段数" -tx "6" -ed 1  zxb_modee;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
+
+
+textFieldGrp  -cw2 100 130 -l "控制器大小" -tx "2" -ed 1  zxb_modee_daxiao;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee_daxiao"+"\")") ;
+checkBox -l "表达式控制" -value 0 ex_vs_con;
+setParent ..; 
+
+button -l "创建" -c "zxb_chibang_proc_maonang" ;
+showWindow xiao_hair_fx_proc_columnLayout; 
+}
+
+
+global proc zxb_zairufangfa_A_proc(string$tempname)
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=(" "+$sel[$i]);
+    }
+textFieldGrp -e -tx ($obj) $tempname;
+}
+
+
+
+ 
+xiao_hair_fx_proc_columnLayout;
+
+global proc zxb_chibang_proc_maonang()
+{
+      string $xiaba_bn=`textFieldGrp -q -tx  zxb_fx_ganjie `;
+      string$bns[]= stringToStringArray($xiaba_bn, " ");//关节
+      string $mode=`textFieldGrp -q -tx  zxb_modee `;//mode
+      string $zxb_modee_daxiao=`textFieldGrp -q -tx  zxb_modee_daxiao `;//mode
+      int$ex_panduan_a=`checkBox -q -value  ex_vs_con`;
+      int$kongzhiqi_daxiao=$zxb_modee_daxiao;
+      int$duanshu=$mode;
+select -r  $bns;     
 string $bns[]=`ls -sl`;
 int$ex=`objExists "HAIR_FX"`;
 string$qvxian_FXA="";
@@ -135,15 +187,20 @@ parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
  string$kaishi=$cbns[0];
  int$jiaoboa=size($cbns)-1;
  string$jiesu=$cbns[$jiaoboa];
- select -r $kaishi ;
- select -add $jiesu ;
- select -add $dong[0] ;
- string$ikikHandle[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
-
- parent $ikikHandle[0]  $heir_IKkonghziqbing_grp;
- string$kongzhiq="";
- string$kongzhiqizu="";
  
+
+ 
+ if($ex_panduan_a==0)
+   {
+   
+   
+         select -r $kaishi ;
+ select -add $jiesu ;
+ select -add $dong_weiyi[0] ;
+ string$ikikHandle_aa[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
+  parent $ikikHandle_aa[0] $heir_IKkonghziqbing_grp;
+   string$kongzhiq="";
+   string$kongzhiqizu="";
    for($jjj=0;$jjj<(size($cbns)-1);$jjj++)
       {
           
@@ -161,6 +218,7 @@ parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
        
        }
      //parent 
+
      string $kongzhiss[]= stringToStringArray($kongzhiq, " ");
       string $kongzhiqizus[]= stringToStringArray($kongzhiqizu, " ");
      for($kk=size($kongzhiqizus)-1;$kk>0;$kk--)
@@ -171,9 +229,234 @@ parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
           parent  $zu $kong;
         }  
       parent  $kongzhiqizus[0]  $heir_kongzhiqi_grp;
-  setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
-  setDrivenKeyframe -itt "linear" -ott "spline" -v 3 -dv 1 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+      
+setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+setDrivenKeyframe -itt "linear" -ott "spline" -v 3 -dv 1 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+  string $dong_weiyi_fujiedian[]=`listConnections -d 0 -s 1 -p 1 ($ikikHandle_aa[0]+".inCurve")`;  
+  
+  int$ex_a=`objExists $dong_weiyi_fujiedian[0]`;
+  if($ex_a==0)
+     {
+      connectAttr -f ($dong[0]+".worldSpace[0]") ($ikikHandle_aa[0]+".inCurve");
+      }
+ 
+   
+   }else
+        {
+         
+setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+setDrivenKeyframe -itt "linear" -ott "spline" -v 3 -dv 1 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+string$qvxian_IK_EX="IK_EX_"+$dong[0];
+select -r $dong[0];
+duplicate -rr -n $qvxian_IK_EX;
+rebuildCurve -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kep 1 -kt 1 -s $duanshu -d 2 -tol 0.001 $qvxian_IK_EX;
+string$bn_sss=zxb_chongxingmingming_bn_mingzi_proc($bn,"IK_EX");
+string$ik_jiesizan_bns[]= stringToStringArray($bn_sss, " ");//关节
+int$zie_a=size($ik_jiesizan_bns)-1;
+string$temp_kaishi_a=$ik_jiesizan_bns[0];
+string$temp_jiesu_a=$ik_jiesizan_bns[$zie_a];
+
+ select -r $kaishi ;
+ select -add $jiesu ;
+ select -add $dong[0] ;
+ string$ikikHandle[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
+
+ parent $ikikHandle[0]  $heir_IKkonghziqbing_grp;
+
+ 
+ 
+ 
+  select -r($qvxian_IK_EX+".cv[0:999999]") ;
+    string $cvss[]=`ls -sl -fl`;
+    string$donglixuezu_temp="";
+    for($jjj=0;$jjj<size($cvss);$jjj++)
+     {
+      string$cv=$cvss[$jjj];
+      string$cluster=$bn+"_cluster";
+      select -r $cv;
+      string$clusterss[]=`newCluster " -envelope 1" ` ;
+      setAttr  ($clusterss[1]+".visibility") 0;
+     parent $clusterss[1]$cluste_grp;
+     curve -d 1 -p 0.5 0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 -0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -p -0.5 0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 -0.5 -0.5 -p -0.5 -0.5 -0.5 -p -0.5 0.5 -0.5 -p -0.5 0.5 0.5 -p -0.5 -0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -n ($clusterss[1]+"con"+$jjj) ;
+     setAttr -type float3 ($clusterss[1]+"con"+$jjj+".scale") $kongzhiqi_daxiao $kongzhiqi_daxiao $kongzhiqi_daxiao ;
+     select -r($clusterss[1]+"con"+$jjj);
+     makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+     DeleteHistory;
+     
+     string $shape_aa[]=`listRelatives  -s ($clusterss[1]+"con"+$jjj)`;
+
+
+     setAttr ($shape_aa[0]+".overrideEnabled") 1;
+     setAttr ($shape_aa[0]+".overrideColor") 13;
+     select -r($clusterss[1]+"con"+$jjj);
+     group -n ($clusterss[1]+"con"+$jjj+"grp_a");
+     group -n ($clusterss[1]+"con"+$jjj+"grp_b");
+     group -n ($clusterss[1]+"con"+$jjj+"grp_c");
+     $donglixuezu_temp+=($clusterss[1]+"con"+$jjj+"grp_b")+" ";
+     delete`parentConstraint $clusterss[1]($clusterss[1]+"con"+$jjj+"grp_c")`; 
+     parent  $clusterss[1]($clusterss[1]+"con"+$jjj);
+     parent ($clusterss[1]+"con"+$jjj+"grp_c") $cluste_grp;
+     }
+  string $donglixuezu_temps[]= stringToStringArray($donglixuezu_temp, " ");
+  select -r $donglixuezu_temps;
+   weiba_baiodashi("HAIR_FX");
+ select -r $temp_kaishi_a ;
+ select -add $temp_jiesu_a ;
+ select -add $qvxian_IK_EX ;
+ string$ikikHandle_aa[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
+  parent $ikikHandle_aa[0] $heir_IKkonghziqbing_grp;
+ 
+ string$aaabn=zxb_baocunguanjie_mingzi_proc($bn, 0);
+   string $aaabns[]= stringToStringArray($aaabn, " ");
+for($iij=0;$iij<(size($ik_jiesizan_bns)-1);$iij++)
+   {
+   string$temp_aa=$aaabns[$iij];
+   string$temp_bb=$ik_jiesizan_bns[$iij];
+   parentConstraint  $temp_bb $temp_aa;
+   }
+  
+  
+  
+  
+  string $dong_weiyi_fujiedian[]=`listConnections -d 0 -s 1 -p 1 ($ikikHandle_aa[0]+".inCurve")`;  
+  
+  int$ex_a=`objExists $dong_weiyi_fujiedian[0]`;
+  if($ex_a==0)
+     {
+      connectAttr -f ($dong[0]+".worldSpace[0]") ($ikikHandle_aa[0]+".inCurve");
+      }
+  
+         
+         }
+ 
+
+ 
+ 
+ 
+ 
+
     }
    
 
+      
+      
+
 }
+
+
+
+
+global proc string zxb_chongxingmingming_bn_mingzi_proc(string$bn,string$qianzui)
+  {
+  select -r $bn;
+  string$mingzi=$bn+$qianzui+"temp";
+  string$mingzi_a=$bn+$qianzui;
+  duplicate -rr -n $mingzi ;
+  string$pa_bn=zxb_baocunguanjie_mingzi_proc($mingzi,1);
+  string$pa_bns[]= stringToStringArray($pa_bn, " ");//关节
+  string$bn_name="";
+  string$bn_namea="";
+  for($ii=size($pa_bns)-1;$ii>=0;$ii--)
+     {
+            string$temp_bn=$pa_bns[$ii];
+            string$name=$mingzi_a+$ii;
+            select -r $temp_bn;
+            rename $temp_bn $name;
+            if($ii==0)
+               {
+                 $bn_namea=$name;
+                 }
+       }
+  string$bn_name=zxb_baocunguanjie_mingzi_proc($bn_namea,0);   
+  return  $bn_name;
+   
+   }
+  
+  
+  
+
+global proc string zxb_baocunguanjie_mingzi_proc(string$mingzi, int$qunlujing)
+{
+         string $IKS[];
+         clear$IKS;
+         if($qunlujing==0){$IKS=`listRelatives -c -ad   -type "joint"$mingzi `; }
+         if($qunlujing==1){$IKS=`listRelatives -c -ad    -type "joint"-pa $mingzi `; }
+         string$all_bn[];
+         clear $all_bn;  
+         $all_bn[0]=$mingzi; 
+        for($j=0;$j<size($IKS);$j++)
+           {
+               string$temp_bn=$IKS[$j];
+               int$temp_a=size($IKS)-$j;
+               $all_bn[$temp_a]=$temp_bn;
+               
+               
+           }
+           
+          string$mingziss="";
+         for($j=0;$j<size($all_bn);$j++)
+             {
+              string$temp=$all_bn[$j]+" ";
+              $mingziss+=$temp;
+              }
+              
+              
+         return $mingziss;
+
+}
+
+
+
+
+global proc zxb_ADD_shuxing_double_B_proc(string$kongzhiqi,string$shuxing,float$min,float$max,float$v)
+{
+  int$ex=`objExists ($kongzhiqi+"."+$shuxing)`;    ///判断
+  select -r $kongzhiqi;
+  if($ex==0){addAttr -ln $shuxing -at double  -min $min -max $max  -dv $v -k 1;} 
+}
+
+
+
+
+ global proc weiba_baiodashi(string$kongzhiqi)
+ {
+// string$kongzhiqi="man";
+  string$kongzhiqi_a=$kongzhiqi;
+ string$name_s[]=`ls -sl`;
+ 
+ for($i=0;$i<size($name_s);$i++)
+ {
+ int$shangyige=$i-1;
+ string$zu_ss=$name_s[0];  
+ string$zu=$name_s[$i]; 
+ string$exp="";
+ if($i==0)
+   {
+    zxb_ADD_shuxing_double_B_proc($kongzhiqi_a,"kaishiY",-10,10,0);
+    zxb_ADD_shuxing_double_B_proc($kongzhiqi_a,"kaishiZ",-10,10,0);
+    $exp+="float$Y="+$kongzhiqi_a+".kaishiY;\n";
+    $exp+="float$Z="+$kongzhiqi_a+".kaishiZ;\n";
+    $exp+=$zu+".translateY=noise(time*1.2)*$Y;";
+    $exp+=$zu+".translateZ=noise(time*1.2)*$Z;";
+    expression -s $exp -n ($zu+"exp") ;
+   } 
+ if($i>0)
+    {
+     zxb_ADD_shuxing_double_B_proc($zu,"delay",0,10,5);
+     zxb_ADD_shuxing_double_B_proc($zu,"anp",0,10,0.8);
+     $exp+="float$t=`currentTime -q`;\n";
+     $exp+="float$d="+$zu+".delay;\n";
+     $exp+="float$anp="+$zu+".anp;\n";
+     $exp+="float$qt=$t-$d*"+$i+";\n";
+     $exp+="float$ty=`getAttr -t $qt "+$zu_ss+".ty`;\n";
+     $exp+="float$tz=`getAttr -t $qt "+$zu_ss+".tz`;\n";
+     $exp+=$zu+".ty=$ty*(1+"+$i+"*$anp);\n";
+     $exp+=$zu+".tz=$tz*(1+"+$i+"*$anp);\n"; 
+     expression -s $exp -n ($zu+"exp") ;
+     }  
+ 
+ 
+ }
+ 
+ }
+
