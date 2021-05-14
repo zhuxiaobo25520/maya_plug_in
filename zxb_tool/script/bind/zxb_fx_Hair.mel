@@ -1,6 +1,7 @@
 
 
-global proc xiao_hair_fx_proc_columnLayout() 
+
+global proc zxb_fx_Hair() 
 {
 if(`window -ex xiao_hair_fx_proc_columnLayout`) deleteUI xiao_hair_fx_proc_columnLayout; 
 
@@ -40,7 +41,7 @@ textFieldGrp -e -tx ($obj) $tempname;
 
 
  
-xiao_hair_fx_proc_columnLayout;
+
 
 global proc zxb_chibang_proc_maonang()
 {
@@ -427,36 +428,44 @@ global proc zxb_ADD_shuxing_double_B_proc(string$kongzhiqi,string$shuxing,float$
  for($i=0;$i<size($name_s);$i++)
  {
  int$shangyige=$i-1;
- string$zu_ss=$name_s[0];  
+ string$zu_ss=$name_s[0];
  string$zu=$name_s[$i]; 
+ select -r $zu; 
+ pickWalk -d down;
+ pickWalk -d down;
+ string$kongzhiqi_name_s[]=`ls -sl`;
+ string$kongzhiqi_name=$kongzhiqi_name_s[0];
+
  string$exp="";
  if($i==0)
    {
     zxb_ADD_shuxing_double_B_proc($kongzhiqi_a,"kaishiY",-10,10,0);
     zxb_ADD_shuxing_double_B_proc($kongzhiqi_a,"kaishiZ",-10,10,0);
+    zxb_ADD_shuxing_double_B_proc($kongzhiqi_a,"speed",-10,10,0);
     $exp+="float$Y="+$kongzhiqi_a+".kaishiY;\n";
     $exp+="float$Z="+$kongzhiqi_a+".kaishiZ;\n";
-    $exp+=$zu+".translateY=noise(time*1.2)*$Y;";
-    $exp+=$zu+".translateZ=noise(time*1.2)*$Z;";
+    $exp+="float$speed="+$kongzhiqi_a+".speed;\n";
+    $exp+=$zu+".translateY=noise(time*1.2*$speed)*$Y;";
+    $exp+=$zu+".translateZ=noise(time*1.2*$speed)*$Z;";
     expression -s $exp -n ($zu+"exp") ;
    } 
  if($i>0)
     {
-     zxb_ADD_shuxing_double_B_proc($zu,"delay",0,10,5);
-     zxb_ADD_shuxing_double_B_proc($zu,"anp",0,10,0.8);
+     zxb_ADD_shuxing_double_B_proc($kongzhiqi_name,"delay",0,10,5);
+     zxb_ADD_shuxing_double_B_proc($kongzhiqi_name,"anp",0,10,0.8);
      $exp+="float$t=`currentTime -q`;\n";
-     $exp+="float$d="+$zu+".delay;\n";
-     $exp+="float$anp="+$zu+".anp;\n";
+     $exp+="float$d="+$kongzhiqi_name+".delay;\n";
+     $exp+="float$anp="+$kongzhiqi_name+".anp;\n";
      $exp+="float$qt=$t-$d*"+$i+";\n";
      $exp+="float$ty=`getAttr -t $qt "+$zu_ss+".ty`;\n";
      $exp+="float$tz=`getAttr -t $qt "+$zu_ss+".tz`;\n";
      $exp+=$zu+".ty=$ty*(1+"+$i+"*$anp);\n";
      $exp+=$zu+".tz=$tz*(1+"+$i+"*$anp);\n"; 
      expression -s $exp -n ($zu+"exp") ;
+     print ($kongzhiqi_name+"\n");
      }  
  
  
  }
  
  }
-
