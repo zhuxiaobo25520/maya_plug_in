@@ -56,7 +56,7 @@ string$UI_establish[]={"zuibazhengti_button","zuibazhengti_button_delete","hedeb
                          //          1           2                 3             4            5                6            7          8             9                10               11                  12               13                   1            15              16             17                 18              19             20            21              22             23          24               25                  26                                       
 string$UI_establish_name[]={"创建嘴巴整体绑定","删除嘴巴整体绑定","创建head混合变形","删除混合变形","编辑混合变形","添加混合变形","创建表情面板","删除表情面板","完成表情面板框","编辑表情面板框","添加表情控制控框制器","删除表情控制控框制器","链接嘴巴混合变形","创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","创建眼皮次级绑定","创建拉链绑定","创建嘴巴波浪","眼睛次模型级自动附着","碰撞曲线跟随模型","保存UI上的名称"};
 //                                   1                       2                                  3                    4                5  6         7                    8                   9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21                                      22            23       24                  25
-string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_xiababangding_delete_proc","zxb_hunhebianx_proc","zxb_delete_head_bs_proc","","","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","zxb_zuibalalian_all_proc","","zxb_eye_mode_fuzhao","zxb_mesh_nurbsSurface_to_obj_proc","zxb_UI_mingzi_serve"};
+string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_xiababangding_delete_proc","zxb_hunhebianx_proc","zxb_delete_head_bs_proc","","","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","zxb_zuibalalian_all_proc","","zxb_fuzhao_mode_proc","zxb_mesh_nurbsSurface_to_obj_proc","zxb_UI_mingzi_serve"};
 int$ui_establish_size=size($UI_establish);
 int$uiname_establish_size=size($UI_establish_name);
 int$UI_establish_proc_size=size($UI_establish_proc);
@@ -285,7 +285,7 @@ button -l "创建睫毛FK" -c "zxb_jiemao_ciji_kongzhiqi";
 rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
 string$pengzhuang_qvxian_ss[]={"UI_jiemao_pengzhuang_qvxian_up_L","UI_jiemao_pengzhuang_qvxian_dw_L","UI_jiemao_pengzhuang_qvxian_up_R","UI_jiemao_pengzhuang_qvxian_dw_R"};
 
-string$pengzhuang_qvxian_ss_tex[]={"碰庄曲线上L","碰庄曲线下L","碰庄曲线上R","碰庄曲线下R"};
+string$pengzhuang_qvxian_ss_tex[]={"碰撞曲线上L","碰撞曲线下L","碰撞曲线上R","碰撞曲线下R"};
 for ($i=0;$i<size($pengzhuang_qvxian_ss);$i++)
      {
          
@@ -293,7 +293,7 @@ for ($i=0;$i<size($pengzhuang_qvxian_ss);$i++)
        string$qvxian_button=$qvxian+"_button";
       string$pengzhuang_tex=$pengzhuang_qvxian_ss_tex[$i];
       textFieldGrp  -cw2 150 100 -l $pengzhuang_tex -tx " "   $qvxian;
-      button -l "载入跟关节" -c ("zxb_zairufangfa_A_proc(\""+$qvxian+"\")") $qvxian_button;
+      button -l "载入曲线" -c ("zxb_zairufangfa_A_proc(\""+$qvxian+"\")") $qvxian_button;
       button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$qvxian_button+"\",\""+$qvxian+"\")") ;
       }
 
@@ -304,6 +304,12 @@ for ($i=0;$i<size($pengzhuang_qvxian_ss);$i++)
 
 
 setParent ..; 
+
+
+
+
+
+
 
 
 button -l "创建碰撞曲线跟随模型" -c "zxb_mesh_nurbsSurface_to_obj_proc";
@@ -329,6 +335,37 @@ setParent ..;
 
 button -l "设置关节碰撞角度（选中关节）" -c "zxb_jiemao_pengzhuangguanjie_chengxu_proc";
 
+
+
+
+
+
+rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
+
+
+string$pengzhuang_qvxian_ss[]={"UI_jiemao_pengzhuang_bn_up_L","UI_jiemao_pengzhuang_bn_dw_L","UI_jiemao_pengzhuang_bn_up_R","UI_jiemao_pengzhuang_bn_dw_R"};
+
+string$pengzhuang_qvxian_ss_tex[]={"碰撞关节上L","碰撞关节下L","碰撞关节上R","碰撞关节下R"};
+for ($i=0;$i<size($pengzhuang_qvxian_ss);$i++)
+     {
+         
+      string$qvxian=$pengzhuang_qvxian_ss[$i];
+       string$qvxian_button=$qvxian+"_button";
+      string$pengzhuang_tex=$pengzhuang_qvxian_ss_tex[$i];
+      textFieldGrp  -cw2 150 100 -l $pengzhuang_tex -tx " "   $qvxian;
+      button -l "载入跟关节" -c ("zxb_zairufangfa_A_proc(\""+$qvxian+"\")") $qvxian_button;
+      button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$qvxian_button+"\",\""+$qvxian+"\")") ;
+      }
+
+
+
+
+
+
+
+setParent ..; 
+
+button -l "创建睫毛关节碰撞" -c "zxb_jiemao_pengzhuang_proc";
 setParent ..; 
 setParent ..; 
 showWindow  ;
@@ -463,7 +500,7 @@ string $sel[]=`ls -sl`;
 string $obj="";
 for($i=0;$i<size($sel);$i++)
     {
-    $obj+=(" "+$sel[$i]);
+    $obj+=($sel[$i]+" ");
     }
 textFieldGrp -e -tx ($obj) $tempname;
 }
@@ -557,17 +594,6 @@ for ($i=0;$i<size($sel);$i++)
     }
 textFieldGrp -e -tx  $suzu $tempname;
 button -e -en 0 $butt;
-}
-///////////////载入一堆字符//////////////
-global proc zxb_zairufangfa_A_proc(string$tempname)
-{
-string $sel[]=`ls -sl`;
-string $obj="";
-for($i=0;$i<size($sel);$i++)
-    {
-    $obj+=(" "+$sel[$i]);
-    }
-textFieldGrp -e -tx ($obj) $tempname;
 }
 
 
@@ -1238,7 +1264,7 @@ global proc zxb_hunhebianx_proc()
   select -r  $mode;
   select -add $zidonguv ;
   string$blendShape_s[]=`blendShape`;
-  setAttr ($blendShape_s[0]+"."+$zidonguv) 1;
+  setAttr ($blendShape_s[0]+"."+$xiaba_mode) 1;
   setAttr ($zidonguv+".visibility") 0;
   string$uv_mode="zxb_face_UV_mode";
   zxb_ADD_shuxing_string_proc($xiaba_head_con,$uv_mode);
@@ -1306,7 +1332,7 @@ global proc zxb_hunhebianx_proc()
   //string$base_bs_string="";
   //$base_bs_string+=($zhangzui+" "+$zhengti+" "+$fanxiang+" ");
   setAttr -type "string"($xiaba_head_con+".base_bs_mode") $mode_lst;//保存混合变形模型名
-print $mode_lst;
+
 
   
   
@@ -2351,7 +2377,7 @@ global proc zxb_mianban_Add_delete_proc()
    }
    
  
-    print $mingzi;
+
     string$all_name="";
     
     
@@ -2366,7 +2392,7 @@ global proc zxb_mianban_Add_delete_proc()
         }
 
    //setAttr -type "string" ($con+".Head_allcon") $all_name ;
-    print $all_name;
+
     int$ex=`objExists $all_name`; 
     if($ex==1){ error "选中的控制器是默认控制器";}else{ delete $bianliang[0];}
   
@@ -2630,8 +2656,7 @@ if($a==1)
   $exb=`zxb_normal_pingjunshu($moxing)`;
   }
 
-print $exa;
-print $exb;
+
 string$up_qvxiancvs[];
 clear$up_qvxiancvs;
 string$dw_qvxiancvs[];
@@ -3375,7 +3400,7 @@ for($i=0;$i<size($bianliang);$i++)
 
      connectAttr -f ($bolangloc+".t") ($lalian_loczu+".t");
      select -r $bolangloc;
-     print $bolangloc;
+
      $objloc_d[$j] = $bolangloc;//把定位器的名称保存到变量里   复制出来的定位器的名字
    }
   // print $objloc_d;
@@ -4166,8 +4191,7 @@ if($a==1)
   $exb=`zxb_normal_pingjunshu($moxing)`;
   }
 
-print $exa;
-print $exb;
+
 string$up_qvxiancvs[];
 clear$up_qvxiancvs;
 string$dw_qvxiancvs[];
@@ -4405,8 +4429,12 @@ global proc zxb_chuangjianyanjingguyanjie_fangfa_proc()
 
 
   string$bn_end[]=`listRelatives -c $bn`;
-  float$temp_poss=`getAttr  ($bn_end[0]+".tx")`;
-  $temp_poss=$temp_poss*3;
+   //float$temp_poss=1.1072335187;
+
+ //  float$temp_poss_Aa[]=`getAttr  ($bn_end[0]+".translateX")`;
+ float$temp_poss_A=`getAttr  ($bn_end[0]+".translateX")`;
+ float$temp_poss=$temp_poss_A*3;
+  //float$temp_poss=$temp_poss_Aa[0]*3;
   float$bn_pos[]=`xform -q -ws -t $bn`;
   string$LLRR="";
   string$jingxiang="";
@@ -5409,7 +5437,7 @@ for($j=0;$j<size($temp_shuzzu);$j++)
    select -add ($qvmian+".cv["+($cv_size-1)+"][0:3]");
    }
 CreateCluster;
-print $cv_size;
+
 string $cu_mingzi=($bianliang[1]+"_DW_plane__Handle_0");
 rename $cu_mingzi;
 parent  $cu_mingzi ("lip_Cluster_Group");
@@ -5536,8 +5564,7 @@ if($a==1)
   $exb=`zxb_normal_pingjunshu($moxing)`;
   }
 
-print $exa;
-print $exb;
+
 string$up_qvxiancvs[];
 clear$up_qvxiancvs;
 string$dw_qvxiancvs[];
@@ -8481,7 +8508,7 @@ for($i=0;$i<size($bianliang);$i++)
 
      connectAttr -f ($bolangloc+".t") ($lalian_loczu+".t");
      select -r $bolangloc;
-     print $bolangloc;
+
      $objloc_d[$j] = $bolangloc;//把定位器的名称保存到变量里   复制出来的定位器的名字
    }
   // print $objloc_d;
@@ -9182,26 +9209,36 @@ global proc zxb_mesh_nurbsSurface_to_obj_proc()
 string $UI_head_mode=`textFieldGrp -q -tx  UI_head_mode`;//
 string $UI_head_bn=`textFieldGrp -q -tx  UI_head_bn`;//
 string$headbn=$UI_head_bn;//载入头部关节 缩放毛囊需要用到
-string$pengzhuang_qvxian_ss[]={"UI_jiemao_pengzhuang_qvxian_up_L","UI_jiemao_pengzhuang_qvxian_dw_L","UI_jiemao_pengzhuang_qvxian_up_R","UI_jiemao_pengzhuang_qvxian_dw_R"};
+string $UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;//
+zxb_ADD_shuxing_string_proc($UI_head_controller,"pengzhuang_qvxian");
 
+string$pengzhuang_qvxian_ss[]={"UI_jiemao_pengzhuang_qvxian_up_L","UI_jiemao_pengzhuang_qvxian_dw_L","UI_jiemao_pengzhuang_qvxian_up_R","UI_jiemao_pengzhuang_qvxian_dw_R"};
+string$qvxian_head_temp="";
 string $temp_all_tex="";
 for ($i=0;$i<size($pengzhuang_qvxian_ss);$i++)
     {
      string$UI_name=$pengzhuang_qvxian_ss[$i];
+    // print $UI_name;
      string $temp_ui_tex=`textFieldGrp -q -tx $UI_name`;//
      $temp_all_tex+=$temp_ui_tex;
      }
-string$qvxian_grp_s[]=stringToStringArray($temp_all_tex, " ");;
+string$qvxian_grp_s[]=stringToStringArray($temp_all_tex, " ");
+
+//print $qvxian_grp_s;
 for($iii=0;$iii<size($qvxian_grp_s);$iii++)
    {
     string$temp_qvxian=$qvxian_grp_s[$iii];
-    int$ex=`objExists $temp_qvxian`;
-    if($ex==1)
+    int$ex=`objExists $temp_qvxian`;//判断曲线是否存在
+
+    if($ex==1)//如果存在就执行内容
       {
+
+       
+     
       select -r $temp_qvxian;
       select -add $UI_head_mode;
       string $bianliang[]=`ls -sl`;//选择曲线  加选曲面
-     
+      
       ////////////判断曲面还是曲线//////////////////
       int$size=size($bianliang);
       if($size!=2){error "请选中一个曲线和一个曲面两个物体";}
@@ -9209,6 +9246,7 @@ for($iii=0;$iii<size($qvxian_grp_s);$iii++)
       string$qvmian_temp="";
       string$shape_a[]=`listRelatives -s $bianliang[0]`; 
       string$shape_b[]=`listRelatives -s $bianliang[1]`; 
+      
       int$ex_a=`objExists $shape_a[0]`;
       if($ex_a==0){error "选中的第一个物体没有型节点";}
       int$ex_b=`objExists $shape_b[0]`;
@@ -9292,9 +9330,12 @@ for($iii=0;$iii<size($qvxian_grp_s);$iii++)
           string$loc_sheps[]=`listRelatives -s $eye_loc`; 
           string$loc_shep=$loc_sheps[0];
           connectAttr -f ($loc_shep+".worldPosition[0]")  ($qvxian_temp+".controlPoints["+$i+"]");//定位器控制曲线
-         } 
-     delete $qvmian_closestPointOnSurface;
-  }
+          
+          
+           } 
+        delete $qvmian_closestPointOnSurface;
+     
+     }
   
   
   
@@ -9369,14 +9410,20 @@ for($iii=0;$iii<size($qvxian_grp_s);$iii++)
       connectAttr -f ($loc_shep+".worldPosition[0]")  ($qvxian_temp+".controlPoints["+$i+"]");//定位器控制曲线
       } 
      delete $qvmian_closestPointOnSurface;
-  }
-  select -r $temp_qvxian;
-  select -add $UI_head_mode;   
-  string$yuandi_qvxian=zxb_qvxian_to_qvxian_proc($headbn) ;
-  }
- }
-
+   }
+      select -r $temp_qvxian;
+      select -add $UI_head_mode;   
+      string$yuandi_qvxian=zxb_qvxian_to_qvxian_proc($headbn) ;
+      $qvxian_head_temp+=$yuandi_qvxian+" ";
+      if($iii==0){ zxb_ADD_shuxing_string_proc($UI_head_controller,"pengzhuang_qvxian_L_UP");setAttr -type "string" ($UI_head_controller+".pengzhuang_qvxian_L_UP") $yuandi_qvxian ;}
+      if($iii==1){ zxb_ADD_shuxing_string_proc($UI_head_controller,"pengzhuang_qvxian_L_DW");setAttr -type "string" ($UI_head_controller+".pengzhuang_qvxian_L_DW") $yuandi_qvxian ;}
+      if($iii==2){ zxb_ADD_shuxing_string_proc($UI_head_controller,"pengzhuang_qvxian_R_UP");setAttr -type "string" ($UI_head_controller+".pengzhuang_qvxian_R_UP") $yuandi_qvxian ;}
+      if($iii==3){ zxb_ADD_shuxing_string_proc($UI_head_controller,"pengzhuang_qvxian_R_DW");setAttr -type "string" ($UI_head_controller+".pengzhuang_qvxian_R_DW") $yuandi_qvxian ;}
   
+      }
+   }
+
+setAttr -type "string" ($UI_head_controller+".pengzhuang_qvxian") $qvxian_head_temp;
 }
 
 
@@ -9486,7 +9533,7 @@ for ($i=0;$i<size($cvs);$i++)
        delete`pointConstraint $kongzhi_loc $gensui_loc_grp_b `;
        connectAttr -force ($qvxianjiedian+".position")  ($gensui_loc_grp_b +".t");
    
-       pointConstraint  $gensui_loc_grp_a $kongzhi_loc;
+       pointConstraint  $gensui_loc $kongzhi_loc;
       }
       
 delete $qvxian_zuijiandian_jiedian;
@@ -9505,7 +9552,7 @@ string $bns[]=`ls -sl`;//选择计算关节
 //string$mode="Mery_geo_up_eyelashMesh_base_pengzhuang";
 string$qv_aaa=`textFieldGrp -q -tx  UI_yuandi_qvxian`;
 string$loc_aaaa=`textFieldGrp -q -tx  UI_yuandi_loc`;
-string$jiaodu_aaaa=`textFieldGrp -q -tx   zxb_zairu_jiaodu`;
+string$jiaodu_aaaa=`textFieldGrp -q -tx   UI_yuandi_jiaodu`;
 
 string$qv=$qv_aaa;//载入曲线
 int$shuliang=$loc_aaaa;
@@ -9598,8 +9645,193 @@ delete $qvxian_zuijiandian_jiedian;
 
 
 
+///////////////////////////////////////睫毛碰撞//////////////////////////////////////////////////////////
 
 
+global proc zxb_jiemao_pengzhuang_proc()
+{
+string$pengzhuang_qvxian_ss[]={"UI_jiemao_pengzhuang_bn_up_L","UI_jiemao_pengzhuang_bn_dw_L","UI_jiemao_pengzhuang_bn_up_R","UI_jiemao_pengzhuang_bn_dw_R"};
+string $toubukongzhiqi=`textFieldGrp -q -tx UI_head_controller `;
+string$pengzhuang_qvxian_ssa[]={"pengzhuang_qvxian_L_UP","pengzhuang_qvxian_L_DW","pengzhuang_qvxian_R_UP","pengzhuang_qvxian_R_DW"};
+string$eye_coms=`getAttr ($toubukongzhiqi+".eye_con")`;
+string$eye_coma[]=stringToStringArray($eye_coms, " ");
+for ($i=0;$i<size($pengzhuang_qvxian_ss);$i++)
+    {
+     string$UI_name=$pengzhuang_qvxian_ss[$i];
+     string$UI_name_shuxing=$pengzhuang_qvxian_ssa[$i];
+     int$qvyu=$i%2;
+     string$eye_zongkongzhi="";
+     if($i<=1){$eye_zongkongzhi=$eye_coma[0];}else{$eye_zongkongzhi=$eye_coma[1];}
+     string $temp_ui_tex=`textFieldGrp -q -tx $UI_name`;//
+     string$qvxian_grp_s[]=stringToStringArray($temp_ui_tex, " ");
+    
+     string$xian="";
+      int$ex_ww=`objExists ($toubukongzhiqi+"."+$UI_name_shuxing)`;//判断曲线是否存在
+     if($ex_ww==1){ $xian=`getAttr ($toubukongzhiqi+"."+$UI_name_shuxing)`;}
+     int$ex_A=`objExists $xian`;//判断曲线是否存在
+     int$ex=`objExists $qvxian_grp_s[0]`;//判断曲线是否存在
+     int$aaa_ex_panduan=$ex_A+$ex;
+     if($aaa_ex_panduan==2)
+       {
+        select -r $qvxian_grp_s;   
+        zxb_jiemao_pengzhuangyuesu_zhucengxu_proc($qvyu,$xian,$eye_zongkongzhi);
+        }
+     }
+
+}
+
+global proc zxb_jiemao_pengzhuangyuesu_zhucengxu_proc(int$shangxia,string$temp_chuandiqvxian,string$eye_kongzhiqi)
+{
+
+string $bns[]=`ls -sl`;//选中所有关节
+
+int$aaa=$shangxia;
+string$qvv=$temp_chuandiqvxian;
+string$klk=$eye_kongzhiqi ;
+
+string$qv=$qvv;//载入在原地位置的曲线
+string$yaqiukongzhii=$klk;//眼睛总控制器
+int$shangxia=$aaa;//判断上下睫毛
+string$OBJ[];
+clear $OBJ;
+string$qvxianshap_s[]=` listRelatives -s $qv`;
+string$qvxianshap=$qvxianshap_s[0];
+string$shuxing="jiemao_gensui_UP";
+if($shangxia==1){$shuxing="jiemao_gensui_DW";}
+int$ex=`objExists  ($yaqiukongzhii+"."+$shuxing)`;
+if($ex==0)
+  {
+  select -r  $yaqiukongzhii;
+  addAttr -ln $shuxing  -at double  -dv 0 -k 1 $yaqiukongzhii;
+  setAttr -keyable false -channelBox true ($yaqiukongzhii+"."+$shuxing);
+  }
+
+string$all_grp=($qv+"_all_grp");
+ int$ex=`objExists $all_grp`; 
+ if($ex==0)
+   {
+         select -cl  ;
+         group -empty -n  $all_grp;
+         setAttr ($all_grp+".visibility") 0;
+         setAttr -lock true ($all_grp+".v");     
+   }
+for($i=0;$i<size($bns);$i++)
+    {
+        string$bn=$bns[$i];
+        string$bnn=($bn+"_A");
+        string$bnn_end=($bn+"_A_s");
+        string$qxian_name=($bn+"_xiangjiaoxian_"+$i);
+        select -r $bn;
+        duplicate -rr -n $bnn ;
+        string$bnn_s[]=` listRelatives -c -pa $bn`;
+        string$bnn_ss[]=` listRelatives -c -pa $bnn`;
+         rename $bnn_ss[0] $bnn_end;
+        delete  $bnn_s[0];
+        parent $bnn $bn ;
+        $OBJ[$i]=$bnn;
+        
+        float$tx=`getAttr ($bnn_end+".tx")`;
+        curve -d 1 -p 0 0 0 -p 0 ($tx*10) 0 -k 0 -k 1 -n $qxian_name;//创建曲线
+        select -r $qxian_name;
+        CenterPivot;
+        delete`pointConstraint $bnn_end $qxian_name`;
+        parent $qxian_name $bn ;
+        setAttr ($qxian_name+".visibility") 0;
+        setAttr -lock true ($qxian_name+".v");
+        
+        string$xiangjiao=($bn+"_curveIntersect_jiemao_penzguang");
+        int$ex=`objExists $xiangjiao`;
+        if($ex==1){delete $xiangjiao;}
+        createNode "curveIntersect" -n $xiangjiao ;//曲线相交点节点
+        string$bnqvxianshap_s[]=` listRelatives -s $qxian_name`;
+        string$bnqvxianshap=$bnqvxianshap_s[0];
+        connectAttr -force ($qvxianshap+".worldSpace[0]") ($xiangjiao+".inputCurve1");
+        connectAttr -force ($bnqvxianshap+".worldSpace[0]") ($xiangjiao+".inputCurve2");
+        setAttr ($xiangjiao+".useDirection") 1;
+        setAttr -type float3 ($xiangjiao+".direction") 0 0 1;
+
+        string$loc=($bn+"_loc_A_"+$i);
+        string$loc_grpA=($loc+"_A");
+        spaceLocator -p 0 0 0 -n $loc;
+        group -n $loc_grpA;
+        
+        parent $loc_grpA  $all_grp;
+        
+        string$qvxianjiedian=($bn+"_pointOnCurveInfo_jiemao_xiangjiao_"+$i);
+        int$ex=`objExists $qvxianjiedian`;    ///判断
+        if($ex==1){delete $qvxianjiedian;}
+        createNode "pointOnCurveInfo" -n $qvxianjiedian;
+        connectAttr -force ($qvxianshap+".worldSpace[0]") ($qvxianjiedian+".inputCurve");
+        connectAttr -force ($xiangjiao+".parameter1[0]") ($qvxianjiedian+".parameter");
+        connectAttr -force  ($qvxianjiedian+".position")  ($loc_grpA+".t");
+        string$xiangshang=($bn+"_xiangshang_"+$i);
+        select -r $bnn;
+        duplicate -rr -n $xiangshang ;
+        string$bnn_s_temp[]=` listRelatives -c -pa $xiangshang`;
+        delete $bnn_s_temp[0];
+        
+        float$rot=`getAttr  ($xiangshang+".rz")`;
+        if(abs($rot)>40){$rot=40;}
+        setAttr ($xiangshang+".rz") ($rot*-1);
+        
+        string$cbnn_A=($bnn+"_xuanzhuan_temp"+$i);
+        select -r $bnn;
+        duplicate -rr -n $cbnn_A;
+        delete`orientConstraint  $cbnn_A $loc_grpA`;
+        delete $cbnn_A;
+        if($shangxia==1)
+           {
+              setAttr   ($bnn+".rz") 0;
+            }
+        select -r $loc;
+        select -add $bnn;
+        string$dianyuesu[]=`aimConstraint -mo -weight 1 -aimVector 1 0 0 -upVector 0 0 1 -worldUpType "objectrotation" -worldUpVector 0 0 1 -worldUpObject $xiangshang`;
+        float$obj_rot=`getAttr  ($bnn+".rz")`;
+        if($shangxia==0)
+            { transformLimits -rz -360 0 -erz 1 1 $bnn;
+            }else
+                {transformLimits -rz 0 360 -erz 1 1 $bnn;}
+       
+        transformLimits -rx 0 0 -erx 1 1 $bnn;
+        transformLimits -ry 0 0 -ery 1 1 $bnn;
+        
+
+        string$shuxing_A=($shuxing+$bn+"_A_"+$i);
+        int$ex=`objExists  ($yaqiukongzhii+"."+$shuxing_A)`;
+        if($ex==0)
+          {
+          select -r  $yaqiukongzhii;
+          addAttr -ln $shuxing_A  -at double  -dv 0 -k 1 $yaqiukongzhii;
+          setAttr -keyable false -channelBox true ($yaqiukongzhii+"."+$shuxing_A);
+          }
+          
+          
+          
+        string$jiajian_A=($bn+"_plusMinusAverage_jiemao_penzguang"+$i);
+        int$ex=`objExists $jiajian_A`;    ///判断
+        if($ex==1){delete $jiajian_A;}
+
+        shadingNode -asUtility plusMinusAverage -n $jiajian_A;//创建加减节点
+        connectAttr -force ($yaqiukongzhii+"."+$shuxing) ($jiajian_A+".input1D[0]");
+        connectAttr -force ($yaqiukongzhii+"."+$shuxing_A) ($jiajian_A+".input1D[1]");
+        
+        string$chengchu_A=($bn+"_multiplyDivide_jiemao_penzguang"+$i);
+        int$ex=`objExists $chengchu_A`;    ///判断
+        if($ex==1){delete $chengchu_A;}
+        shadingNode -asUtility multiplyDivide -n$chengchu_A ;//创建乘除节点
+        connectAttr -force  ($jiajian_A+".output1D") ($chengchu_A+".input1X");
+        
+        float$loc_pos[]=`xform -q -ws -t $loc`;
+        float$bn_pos[]=`xform -q -ws -t $bnn_end`;
+        float$a_diss=mag(<<$loc_pos[0],$loc_pos[1],$loc_pos[2]>>-<<$bn_pos[0],$bn_pos[1],$bn_pos[2]>>);
+        float$offste_diss=($a_diss*0.1);
+        setAttr ($chengchu_A+".input2X") $offste_diss;
+        
+        connectAttr -force  ($chengchu_A+".outputX")  ($loc+".ty");
+
+    }
+   
+} 
 
 
 
