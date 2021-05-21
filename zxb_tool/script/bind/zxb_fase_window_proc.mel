@@ -1268,7 +1268,7 @@ global proc zxb_hunhebianx_proc()
   setAttr ($zidonguv+".visibility") 0;
   string$uv_mode="zxb_face_UV_mode";
   zxb_ADD_shuxing_string_proc($xiaba_head_con,$uv_mode);
-  setAttr -type "string"($xiaba_head_con+"."+$uv_mode) $uv_mode;
+  setAttr -type "string"($xiaba_head_con+"."+$uv_mode) $zidonguv;
   
   string$mode_lst="";
   select -r $mode;
@@ -9205,11 +9205,12 @@ parent;
 /////////////////////////////////曲线跟随模型或者曲面//////////////////////////////////////////////////////////////
 global proc zxb_mesh_nurbsSurface_to_obj_proc()
 {
-
-string $UI_head_mode=`textFieldGrp -q -tx  UI_head_mode`;//
+string $UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;//
+string$uv_mode=`getAttr ($UI_head_controller+".zxb_face_UV_mode")`;
+string $UI_head_mode=$uv_mode;//
 string $UI_head_bn=`textFieldGrp -q -tx  UI_head_bn`;//
 string$headbn=$UI_head_bn;//载入头部关节 缩放毛囊需要用到
-string $UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;//
+
 zxb_ADD_shuxing_string_proc($UI_head_controller,"pengzhuang_qvxian");
 
 string$pengzhuang_qvxian_ss[]={"UI_jiemao_pengzhuang_qvxian_up_L","UI_jiemao_pengzhuang_qvxian_dw_L","UI_jiemao_pengzhuang_qvxian_up_R","UI_jiemao_pengzhuang_qvxian_dw_R"};
