@@ -84,17 +84,19 @@ string $temp_shuzzu[];
     group -empty -n "child_surface";
    setAttr "child_surface.visibility" 0;
    setAttr -lock true  "child_surface.v";
+   
+parent   "child_surface" "child_object";
    }  
 
-parent   "child_surface" "child_object";
 int $eexx=`objExists "child_Cluster_grp"`;
  if($eexx==0)
    {
     group -empty -n "child_Cluster_grp";
    setAttr "child_Cluster_grp.visibility" 0;
    setAttr -lock true  "child_Cluster_grp.v";
+   parent   "child_Cluster_grp" "child_object";
    }  
-parent   "child_Cluster_grp" "child_object";
+
 
 int $eexx=`objExists "child_hair_follicle"`;
 if($eexx==0)
@@ -102,9 +104,10 @@ if($eexx==0)
     group -empty -n "child_hair_follicle";
    setAttr "child_hair_follicle.visibility" 0;
    setAttr -lock true  "child_hair_follicle.v";
-   }  
-parent   "child_hair_follicle" "child_object";
+   parent   "child_hair_follicle" "child_object";
  
+   }  
+
 for($i=0;$i<size($bianliang);$i++) 
 {
     string $qvxian=$bianliang[$i];
@@ -129,10 +132,11 @@ string$zuiba_bn_root=($bianliang[0]+"child_bn_root");
         if($eexx==0)
          {
          group -n ("child_bn_grp");
+         parent ("child_bn_grp") "child_object";
          }else{parent $zuiba_bn_root ("child_bn_grp"); }
        
         setAttr -l true { ($zuiba_bn_root+".ds") };
-        parent ("child_bn_grp") "child_object";
+       
     }
     
 /////////////////创建子关节///////////////////////////////////////
@@ -339,7 +343,7 @@ string$zuiba_bn_root=($bianliang[0]+"child_bn_root");
    setAttr -lock true  ($qvmian_plane+"_grp.v");
     parent ($qvmian_plane+"_grp")"child_hair_follicle";
    }
-   parent  $qvmian_plane "child_surface";
+  parent $qvmian_plane "child_surface";
  
 
    string $plane_Shape= $sheps[0];
@@ -381,6 +385,7 @@ string$zuiba_bn_root=($bianliang[0]+"child_bn_root");
         group -empty -n ($qvmian_plane+"_cu_grp");
         setAttr ($qvmian_plane+"_cu_grp.visibility") 0;
         setAttr -lock true  ($qvmian_plane+"_cu_grp.v");
+       
         parent ($qvmian_plane+"_cu_grp")"child_Cluster_grp";
     }
    
@@ -434,4 +439,3 @@ parent  $cu_mingzi ($bianliang[1]+"_DW_plane__cu_grp");
 
 
 }
-

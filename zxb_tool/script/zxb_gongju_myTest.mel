@@ -39,6 +39,7 @@ button -l "传递UV" -c "zxb_jiazai(\"TransferUV_RiggedModle\")";
 button -l "排除关节以外的物体" -c "zxb_jiazai(\"zxb_paichu_bn_proc\")";
 button -l "检查场景重命名" -c "zxb_jiazai(\"zxb_rename\")";
 button -l "必备控制器组" -c "zxb_jiazai(\"xiao_establish_Prop_Character_proc_columnLayout\")";
+button -l "设置驱动" -c "zxb_jiazai(\"zxb_shezhiqvdong\")";
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
