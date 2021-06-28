@@ -384,11 +384,12 @@ global proc  zxb_zuiba_jisuanquanzhong_pinghua()
             
            string $All_bn[]=`skinCluster -q  -inf  $sknclustet`;
            select -r  $All_bn ($modo_name+"_temp");
-           skinCluster;
+           newSkinCluster "-toSelectedBones -mi 30 -omi true -dr 6 -rui 0";  
+
           
             select -r $modo_name ;
             select -add ($modo_name+"_temp");
-            CopySkinWeights;
+            copySkinWeights  -noMirror -surfaceAssociation closestPoint -influenceAssociation oneToOne -influenceAssociation oneToOne;
             print "蒙皮已备份";
             setAttr ($modo_name+"_temp.visibility") 0;
 
@@ -406,7 +407,8 @@ global proc  zxb_zuiba_jisuanquanzhong_pinghua()
     string $All_bn_A[]=`skinCluster -q  -inf $sknclustet_temp_A`;
     string $root_="";
     int $daixoa=0;
-  global string $gSelect;
+    
+ /* global string $gSelect;
   global string $gMainProgressBar;
   setToolTo $gSelect;
   progressBar -e -st ("查找跟关节...") -bp -ii 1 -min 0 -max `size($All_bn_A)` $gMainProgressBar;
@@ -421,17 +423,13 @@ global proc  zxb_zuiba_jisuanquanzhong_pinghua()
    clear $dangqian_dingdian;
      for ($i=0;$i<$mode_dian[0];$i++)
       {
-
-
-           string $mode_dianxu=($modo_name+"_temp.vtx["+$i+"]");
-           
-           float$quznzhong=`skinPercent  -t $bn_a -q  $sknclustet_temp_A $mode_dianxu`;
-           if($quznzhong>0)
-            {
-            
-              int $size=size($dangqian_dingdian);
-             $dangqian_dingdian[$size]=$mode_dianxu;
-            }
+       string $mode_dianxu=($modo_name+"_temp.vtx["+$i+"]");
+       float$quznzhong=`skinPercent  -t $bn_a -q  $sknclustet_temp_A $mode_dianxu`;
+       if($quznzhong>0)
+         {
+          int $size=size($dangqian_dingdian);
+          $dangqian_dingdian[$size]=$mode_dianxu;
+          }
     
       }
       int $size_a=size($dangqian_dingdian);
@@ -439,17 +437,18 @@ global proc  zxb_zuiba_jisuanquanzhong_pinghua()
 //print $size_a;
       if($size_a>$daixoa)
       {  
-        $root_=$bn_a;
-         $root= $root_;
-        $daixoa=$size_a;
-     
-       
+      $root_=$bn_a;
+      $root= $root_;
+      $daixoa=$size_a;
        }
-    }
+      // print"优化";
+       if($daixoa>$mode_dian[0]*0.75)break;
+    }*/
+    $root_=$root;
   progressBar -e -ep $gMainProgressBar;
 
 
-print $root_;
+//print $root_;
 
 
 
