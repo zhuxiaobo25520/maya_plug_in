@@ -43,6 +43,7 @@ button -l "设置驱动" -c "zxb_jiazai(\"zxb_shezhiqvdong\")";
 button -l "体型绑定" -c "zxb_jiazai(\"zxb_MH_ALEI_shengti\")";
 button -l "修改材质命名" -c "zxb_jiazai(\"xiao_lambert_proc_columnLayout\")";
 button -l "设置组不可K帧" -c "zxb_jiazai(\"xiao_keyable_proc_columnLayout\")";
+button -l "复制简模高模 解算用" -c "zxb_jiazai(\"xiao_fuzhijianmo_gaomo_proc_columnLayout\")";
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
