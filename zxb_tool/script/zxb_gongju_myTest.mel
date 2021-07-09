@@ -45,6 +45,7 @@ button -l "修改材质命名" -c "zxb_jiazai(\"xiao_lambert_proc_columnLayout\")";
 button -l "设置组不可K帧" -c "zxb_jiazai(\"xiao_keyable_proc_columnLayout\")";
 button -l "复制简模高模 解算用" -c "zxb_jiazai(\"xiao_fuzhijianmo_gaomo_proc_columnLayout\")";
 button -l "插入关节" -c "zxb_jiazai(\"zxb_charuguanjie_proc\")";
+
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
