@@ -1,0 +1,5 @@
+global proc  zxb_paichu_bn_proc()
+{
+string$aa[]=`ls -sl -type "joint"`;
+select -r $aa;
+} 

@@ -1,0 +1,118 @@
+
+
+global proc xiao_keyable_proc_columnLayout() 
+{
+if(`window -ex zxb_keyableWin_columnLayout`) deleteUI zxb_keyableWin_columnLayout; 
+
+window -t "设置组不可K帧" zxb_keyableWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "不可K帧的物体组" -tx "Mode_High Curves GlobalSetting" -ed 0  keyable;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"keyable"+"\")") ;
+
+textFieldGrp  -cw2 100 300 -l "不可K帧的模型组名称" -tx "Mode_High" -ed 0  mode;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"mode"+"\")") ;
+
+setParent ..; 
+
+button -l "设置" -c "zxb_keyable_proc" ;
+showWindow zxb_keyableWin_columnLayout; 
+}
+global proc zxb_zairufangfa_A_proc(string$tempname)
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=($sel[$i]+" ");
+    }
+textFieldGrp -e -tx ($obj) $tempname;
+}
+
+
+
+global proc zxb_keyable_proc()
+{
+      string $all_keyable_ss=`textFieldGrp -q -tx  keyable `;
+      string $all_keyable_mode_ss=`textFieldGrp -q -tx  mode `;
+      string$all_keyable[]= stringToStringArray($all_keyable_ss, " ");//关节
+      string$all_keyable_mode_s[]= stringToStringArray($all_keyable_mode_ss, " ");//关节
+      string$mode_qianzui=$all_keyable_mode_s[0];
+      for ($ii=0;$ii<size($all_keyable);$ii++)
+          {   
+          string$temp_zu=$all_keyable[$ii];
+          if($temp_zu!=$mode_qianzui)
+          {
+          string $all_obj[]=`listRelatives -c -ad  -typ "transform" $temp_zu `; 
+          select -r$all_obj;
+          select -cl  ;
+          for ($i=0;$i<size($all_obj);$i++)
+               {
+                   string$temp_obj_A=$all_obj[$i];
+                   string $type=`nodeType $temp_obj_A`;
+                   
+                   if($type=="transform")
+                     {
+                          string $shepe_meh[]=`listRelatives -s $temp_obj_A`;
+                          int$ex=`objExists $shepe_meh[0]`; 
+                          string$xyz="translateX translateY translateZ rotateX rotateY rotateZ scaleX scaleY scaleZ visibility";
+                          string$all_XYZ[]= stringToStringArray($xyz, " ");//关节
+                          if($ex==0)
+                             {
+                              for ($j=0;$j<size($all_XYZ);$j++)
+                                   {
+                                    string$shuxing=$temp_obj_A+"."+$all_XYZ[$j];
+                                    int$ex_a=`objExists $shuxing`; 
+                                    if($ex_a==1){setAttr -keyable false -channelBox true $shuxing;}
+                                    
+                                   }
+                             
+                             
+                              select -add $temp_obj_A;
+                             }
+
+                     }
+                
+                }
+            }else
+            {
+              string $all_obj[]=`listRelatives -c -ad  -typ "transform" $temp_zu `; 
+          select -r$all_obj;
+          select -cl  ;
+          for ($i=0;$i<size($all_obj);$i++)
+               {
+                   string$temp_obj_A=$all_obj[$i];
+                   string $type=`nodeType $temp_obj_A`;
+                   
+                   if($type=="transform")
+                     {
+                          string $shepe_meh[]=`listRelatives -s $temp_obj_A`;
+                          string$xyz="translateX translateY translateZ rotateX rotateY rotateZ scaleX scaleY scaleZ visibility";
+                          string$all_XYZ[]= stringToStringArray($xyz, " ");//关节
+                          for ($j=0;$j<size($all_XYZ);$j++)
+                                   {
+                                    string$shuxing=$temp_obj_A+"."+$all_XYZ[$j];
+                                    int$ex_a=`objExists $shuxing`; 
+                                    if($ex_a==1){setAttr -keyable false -channelBox true $shuxing;}
+                                    
+                                   }
+                             
+                             
+                             
+                            
+
+                     }
+                
+                }
+                
+              }
+          }
+           
+           
+      
+      
+
+}
+

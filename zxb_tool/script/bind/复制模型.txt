@@ -1,0 +1,66 @@
+
+
+global proc xiao_fuzhi_mode_columnLayout() 
+{
+if(`window -ex zxb_fuzhi_modeWin_columnLayout`) deleteUI zxb_fuzhi_modeWin_columnLayout; 
+
+window -t "创建变形对象" zxb_fuzhi_modeWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "模型" -tx "模型" -ed 0  zxb_mode;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_mode"+"\")") ;
+
+setParent ..; 
+
+button -l "创建" -c "zxb_fuzhi_proc" ;
+showWindow zxb_fuzhi_modeWin_columnLayout; 
+}
+ 
+
+
+global proc zxb_fuzhi_proc()
+{
+      string $mode_ss=`textFieldGrp -q -tx  zxb_mode `;
+      string$mode_s[]= stringToStringArray($mode_ss, " ");//关节
+      zxb_ADD_kongzu_proc("copy_all_mode");
+      
+      for($i=0;$i<size($mode_s);$i++)
+         {
+         string$mode=$mode_s[$i];
+         string$mode_name=$mode+"_copy_all_mode";
+         select -r   $mode;
+         duplicate -rr -n $mode_name;
+         parent  $mode_name ("copy_all_mode");
+         select -r $mode;
+         select -add $mode_name;
+         string$bss[]=`blendShape`;
+         string$mingzi[];
+         clear $mingzi;//清除数组
+         int $nemt=`tokenize $mode ":" $mingzi`;//分离字符串存到变量
+       
+         setAttr ($bss[0]+"."+$mingzi[1]) 1;
+          }
+      
+      
+
+}
+
+global proc zxb_ADD_kongzu_proc(string$kongzu)
+{  
+ int$ex=`objExists $kongzu`; ///判断
+ if($ex==0){ group -empty -n $kongzu;}
+   
+}
+global proc zxb_zairufangfa_A_proc(string$tempname)
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=($sel[$i]+" ");
+    }
+textFieldGrp -e -tx ($obj) $tempname;
+}
+ xiao_fuzhi_mode_columnLayout;

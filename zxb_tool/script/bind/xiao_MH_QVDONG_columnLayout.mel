@@ -1,0 +1,150 @@
+
+
+
+global proc xiao_MH_QVDONG_columnLayout() 
+{
+if(`window -ex zxb_MH_QVDONGWin_columnLayout`) deleteUI zxb_MH_QVDONGWin_columnLayout; 
+
+window -t "翅膀" zxb_MH_QVDONGWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "模型或者控制器" -tx "模型或者控制器" -ed 0  zxb_ganjie;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_ganjie"+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "时间长度" -tx "70" -ed 1  zxb_modee;
+//button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
+checkBox -l "控制模型" -value 0 bn_con;
+setParent ..; 
+
+button -l "创建" -c "zxb_MH_QVDONGNEIRONG_proc_maonang" ;
+button -l "删除关键帧" -c "zxb_MH_QVDONGNEIRONG_deletedonghau_proc_maonang" ;
+showWindow zxb_MH_QVDONGWin_columnLayout; 
+}
+ 
+
+
+///////载入文字//////////////////
+global proc zxb_zairufangfa_A_proc(string$tempname)
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=(" "+$sel[$i]);
+    }
+textFieldGrp -e -tx ($obj) $tempname;
+}
+
+global proc zxb_MH_QVDONGNEIRONG_deletedonghau_proc_maonang()
+{
+   string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;
+   string$bns[]= stringToStringArray($xiaba_bn, " ");//关节
+   int$mode_kongzhi=`checkBox -q -v bn_con`;
+   if($mode_kongzhi==1){error "模型文件不能删帧";}
+   for ($i=0;$i<size($bns);$i++)
+       {
+           string$temp_mode=$bns[$i];
+        string$aaa[]={"translateX","translateY","translateZ","rotateX","rotateY","rotateZ","scaleX","scaleY","scaleZ"};
+       for ($ii=0;$ii<size($aaa);$ii++)
+           {
+               string$zhi=$aaa[$ii];
+            string$shuxing=($temp_mode+"."+$zhi);
+            string $z[]=`listConnections -d 0 -s 1  $shuxing`;//列出链接属性  -d输入   -s输出  -p 列出属性
+            delete $z[0];
+            }
+       }
+}
+
+global proc zxb_MH_QVDONGNEIRONG_proc_maonang()
+{
+      string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;
+      string$bns[]= stringToStringArray($xiaba_bn, " ");//关节
+      string $mode=`textFieldGrp -q -tx  zxb_modee `;//mode
+      int$mode_kongzhi=`checkBox -q -v bn_con`;
+      string$maonang_bn[]=$bns;
+int$shijian=$mode;
+
+
+int$ex=`objExists "FX_PROP"`;
+string$qvxian_FXA="";
+string$qvxian_FXB="";
+if($ex==0)
+{
+$qvxian_FXA=`curve -d 1 -p 3.236364 0 0 -p 3.236364 5.423471 0 -p 7.417025 5.423471 0 -p 7.417025 6.67438 0 -p 3.236364 6.67438 0 -p 3.236364 10.677522 0 -p 8.216033 10.677522 0 -p 8.216033 11.94463 0 -p 1.541488 11.94463 0 -p 1.541488 0 0 -p 3.236364 0 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 `;
+$qvxian_FXB= `curve -d 1 -p 10.736134 -0.112173 0 -p 13.780147 4.437122 0 -p 16.690358 -0.0452719 0 -p 18.898105 0.0216295 0 -p 15.051274 6.109657 0 -p 18.764302 11.829727 0 -p 17.125217 11.930079 0 -p 14.148105 7.447685 0 -p 11.304796 11.762825 0 -p 9.297754 11.96353 0 -p 12.94388 6.076206 0 -p 9.030148 -0.0452719 0 -p 10.736134 -0.0452719 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -n "FX_PROP"` ;
+string$fxs[]=`listRelatives -s $qvxian_FXA`; 
+select -r $fxs[0];
+select -add $qvxian_FXB;
+parent -r -s ;
+delete  $qvxian_FXA;
+
+
+ }
+
+
+//circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.001 -s 8 -ch 0 -n "FX_PROP"; 
+addAttr -ln "FX"  -at double  -min 0 -max $shijian -dv 0 -k 1 "FX_PROP";
+addAttr -ln "pingjunzhi"  -at double  -dv 0 -k 1 "FX_PROP";
+string$set_rang=("prop_setRangeB");
+int$ex=`objExists $set_rang`;
+if($ex==0){shadingNode -asUtility  setRange -n $set_rang;}//创建范围节点}
+connectAttr -f FX_PROP.FX ($set_rang+".valueX");
+setAttr ($set_rang+".oldMaxX") $shijian;
+setAttr ($set_rang+".maxX") 1;
+connectAttr -f ($set_rang+".outValueX") FX_PROP.pingjunzhi;
+
+for ($i=0;$i<size($maonang_bn);$i++)
+    {
+     string$maonang=$maonang_bn[$i];
+    string $copys[]=`listRelatives -p $maonang`;
+    string$copy="";
+    if($mode_kongzhi==1)
+      {
+      $copy=$maonang+"_copy";
+      select -r $maonang;
+      duplicate -rr -n $copy;
+      }else
+           {
+            $copy=$copys[0];
+            }
+    
+     string$aaa[]={"translateX","translateY","translateZ","rotateX","rotateY","rotateZ","scaleX","scaleY","scaleZ"};
+      for ($ii=0;$ii<$shijian;$ii++)
+          {
+           
+           currentTime $ii;
+           setAttr "FX_PROP.FX" $ii;
+           
+           float$qvdong=`getAttr FX_PROP.pingjunzhi`;
+           for ($j=0;$j<size($aaa);$j++)
+               {
+                string$zhi=$aaa[$j];
+                float$temp=`getAttr ($maonang+"."+$zhi)`;
+                float$temp_qvdong=`getAttr "FX_PROP.pingjunzhi"`;
+                int$dd_shijian=$ii+1;
+                
+                currentTime $dd_shijian;
+                setAttr "FX_PROP.FX" $dd_shijian;
+                
+                float$temp_A=`getAttr ($maonang+"."+$zhi)`;
+                 float$temp_qvdong_A=`getAttr "FX_PROP.pingjunzhi"`;
+                 
+                setDrivenKeyframe -itt "linear" -ott "spline" -v $temp -dv $temp_qvdong -cd "FX_PROP.pingjunzhi" ($copy+"."+$zhi);  
+                setDrivenKeyframe -itt "linear" -ott "spline" -v $temp_A -dv $temp_qvdong_A -cd "FX_PROP.pingjunzhi" ($copy+"."+$zhi); 
+                int$aa=$shijian-1 ;
+                //
+                // 
+                }
+                //if($ii==$aa&&$mode_kongzhi==0){CBdeleteConnection ($copy+"."+$zhi);}
+               // if($ii==$aa&&$mode_kongzhi==1){delete$maonang ;}
+          
+           }
+    }
+      
+      
+
+}
+
+

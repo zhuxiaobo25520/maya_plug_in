@@ -1,0 +1,69 @@
+
+
+global proc xiao_lambert_proc_columnLayout() 
+{
+if(`window -ex zxb_lambertWin_columnLayout`) deleteUI zxb_lambertWin_columnLayout; 
+
+window -t "重命名材质" zxb_lambertWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "材质名称" -tx "材质" -ed 0  lambert;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"lambert"+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "材质后缀" -tx "Inst" -ed 1  houzui;
+
+setParent ..; 
+
+button -l "修改名称" -c "zxb_lambert_proc" ;
+showWindow zxb_lambertWin_columnLayout; 
+}
+global proc zxb_zairufangfa_A_proc(string$tempname)
+{
+string $sel[]=`ls -sl`;
+string $obj="";
+for($i=0;$i<size($sel);$i++)
+    {
+    $obj+=($sel[$i]+" ");
+    }
+textFieldGrp -e -tx ($obj) $tempname;
+}
+
+
+
+global proc zxb_lambert_proc()
+{
+      string $all_lambert_ss=`textFieldGrp -q -tx  lambert `;
+      string$all_lambert[]= stringToStringArray($all_lambert_ss, " ");//关节
+      string $houzui_FieldGrp =`textFieldGrp -q -tx  houzui `;//mode
+      for ($ii=0;$ii<size($all_lambert);$ii++)
+           {   
+            string$temp_lambert=$all_lambert[$ii];
+            string$type=`nodeType $temp_lambert`;
+            if($type=="lambert")
+              { 
+              string $namea[]=`listConnections -d 1 -s 0  ($temp_lambert+".outColor")`;//列出链接属性  -d输入   -s输出  -p 列出属性
+              int$ex=`objExists $namea[0]`;    ///判断
+              if($ex==1)
+                {
+                string$mingzi[];
+                clear $mingzi;//清除数组
+                int $nemt=`tokenize $namea[0] "_" $mingzi`;//分离字符串存到变量  
+                int $found = stringArrayContains($houzui_FieldGrp, $mingzi);
+                if($found==0)
+                  {
+          
+                   rename $namea[0] ($temp_lambert+"_"+$houzui_FieldGrp); 
+           
+                   }
+        
+              }
+         }
+     }
+      
+      
+
+}
+
+

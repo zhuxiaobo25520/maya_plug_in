@@ -1,0 +1,9 @@
+global proc int TransferUV_RiggedModle()
+{
+string $selection[] = `ls -sl`;
+polyTransfer -uv 1 -ao $selection[0] $selection[1];
+select -r $selection[1];
+BakeNonDefHistory;
+TextureViewWindow;
+return 1;
+}

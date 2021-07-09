@@ -1,0 +1,163 @@
+global proc xiao_establish_Prop_Character_proc_columnLayout() 
+{
+if(`window -ex zxb_chibangWin_columnLayout`) deleteUI zxb_chibangWin_columnLayout; 
+
+window -t "创建控制器" zxb_chibangWin_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+
+
+
+
+setParent ..; 
+
+
+
+
+checkBox -l "创建道具" -value 1 Character_vs;
+button -l "创建控制器" -c "zxb_chuangjiankonzghiqi_a" ;
+showWindow zxb_chibangWin_columnLayout; 
+}
+ 
+
+
+
+
+global proc zxb_chuangjiankonzghiqi_a()
+{
+    
+    
+int$chuangjian=`checkBox -q -v  Character_vs`;
+string$modes[]=` ls -as`;
+int$ex_panduana=0;
+string$Character="";
+for($ii=0;$ii<size($modes);$ii++)
+   {
+   string$temp=$modes[$ii];
+   if($temp=="Character"||$temp=="Prop")
+   {
+       $ex_panduana=1;
+    $Character=$temp;
+    }
+   
+   }
+string $mode=$Character;   
+if($ex_panduana==0)
+  {
+  if($chuangjian==1)
+    {
+     zxb_ADD_kongzu_temp_proc("Prop");
+     $mode="Prop";
+     }
+  else
+     {
+     zxb_ADD_kongzu_temp_proc("Character");
+      $mode="Character";
+     }
+  }
+
+zxb_ADD_kongzu_temp_proc("Curves");
+string $fua_ex[]=`listRelatives  -p ("Curves")`; 
+int $ex=`objExists  $fua_ex[0]`;
+if($ex==0||$fua_ex[0]!=$mode){parent "Curves"  $mode;}
+
+zxb_ADD_kongzu_temp_proc("Mode_High");
+string $fua_ex[]=`listRelatives  -p ("Mode_High")`; 
+int $ex=`objExists  $fua_ex[0]`;
+if($ex==0||$fua_ex[0]!=$mode){parent "Mode_High"  $mode;}
+
+zxb_ADD_kongzu_temp_proc("FBX_out");
+string $fua_ex[]=`listRelatives  -p ("FBX_out")`; 
+int $ex=`objExists  $fua_ex[0]`;
+if($ex==0||$fua_ex[0]!="Mode_High"){parent "FBX_out" "Mode_High" ;}
+
+zxb_ADD_kongzu_temp_proc("ABC_out");
+string $fua_ex[]=`listRelatives  -p ("ABC_out")`; 
+int $ex=`objExists  $fua_ex[0]`;
+if($ex==0||$fua_ex[0]!="Mode_High"){parent "ABC_out" "Mode_High" ;}
+
+zxb_ADD_kongzu_temp_proc("cloth_out");
+string $fua_ex[]=`listRelatives  -p ("cloth_out")`; 
+int $ex=`objExists  $fua_ex[0]`;
+if($ex==0||$fua_ex[0]!="ABC_out" ){parent "cloth_out" "ABC_out" ;}
+
+
+
+
+
+
+
+zxb_ADD_kongzu_temp_proc("GlobalSetting");
+string $fu_ex[]=`listRelatives  -p ("GlobalSetting")`; 
+int $ex=`objExists  $fu_ex[0]`;
+if($ex==0||$fu_ex[0]!=$mode){parent "GlobalSetting"  $mode;}
+int $ex=`objExists "Main"`;//查询这个物体是否纯在
+  if($ex==0) 
+  {
+  if($chuangjian==1)
+    {
+    circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n "Main";
+    parent "Main"  "Curves";
+     }
+ 
+ }
+
+zxb_ADD_kongzu_temp_proc("Joints");
+
+string $fuaa_ex[]=`listRelatives  -p ("Joints")`; 
+int $ex=`objExists  $fuaa_ex[0]`;
+if($ex==0||$fuaa_ex[0]!=$mode){parent "Joints" $mode;}
+
+
+select -cl  ;
+int $ex=`objExists  "UE_Root"`;//查询这个物体是否纯在
+if($ex==0){joint -p 0 0 0 -n "UE_Root" ; parent "UE_Root"  "Joints";}
+ 
+ 
+ select -cl  ;
+int $ex=`objExists  "UE_Root_M"`;//查询这个物体是否纯在
+if($ex==0){joint -p 0 0 0 -n "UE_Root_M" ; parent "UE_Root_M" "UE_Root"  ;}
+ if($chuangjian==1)
+   {
+    int $exr=`objExists  "DAOJU_BN"`;//查询这个物体是否纯在
+    if($exr==0)
+       {
+       select -cl  ;
+       joint -p 0 0 0 -n "DAOJU_BN" ;
+       select -cl  ;
+       joint -p 0 1 0 -n "DAOJU_ENDBN" ;
+       parent "DAOJU_BN" "UE_Root_M"  ;
+       parent "DAOJU_ENDBN" "DAOJU_BN"   ;
+       select -cl  ;
+       circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 3 -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n "kongzhiqi";
+       group -n "kongzhiq_A";
+       group -n "kongzhiq_B";
+       group -n "kongzhiq_C";
+       parent "kongzhiq_C" "Main"; 
+       parentConstraint "kongzhiqi" "DAOJU_BN";
+       parentConstraint "Main" "UE_Root_M";
+        }
+   
+    }
+ 
+ 
+int $ex=`objExists  "Joints"`;//查询这个物体是否纯在
+int $ex_a=`objExists  "Main"`;//查询这个物体是否纯在
+string $ss[]=`listConnections -d 0 -s 1 -p 1 ("Joints"+".scaleZ")`;//列出链接属性  -d输入   -s输出  -
+int $ex_b=`objExists  $ss[0]`;//查询这个物体是否纯在
+int $aa=$ex+$ex_a+$ex_b;
+if($aa==2){scaleConstraint "Main" "Joints";}
+
+ }
+ 
+ 
+global proc zxb_ADD_kongzu_temp_proc(string$kongzu)
+{  
+ int$ex=`objExists $kongzu`; ///判断
+ if($ex==0){ group -empty -n $kongzu;}
+   
+   
+   
+}

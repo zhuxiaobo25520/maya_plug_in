@@ -1,0 +1,86 @@
+
+
+global proc xiao_fuzhijianmo_gaomo_proc_columnLayout() 
+{
+if(`window -ex zxb_fuzhijianmo_gaomo_columnLayout`) deleteUI zxb_fuzhijianmo_gaomo_columnLayout; 
+
+window -t "复制简模高模" zxb_fuzhijianmo_gaomo_columnLayout; 
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+ rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
+ 
+ 
+textFieldGrp  -cw2 100 300 -l "简模组" -tx "N" -ed 0  mode_A;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"mode_A"+"\")") ;
+
+textFieldGrp  -cw2 100 130 -l "高模组" -tx "cloth_out" -ed 0  mode_B;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"mode_B"+"\")") ;
+
+setParent ..; 
+
+button -l "创建" -c "zxb_fuzhijianmo_proc_maonang" ;
+showWindow zxb_fuzhijianmo_gaomo_columnLayout; 
+}
+ 
+
+ 
+ 
+ ///////////////////////创建空组
+global proc zxb_ADD_kongzu_proc(string$kongzu)
+{  
+ int$ex=`objExists $kongzu`; ///判断
+ if($ex==0){ group -empty -n $kongzu;}
+   
+}
+
+global proc zxb_fuzhijianmo_proc_maonang()
+{
+      string $mode_A_ss=`textFieldGrp -q -tx  mode_A `;
+      string$mode_A_s[]= stringToStringArray($mode_A_ss, " ");//关节
+      string$mode=$mode_A_s[0];
+      
+      string $mode_B_ss=`textFieldGrp -q -tx  mode_B `;
+      string$mode_B_s[]= stringToStringArray($mode_B_ss, " ");//关节
+      string$mode_b=$mode_B_s[0];
+      
+     string$calculating="calculating";
+     string$calculating_copy_N="calculating_copy_N";
+     string$calculating_cloth_out_N="calculating_copy_cloth_out";
+     zxb_ADD_kongzu_proc($calculating);
+     zxb_ADD_kongzu_proc($calculating_copy_N);
+     zxb_ADD_kongzu_proc($calculating_cloth_out_N);
+     string $ccc[]=`listRelatives -p  $calculating`;
+     int$ex_a=`objExists $ccc[0]`; 
+     if($ex_a==0){parent $calculating   "Character"; parent $calculating_copy_N $calculating  ;  parent $calculating_cloth_out_N $calculating  ; }
+     string $Ns[]=`listRelatives -c  $mode`; //列出子物体 -c 列出子物体 -p  关节父- ad物体所有子物体 -  -pa全路径 -s 列出型节点
+    string $cloth_outs[]=`listRelatives -c  $mode_b`; //列出子物体 -c 列出子物体 -p  关节父- ad物体所有子物体 -  -pa全路径 -s 列出型节点
+      for($i=0;$i<size($Ns);$i++)
+         {
+             string$mode_temp=$Ns[$i];
+             string$copy=$mode_temp+"_copy";             
+             select -r $mode_temp;
+             duplicate -rr -n $copy;
+             parent $copy   $calculating_copy_N;
+             string $skinCluster=`findRelatedSkinCluster $mode_temp` ;//访问蒙皮节点
+             string $All_bn[]=`skinCluster -q  -inf  $skinCluster`;//查询蒙皮的所有关节
+             select -r $All_bn;
+             select -add  $copy ;
+             newSkinCluster "-toSelectedBones -mi 30 -omi 0 -dr 6 -rui 0"; 
+             select -r $mode_temp;
+             select -add  $copy ;
+             copySkinWeights  -noMirror -surfaceAssociation closestPoint -influenceAssociation oneToOne -influenceAssociation oneToOne;
+
+          }
+           for($i=0;$i<size($cloth_outs);$i++)
+         {
+             string$mode_temp=$cloth_outs[$i];
+             string$copy=$mode_temp+"_copy_A";             
+             select -r $mode_temp;
+             duplicate -rr -n $copy;
+             parent $copy   $calculating_cloth_out_N;
+            
+
+          }
+      
+      
+
+}

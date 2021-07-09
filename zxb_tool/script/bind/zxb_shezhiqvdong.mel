@@ -1,0 +1,123 @@
+global proc zxb_shezhiqvdong(){
+
+if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
+window -wh 420 200 -t "设置驱动手动" zxb_jisuanlianbu_ciji_Win;
+columnLayout -adj 1 -w 300 gtBSColumlayout;
+
+text -l "--------------设置驱动--------------" -h 20  -bgc 0.3 0.7 0.3;
+rowColumnLayout -nc 2 -cw 1 240 -cw 2 140;
+
+
+
+
+
+textFieldGrp  -cw2 100 130 -l "加载控制器驱动属性" -tx "属性" -ed 0  zxb_zairushuxing;
+string$shuxing="zxb_zairushuxing";
+button -l "加载属性" -c ("zxb_zairushuxingfangfa_A_proc(\""+$shuxing+"\")") ;
+
+
+textFieldGrp  -cw2 100 130 -l "加载被驱动组属性" -tx "属性" -ed 0  zxb_zairushuxing_a;
+string$shuxinga="zxb_zairushuxing_a";
+button -l "加载属性" -c ("zxb_zairushuxingfangfa_A_proc(\""+$shuxinga+"\")") ;
+setParent ..; 
+button -l "设置驱动  驱动组 加选控制器" -c "zxb_shezhiqvdongz_chengxu";
+
+
+showWindow  ;
+}
+
+
+global proc zxb_zairushuxingfangfa_A_proc(string$tempname)
+{
+string $sel[]=`channelBox -q -sma mainChannelBox`;
+
+
+textFieldGrp -e -tx $sel[0] $tempname;
+}
+
+
+
+
+global proc  zxb_shezhiqvdongz_chengxu(){
+    
+string$shuxing=`textFieldGrp  -q -tx   zxb_zairushuxing`;
+string$shuxinga=`textFieldGrp  -q -tx   zxb_zairushuxing_a`;
+string$zhouxianga=$shuxing;
+string$zhouxiangb=$shuxinga;
+
+string $conAs[]=`ls -sl`;//驱动组 加选控制器
+string$beiqbxong=$conAs[0];//被驱动
+string$qvdong=$conAs[1];//驱动
+string $andbn[]=`listRelatives -s $beiqbxong`; 
+int$ex_a=`objExists$andbn[0]`;  
+if($ex_a!=0)
+  {
+   
+   string$type=`nodeType $andbn[0]`;
+   if($type=="mesh")
+  {
+     string$bss="";
+  
+    string$lishi[]=`listHistory   $beiqbxong`;
+    for ($ll=0;$ll<size($lishi);$ll++)
+        {
+            select -r $lishi[$ll];
+            string$temp[]=`ls -sl `;
+            int$strSize=sizeBytes ($bss);//字符串有多少个字
+            if($strSize>1)break;
+            string$type=`nodeType  $temp[0]`;
+            if($type=="blendShape")
+              {
+              $bss=$lishi[$ll];
+              }
+            
+        }
+
+   string $listOfShapesInNode[] =`listAttr -k -m $bss`;
+   string $all_bs="";
+ 
+    for ($tt=0;$tt<size($listOfShapesInNode);$tt++)
+        {
+         int$ex=`objExists $listOfShapesInNode[$tt]`;  
+         string$trpe_a="";
+         if($ex==1)
+         {
+             $trpe_a=`nodeType $listOfShapesInNode[$tt]`;
+             if($trpe_a=="transform"){$all_bs+=$listOfShapesInNode[$tt]+" ";}
+            
+         }
+         
+        }
+
+
+      
+float$weizhi=`getAttr ($qvdong+"."+$zhouxianga)`;
+
+string$all_bss[]=stringToStringArray($all_bs," ");
+string$shuxing_s="";
+ for ($tt=0;$tt<size($all_bss);$tt++)
+     {
+      string$temp_shuxing=$all_bss[$tt];
+      float$v=`getAttr($bss+"."+$temp_shuxing)`;
+      if($v==1)
+        {
+        setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ($qvdong+"."+$zhouxianga) ($bss+"."+$temp_shuxing);  
+        setDrivenKeyframe -itt "linear" -ott "spline" -v 1 -dv $weizhi -cd ($qvdong+"."+$zhouxianga) ($bss+"."+$temp_shuxing);  
+         }
+      }
+      
+      
+   }
+
+
+   
+   }else{
+        float$weizhi=`getAttr ($qvdong+"."+$zhouxianga)`;
+        float$v=`getAttr($beiqbxong+"."+$zhouxiangb)`;
+        setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ($qvdong+"."+$zhouxianga) ($beiqbxong+"."+$zhouxiangb);  
+        setDrivenKeyframe -itt "linear" -ott "spline" -v $v -dv $weizhi -cd ($qvdong+"."+$zhouxianga) ($beiqbxong+"."+$zhouxiangb);
+         }
+
+
+}
+ 
