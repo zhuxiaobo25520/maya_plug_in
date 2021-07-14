@@ -49,10 +49,10 @@ button -l "插入关节" -c "zxb_jiazai(\"zxb_charuguanjie_proc\")";
 setParent ..; 
 int$liang_A=200;
 string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "标签2" 
-button -l "蛇" -c "zxb_jiazai(\"xiao_snake_proc\")";
+button -l "蛇1" -c "zxb_jiazai(\"xiao_snake_proc\")";
 button -l "鸟类" -c "zxb_jiazai(\"xiao_bird_proc\")";
 button -l "面部--更新中" -c "zxb_jiazai(\"zxb_fase_window_proc\")";
-button -l "导入测试" -c "zxb_jiazai(\"xiao_daoru_columnLayout\")";
+button -l "蛇2" -c "zxb_jiazai(\"zxb_she_A_columnLayout\")";
 setParent ..; 
 
 
