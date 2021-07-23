@@ -4,12 +4,25 @@ global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_z
 global proc zxb_fase_window_proc(){
 
 if(`window -ex zxb_jisuanlianbu_ciji_Win`) deleteUI  zxb_jisuanlianbu_ciji_Win;
-window -wh 420 200 -t "面部" zxb_jisuanlianbu_ciji_Win;
+string $myWindow = `window  zxb_jisuanlianbu_ciji_Win `;
 scrollLayout; 
 columnLayout; 
 columnLayout -adjustableColumn 0; 
 frameLayout -label "准备"   -collapsable 3 -cl 1   -labelWidth 20 -width 500   ; 
 rowColumnLayout -nc 1 -cw 1 500  ;
+if (`exists dockControl`)
+	if (`dockControl -q -ex zxb_chibangWin_columnLayoutaa`)
+		deleteUI -control zxb_chibangWin_columnLayoutaa;
+
+
+dockControl -area "left"
+	-content $myWindow
+	-allowedArea "left"
+	-allowedArea "right"
+	-l "常用工具"
+	zxb_chibangWin_columnLayoutaa;
+
+
 text -l "--------------准备--------------"   ;
 separator;
 rowColumnLayout -nc 3 -cw 1 240 -cw 2 140  -cw 3 100 ;
