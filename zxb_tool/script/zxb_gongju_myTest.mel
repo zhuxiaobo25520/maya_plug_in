@@ -40,11 +40,12 @@ button -l "排除关节以外的物体" -c "zxb_jiazai(\"zxb_paichu_bn_proc\")";
 button -l "检查场景重命名" -c "zxb_jiazai(\"zxb_rename\")";
 button -l "必备控制器组" -c "zxb_jiazai(\"xiao_establish_Prop_Character_proc_columnLayout\")";
 button -l "设置驱动" -c "zxb_jiazai(\"zxb_shezhiqvdong\")";
-button -l "体型绑定" -c "zxb_jiazai(\"zxb_MH_ALEI_shengti\")";
+button -l "体型绑定模型组" -c "zxb_jiazai(\"zxb_MH_ALEI_shengti\")";
 button -l "修改材质命名" -c "zxb_jiazai(\"xiao_lambert_proc_columnLayout\")";
 button -l "设置组不可K帧" -c "zxb_jiazai(\"xiao_keyable_proc_columnLayout\")";
 button -l "复制简模高模 解算用" -c "zxb_jiazai(\"xiao_fuzhijianmo_gaomo_proc_columnLayout\")";
 button -l "插入关节" -c "zxb_jiazai(\"zxb_charuguanjie_proc\")";
+button -l "体型绑定纯模型" -c "zxb_jiazai(\"zxb_MH_ALEI_shengtiA\")";
 
 setParent ..; 
 int$liang_A=200;

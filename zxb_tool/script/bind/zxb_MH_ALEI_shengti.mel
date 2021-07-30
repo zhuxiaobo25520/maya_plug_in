@@ -1,5 +1,5 @@
 global string$UI_bs_string_array[]={"胖","瘦","待增加A","待增加B","待增加C","待增加D","待增加E","待增加F","待增加G","待增加H","待增加I","待增加J","待增加K","待增加L"};
-global  string$UI_bs_name_string_array[]={"fat","thin","pending_A","pending_B","pending_C","pending_D","pending_E","pending_F","pending_G","pending_H","pending_I","pending_J","pending_K","pending_L"};
+global  string$UI_bs_name_string_array[]={"bodily_A","bodily_B","bodily_C","bodily_D","bodily_E","bodily_F","bodily_G","bodily_H","bodily_I","bodily_J","bodily_K","bodily_L"};
 global proc zxb_MH_ALEI_shengti() 
 {
 if(`window -ex zxb__A_Lei_BSWin_columnLayout`) deleteUI zxb__A_Lei_BSWin_columnLayout; 
@@ -12,20 +12,20 @@ columnLayout -adj 1 -w 300 gtBSColumlayout;
 textFieldGrp  -cw2 100 300 -l "模型" -tx "模型" -ed 0  zxb_mode;
 button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_mode"+"\")") ;
 
-textFieldGrp  -cw2 100 130 -l "载入前缀" -tx "前缀" -ed 1  zxb_qianzui;
+/*textFieldGrp  -cw2 100 130 -l "载入前缀" -tx "前缀" -ed 0  zxb_qianzui;
 //button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
 
-text -l " "  ;
+text -l " "  ;*/
 global  string$UI_bs_string_array[];
 global  string$UI_bs_name_string_array[];
 
-for ($i=0;$i<size($UI_bs_string_array);$i++)
+/*for ($i=0;$i<size($UI_bs_string_array);$i++)
     {
      string$ui_name=$UI_bs_string_array[$i];
      string$bs_name=$UI_bs_name_string_array[$i];
      button -l $ui_name -c ("zxb_A_lei_bs_mode(\""+$bs_name+"\",\""+"zxb_qianzui"+"\")") ;
      }
-
+*/
 setParent ..; 
 
 button -l "复制模型" -c "zxb_Alei_bs_proc_maonang" ;
@@ -57,6 +57,7 @@ global proc zxb_Alei_bs_chuangjian_proc_maonang()
  string$UI_bs_modeui_string_array[]=$UI_bs_name_string_array;
  string$UI_bs_name_string_array[]=$UI_bs_name_string_array;
 string $modesss_a=`textFieldGrp -q -tx  zxb_mode `;
+if($modesss_a=="模型"){error "请载入模型组";}
 string$all_mode[]= stringToStringArray($modesss_a, " ");//关节
 
 
@@ -99,6 +100,9 @@ float $Progress = 0.0;
         -isInterruptable true
         -min 0
         -max 100;
+        
+
+    
 string$mode_s[]=$all_mode;//关节
 for ($i=0;$i<size($mode_s);$i++)
     {
@@ -106,70 +110,60 @@ for ($i=0;$i<size($mode_s);$i++)
      $Progress=$i;
      string$mode=$mode_s[$i];
      
-    
-     for ($ii=0;$ii<size($UI_bs_name_string_array);$ii++)
-         {
-             
-          string$lishi[]=`listHistory   $mode`;//列出历史
-          select -r  $lishi;
-          string$bs_blendShape[]=`ls -sl -type "blendShape" `;
-          int$ex=`objExists$bs_blendShape[0]`;
-          string$mingcheng=$UI_bs_name_string_array[$ii];
-          string$bs_mingzi=$mode+"_"+$mingcheng;
-          int$ex_A=`objExists$bs_mingzi`;
-          if($ex_A==1)
+     string $all_modes_tempp[]=`listRelatives -c $mode`; 
+     for($aii=0;$aii<size($all_modes_tempp);$aii++)
+       {    
+        string$renwu_mode_temp=$all_modes_tempp[$aii];
+        for ($ii=0;$ii<size($UI_bs_name_string_array);$ii++)
              {
-               string$baidashi="";
-               if($ex==1)
-                 {
-                    
-                  int$ex_bsA=`objExists($bs_blendShape[0]+"."+$bs_mingzi)`;
-                  if($ex_bsA==0)
-                     {
-                      string $attr[]=`listAttr -k -m  ($bs_blendShape[0])`;//列出混合变形的属性
-                      int$bs_size=size($attr)-2;
-                      select -r $bs_mingzi;
-                      select -add $mode;
-                      blendShape -e  -t $mode $bs_size $bs_mingzi 1 $bs_blendShape[0];
-                     }
-                 
-                  string$kongzhiqi="face_"+$mingcheng;
-                  string$kongzhiqi_A="face_grp_"+$mingcheng;
-                  string$kongzhiqi_ww=$gtCname+"face_grp_"+$mingcheng;
-                  string$sss=$gtCname+$kongzhiqi;
-                  int$ex_B=`objExists$kongzhiqi`;
-                  if($ex_B==0)
-                    {
-                      zxb_chuangjananniu_proc(2,$kongzhiqi,0,$kongzhiqi_A,$gtCname);
-                      transformLimits -tx 0 1 -etx 1 1 $sss;
-                      float$ii_a=$ii+1;
-                      setAttr ($kongzhiqi_ww+".translateY") $ii_a;
-                       
-
-                     }
-                  
-                  $baidashi+=$bs_blendShape[0]+"."+$bs_mingzi+"="+$sss+".tx;";
-                  }
+              string$lishi[]=`listHistory   $renwu_mode_temp`;//列出历史
+              select -r  $lishi;
+              string$bs_blendShape[]=`ls -sl -type "blendShape" `;
+              int$ex=`objExists$bs_blendShape[0]`;
+              string$mingcheng=$UI_bs_name_string_array[$ii];
+              string$bs_mingzi=$renwu_mode_temp+"_"+$mingcheng;
+              int$ex_A=`objExists$bs_mingzi`;
+              if($ex_A==1)
+              {
+                  string$baidashi="";
+                   if($ex==1)
+                   {
+                       int$ex_bsA=`objExists($bs_blendShape[0]+"."+$bs_mingzi)`;
+                       if($ex_bsA==0)
+                         {
+                             string $attr[]=`listAttr -k -m  ($bs_blendShape[0])`;//列出混合变形的属性
+                              int$bs_size=size($attr)-2;
+                              select -r $bs_mingzi;
+                              select -add $renwu_mode_temp;
+                              blendShape -e  -t $renwu_mode_temp $bs_size $bs_mingzi 1 $bs_blendShape[0];
+                          }
+                       string$kongzhiqi="face_"+$mingcheng;
+                       string$kongzhiqi_A="face_grp_"+$mingcheng;
+                       string$kongzhiqi_ww=$gtCname+"face_grp_"+$mingcheng;
+                       string$sss=$gtCname+$kongzhiqi;
+                       int$ex_B=`objExists$kongzhiqi`;
+                       if($ex_B==0)
+                         {
+                         zxb_chuangjananniu_proc(2,$kongzhiqi,0,$kongzhiqi_A,$gtCname);
+                         transformLimits -tx 0 1 -etx 1 1 $sss;
+                         float$ii_a=$ii+1;
+                         setAttr ($kongzhiqi_ww+".translateY") $ii_a;
+                         }
+                       $baidashi+=$bs_blendShape[0]+"."+$bs_mingzi+"="+$sss+".tx;";
+                   }
                   else
                   {
                   select -r $bs_mingzi;
-                  select -add $mode;
+                  select -add $renwu_mode_temp;
                   string$temp_bs[]=`blendShape`;
-                  string$bs_new=$mode+"bs";
+                  string$bs_new=$renwu_mode_temp+"bs";
                   rename $temp_bs[0] $bs_new;
-                  
-                  string $mode_shepe[]=`listRelatives -s $mode`; 
+                  string $mode_shepe[]=`listRelatives -s $renwu_mode_temp`; 
                   string $tweak1_s[]=`listConnections -d 0 -s 1  ($mode_shepe[0]+".tweakLocation")`;//列出链接属性  -d输入   -s输出  -p 列出属性
                   string $skinCluster_s[]=`listConnections -d 0 -s 1  ($mode_shepe[0]+".inMesh")`;//列出链接属性  -d输入   -s输出  -p 列出属性
-                  reorderDeformers $tweak1_s[0] $bs_new $mode;
-                  
-                  
-                  
+                  reorderDeformers $tweak1_s[0] $bs_new $renwu_mode_temp;
                   string $attr[]=`listAttr -k -m  $bs_new`;//列出混合变形的属性
                   int$bs_size=size($attr)-2;
-                  //select -r $bs_mingzi;
-                 // select -add $mode;
-                 // blendShape -e  -t $mode $bs_size $bs_mingzi 1 $bs_blendShape[0];
                   string$kongzhiqi="face_"+$mingcheng;
                   string$kongzhiqi_A="face_grp_"+$mingcheng;
                   string$kongzhiqi_B="face"+$mingcheng;
@@ -177,21 +171,21 @@ for ($i=0;$i<size($mode_s);$i++)
                   string$sss=$gtCname+$kongzhiqi;
                   int$ex_B=`objExists$kongzhiqi`;
                   if($ex_B==0)
-                    {
+                   {
                       zxb_chuangjananniu_proc(2,$kongzhiqi,0,$kongzhiqi_A,$gtCname);
-                      
                       transformLimits -tx 0 1 -etx 1 1 $sss;
                       float$ii_a=$ii+1;
                       setAttr ($kongzhiqi_ww+".translateY") $ii_a;
                      }
-                   $baidashi+=$bs_new+"."+$bs_mingzi+"="+$sss+".tx;";
-                  }
+                $baidashi+=$bs_new+"."+$bs_mingzi+"="+$sss+".tx;";
+               }
+           
                   
-                 int$ex_B_biaodashi=`objExists($bs_mingzi+"exp")`; 
-                 if($ex_B_biaodashi==0){expression -s $baidashi -n ($bs_mingzi+"exp");  }
-                
-              }
-          }
+            int$ex_B_biaodashi=`objExists($bs_mingzi+"exp")`; 
+            if($ex_B_biaodashi==0){expression -s $baidashi -n ($bs_mingzi+"exp");  }
+            }     
+         }
+    }
     
       
       progressWindow -endProgress;
@@ -208,8 +202,9 @@ global proc zxb_A_lei_bs_mode(string$tex,string$FieldGrp)
 global proc zxb_Alei_bs_proc_maonang()
 {
       string $xiaba_bn=`textFieldGrp -q -tx  zxb_mode `;
+      if($xiaba_bn=="模型"){error "请载入模型组";}
       string$modes[]= stringToStringArray($xiaba_bn, " ");//关节
-      string $qianzui=`textFieldGrp -q -tx  zxb_qianzui `;//mode
+      
       global  string$UI_bs_name_string_array[];
       
       for($j=0;$j<size($UI_bs_name_string_array);$j++)
@@ -217,28 +212,47 @@ global proc zxb_Alei_bs_proc_maonang()
           string$ming_temp=$UI_bs_name_string_array[$j];
           string$bs_grp=$ming_temp+"_bs_grp";
           zxb_ADD_kongzu_proc($bs_grp);
+
           for($i=0;$i<size($modes);$i++)
              {
              string$temp_bn=$modes[$i];
-             string $mingzi[];
-             clear $mingzi;//清除数组
-             string$aa="";
-             string$mode_namen=$temp_bn+"_"+$ming_temp;
-             int $nemt=`tokenize $temp_bn ":" $mingzi`;//分离字符串存到变量
-             if($nemt>1)
+             
+             string$renuw_name=$temp_bn+"_grp_"+$ming_temp;
+             zxb_ADD_kongzu_proc($renuw_name);
+             
+             int$ex_aa=`objExists$bs_grp`; ///判断
+             if($ex_aa==1)
                 {
-                    
-                  $aa=$mingzi[1];
-                  $mode_namen=$mingzi[1]+"_"+$ming_temp;
+                  string $a_tempp[]=`listRelatives -p $renuw_name`;
+                  if($a_tempp[0]!=$bs_grp){ parent $renuw_name $bs_grp;}
+                 
+                
                 }
-             int$ex=`objExists $mode_namen`;    ///判断
-             if($ex==0)
-               { 
-               select -r $temp_bn;
-               duplicate -rr -n $mode_namen;
-               parent $mode_namen $bs_grp;
-               }else
-                {print ($mode_namen+"模型名称重复跳过该模型\n");}
+             
+             string $all_modes_tempp[]=`listRelatives -c $temp_bn`; 
+             for($ii=0;$ii<size($all_modes_tempp);$ii++)
+                {
+                 string$renwu_mode=$all_modes_tempp[$ii];  
+                 
+                 string $mingzi[];
+                 
+                 clear $mingzi;//清除数组
+                 string$aa="";
+                 string$mode_namen=$renwu_mode+"_"+$ming_temp;
+                 int $nemt=`tokenize $renwu_mode ":" $mingzi`;//分离字符串存到变量
+                 if($nemt>1)
+                   {$aa=$mingzi[1];
+                   $mode_namen=$mingzi[1]+"_"+$ming_temp;
+                   }
+                 int$ex=`objExists $mode_namen`;    ///判断
+                 if($ex==0)
+                  { 
+                  select -r $renwu_mode;
+                  duplicate -rr -n $mode_namen;
+                  parent $mode_namen $renuw_name;
+                  }else
+                  {print ($mode_namen+"模型名称重复跳过该模型\n");}
+                }
            }
       
       }
@@ -821,3 +835,4 @@ setAttr ($childs[$j]+".overrideColor") 22;
 
       
 }
+zxb_MH_ALEI_shengti;
