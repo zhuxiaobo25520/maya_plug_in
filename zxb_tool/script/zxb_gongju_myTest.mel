@@ -5,7 +5,9 @@ if(`window -ex zxb_gongju_Win`) deleteUI zxb_gongju_Win;
 
 window -t "常用工具" zxb_gongju_Win; 
 int$liang=125;
+
 string $tabs = `tabLayout`; 
+
 string $child1 = `rowColumnLayout -nc 5 -cw 1 $liang -cw 2 $liang   -cw 3 $liang  -cw 4 $liang -cw 5 $liang`; // 标签1 
 
 button -l "重新蒙皮" -c "zxb_jiazai(\"zxb_Toskin_proc\")"; 
@@ -68,6 +70,8 @@ setParent ..;
 tabLayout -edit 
 -tabLabel $child1 "绑定工具" -tabLabel $child2 "动物"  -tabLabel $child3 "其他" 
 $tabs; 
+
+
 
 showWindow zxb_gongju_Win; 
 } 

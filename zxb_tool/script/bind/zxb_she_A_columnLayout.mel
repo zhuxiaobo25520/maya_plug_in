@@ -85,7 +85,7 @@ button -l "载入" -c ("zxb_UI_string_kongge_proc(\""+"UI_zxb_loc"+"\")") ;
 textFieldGrp  -cw2 100 130 -l "曲线长度" -tx "50" -ed 1  UI_zxb_changdu;
 textFieldGrp  -cw2 100 130 -l "控制器大小" -tx "5" -ed 1  UI_zxb_changdu_kongzhiqi;
  checkBox -l   "自动计算长度" -value 1 jisuan;
- text -l "  "   ;
+ checkBox -l   "创建表达式" -value 1 biaodashi_ex;
 setParent..;
 
 button -l "创建" -c "zxb_chibang_proc_maonang" ;
@@ -1206,6 +1206,7 @@ string $jiesu_temp=`textFieldGrp -q -tx  asFitResampleEndJointtextFieldGrp`;//结
 string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;//忌嘴关节
 string $changdu_A=`textFieldGrp -q -tx  UI_zxb_changdu `;//曲线长度
 string $changdu_B=`textFieldGrp -q -tx  UI_zxb_changdu_kongzhiqi `;//控制器大小
+int$chuangjian_ex_biaodashi=`checkBox -q  -v  biaodashi_ex`;
 float$chang_a=$changdu_A;//曲线长度
 float$chang_b=$changdu_B;//控制器大小
 
@@ -1520,7 +1521,7 @@ for($ii=0;$ii<$chang_a;$ii++)
           float $pos_A[]=`xform -q -ws -t $bn`;
           $mingzi+="-p "+$pos_A[0]+" "+$pos_A[1]+" "+$pos_A[2]+" ";
           
-          }else if($ii>0&&$ii<$chang_a)
+          }else if($ii>0&&$ii<($chang_a*2))
               {
                 float $pos_A[]=`xform -q -ws -t $Paths[0]`;
                //select -r$Paths[0];
@@ -1571,9 +1572,20 @@ for($ij=0;$ij<size($ewew);$ij++)
       group -n ($ming_newCluster_temp_con+"_A");
       group -n ($ming_newCluster_temp_con+"_B");
       group -n ($ming_newCluster_temp_con+"_C");
+
+      int$itnt_a=$ij-1;
+      string$temp_zu_a=$ming_newCluster+$itnt_a+"_con";
+      int $ex_zu=`objExists $temp_zu_a`;//查询这个物体是否纯在
       delete`parentConstraint $ming_newCluster_temp ($ming_newCluster_temp_con+"_C")`;
       parent  $ming_newCluster_temp $ming_newCluster_temp_con;
       parent ($ming_newCluster_temp_con+"_C") $ming_newCluster_grp;
+      if($ij>0)
+        {
+          if($ex_zu==1)
+            {
+              parent ($ming_newCluster_temp_con+"_C") $temp_zu_a;
+             }
+         }
      }
 
 int$size_lujing=size($lijings_cvs)-1;
@@ -2055,8 +2067,8 @@ for($i=0;$i<size($cvss);$i++)
             $expression_yuesu+=$yuesu_ss[0]+"."+$wave_loc_BBBB+"W0=$pinghua;\n";
             $expression_yuesu+=$yuesu_ss[0]+"."+$FK_loc+"W1=1-$pinghua;\n";
             }
-            
-            expression -s  $expression_yuesu  -n "bolang";
+            if($chuangjian_ex_biaodashi==1){ expression -s  $expression_yuesu  -n "bolang";}
+           
             
             
             string$expression_yuesu_suofang=""; 
@@ -2064,7 +2076,8 @@ for($i=0;$i<size($cvss);$i++)
             $expression_yuesu_suofang+="float$pinghua=1-smoothstep(0,1,$dis);\n";//linstep
             $expression_yuesu_suofang+=$Wave_ik_bn+".sy=1+$pinghua*("+$dingwi_kongzhiqi+".sy-1);\n";
             $expression_yuesu_suofang+=$Wave_ik_bn+".sz=1+$pinghua*("+$dingwi_kongzhiqi+".sx-1);\n";
-            expression -s  $expression_yuesu_suofang  -n "shoudongsuofang";
+            if($chuangjian_ex_biaodashi==1){ expression -s  $expression_yuesu_suofang  -n "shoudongsuofang";}
+           
             
             addAttr -ln "decrease_RG"  -at double   -dv 1 -k 1 $bn_con;
            if($i<10)
@@ -2216,8 +2229,12 @@ for($i=0;$i<size($cvss);$i++)
           }
 /////////////////////////////尾巴波浪绑定表达式//////////////////////   
   //print $biaodashi;
-  expression -s $biaodashi  -n"ikweiyi" ;
-  expression -s $biaodashi_Scale  -n"suofang" ;
+  if($chuangjian_ex_biaodashi==1)
+    {
+      expression -s $biaodashi  -n"ikweiyi" ;
+      expression -s $biaodashi_Scale  -n"suofang" ;
+     }
+ 
   
   
   
@@ -2367,8 +2384,8 @@ for($ii=($temop_int);$ii>0;$ii--)
     $biaoda+="if($min>0){$min=0;}\n";
     $biaoda+="if($max<0){$max=0;}\n";
     $biaoda+=$www+".rotateY=clamp($min,$max,Main.Curlytail*10-$fd);\n";
-   
-    expression -s  $biaoda -ae 1 -uc all -n "Curlytail";
+    if($chuangjian_ex_biaodashi==1){expression -s  $biaoda -ae 1 -uc all -n "Curlytail";}
+    
     }
     
     
@@ -2428,8 +2445,12 @@ string$iiik_bns[]=`ls -sl -type "joint"`;
          $biaodashi_b+="if($min>0){$min=0;}\n";
          $biaodashi_b+="if($max<0){$max=0;}\n";
          $biaodashi_b+=$bn_temp+".ry=clamp($min,$max,Main.bodyrange*10-$fd);\n";
-         expression -s $biaodashi_b -ae 1 -uc all -n "bodyrange";
+         if($chuangjian_ex_biaodashi==1)
+           {
+           expression -s $biaodashi_b -ae 1 -uc all -n "bodyrange";
 
+           }
+         
      }
      
      
@@ -2496,5 +2517,4 @@ global proc zxb_chuangjianqiuxingkongzhiqi(string  $cu_con,float $con_size)
    select -r $cu_con;
    
    }
-   
    
