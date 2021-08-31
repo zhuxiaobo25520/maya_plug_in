@@ -20,6 +20,7 @@ button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
 textFieldGrp  -cw2 100 130 -l "控制器大小" -tx "2" -ed 1  zxb_modee_daxiao;
 button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee_daxiao"+"\")") ;
 checkBox -l "表达式控制" -value 0 ex_vs_con;
+checkBox -l "IK混合关闭" -value 1 ikhunhe_con;
 setParent ..; 
 
 button -l "创建" -c "zxb_chibang_proc_maonang" ;
@@ -50,6 +51,7 @@ global proc zxb_chibang_proc_maonang()
       string $mode=`textFieldGrp -q -tx  zxb_modee `;//mode
       string $zxb_modee_daxiao=`textFieldGrp -q -tx  zxb_modee_daxiao `;//mode
       int$ex_panduan_a=`checkBox -q -value  ex_vs_con`;
+       int$ex_panduan_B=`checkBox -q -value  ikhunhe_con`;
       int$kongzhiqi_daxiao=$zxb_modee_daxiao;
       int$duanshu=$mode;
 select -r  $bns;     
@@ -74,10 +76,10 @@ if($ex==0)
  addAttr -ln "kaiguan"  -at bool  -k 1 $qvxian_FXB;
  setAttr ($qvxian_FXB+".kaiguan") 1;
  }
- }
- 
- 
- 
+ }else{$qvxian_FXB="HAIR_FX";}
+  string $bns_ziwuti[]=`listRelatives -c $bns[0]`;
+  float$changdu=zxb_banjing_shuzhi_x($bns[0],$bns_ziwuti[0]);
+ float$changdu_a=$changdu*0.5;
   ///////////////总组
  string$heir_heir_zongzu_grp="heir_zongzu_grp";
       int$ex=`objExists $heir_heir_zongzu_grp`;    ///判断
@@ -152,9 +154,18 @@ for($ii=0;$ii<size($bns);$ii++)
       setAttr  ($clusterss[1]+".visibility") 0;
      parent $clusterss[1]$cluste_grp;
      curve -d 1 -p 0.5 0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 -0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -p -0.5 0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 -0.5 -0.5 -p -0.5 -0.5 -0.5 -p -0.5 0.5 -0.5 -p -0.5 0.5 0.5 -p -0.5 -0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -n ($clusterss[1]+"con"+$jjj) ;
+     
+     string $shape[]=`listRelatives -s ($clusterss[1]+"con"+$jjj)`;
+    setAttr ($shape[0]+".overrideEnabled") 1;
+    setAttr ($shape[0]+".overrideColor") 12; 
+     select -r ($clusterss[1]+"con"+$jjj+".cv[0:99999999]" );
+     scale -r -p 0cm 0cm 0cm  $changdu_a  $changdu_a  $changdu_a ;
+     select -r ($clusterss[1]+"con"+$jjj);
      group -n ($clusterss[1]+"con"+$jjj+"grp_a");
      group -n ($clusterss[1]+"con"+$jjj+"grp_b");
      group -n ($clusterss[1]+"con"+$jjj+"grp_c");
+     
+     connectAttr -f($qvxian_FXB+".kaiguan") ($clusterss[1]+"con"+$jjj+"grp_c"+".visibility");
      
      delete`parentConstraint $clusterss[1]($clusterss[1]+"con"+$jjj+"grp_c")`; 
      parent  $clusterss[1]($clusterss[1]+"con"+$jjj);
@@ -168,6 +179,9 @@ for($ii=0;$ii<size($bns);$ii++)
     string $follicle_a_shape[]=`listRelatives -s $follicle_a`; 
        string $follicle_weiyi[]=`listRelatives -p $follicle_a_shape[0]`;  
        parent $follicle_weiyi[0] $heir_maonang_grp ;
+       
+setAttr ($follicle_weiyi[0]+".visibility") 0;
+setAttr -lock true ($follicle_weiyi[0]+".v");
  string $outCurve[]=`listConnections -d 1 -s 0 -p 1 ($follicle_a_shape[0]+".outCurve")`;//列出链接属性  -d输入   -s输出  -p 列出属性 
  string$donglixue=$outCurve[0];
  string $mingzis[];
@@ -177,6 +191,8 @@ for($ii=0;$ii<size($bns);$ii++)
  string $dong[]=`listRelatives -p $donglixuess`; 
  string $dong_weiyi[]=`listRelatives -p $dong[0]`;  
 parent  $dong_weiyi[0]  $heir_donglixueqvxian_grp ;
+setAttr ($dong_weiyi[0]+".visibility") 0;
+setAttr -lock true ($dong_weiyi[0]+".v");
  
  string $hairSystemShape[]=`listConnections -d 0 -s 1 -p 1 ($follicle_a_shape[0]+".currentPosition")`;//列出链接属性  -d输入   -s输出  -p 列出属性 
  string $mingzisA[];
@@ -185,6 +201,8 @@ parent  $dong_weiyi[0]  $heir_donglixueqvxian_grp ;
  string $hairSystem=$mingzisA[0];
   string $hairSystem_weiyi[]=`listRelatives -p $hairSystem`;  
 parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
+setAttr ($hairSystem_weiyi[0]+".visibility") 0;
+setAttr -lock true ($hairSystem_weiyi[0]+".v");
  string$kaishi=$cbns[0];
  int$jiaoboa=size($cbns)-1;
  string$jiesu=$cbns[$jiaoboa];
@@ -200,6 +218,11 @@ parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
  select -add $dong_weiyi[0] ;
  string$ikikHandle_aa[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
   parent $ikikHandle_aa[0] $heir_IKkonghziqbing_grp;
+   string $ikikHandle_aa_shape[]=`listRelatives -s $ikikHandle_aa[0]`;
+  if($ex_panduan_B==1){ connectAttr -f "HAIR_FX.kaiguan" ($ikikHandle_aa_shape[0]+".ikBlend");}
+  setAttr ($ikikHandle_aa[0]+".visibility") 0;
+setAttr -lock true ($ikikHandle_aa[0]+".v");
+
    string$kongzhiq="";
    string$kongzhiqizu="";
    for($jjj=0;$jjj<(size($cbns)-1);$jjj++)
@@ -207,11 +230,22 @@ parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
           
         string$joint=$cbns[$jjj];
         string$con=$joint+"_con_"+$jjj;
-        circle -c 0 0 0 -nr 1 0 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $con ;
+        circle -c 0 0 0 -nr 1 0 0 -sw 360 -r $changdu_a -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $con ;
+        string $shape[]=`listRelatives -s $con`;
+        setAttr ($shape[0]+".overrideEnabled") 1;
+        setAttr ($shape[0]+".overrideColor") 17; 
         group  -n ($con+"_grp_a");
         group -n ($con+"_grp_b");
         group  -n ($con+"_grp_c");
         group  -n ($con+"_grp_d");
+        string$fangxiang_temp=$joint+"_reverse";
+        int$ex_fanxiang=`objExists $fangxiang_temp`; 
+        if ($ex_fanxiang==0)
+           { 
+           shadingNode -asUtility reverse -n $fangxiang_temp ;
+           } //创建返向节点}
+        connectAttr -f ($qvxian_FXB+".kaiguan") ($fangxiang_temp+".inputX");
+        connectAttr -f ($fangxiang_temp+".outputX") ($con+"_grp_d"+".visibility");
         delete `parentConstraint $joint ($con+"_grp_d")`;
         parentConstraint $con $joint;
         $kongzhiq+=$con+" ";
@@ -264,6 +298,9 @@ string$temp_jiesu_a=$ik_jiesizan_bns[$zie_a];
 
  parent $ikikHandle[0]  $heir_IKkonghziqbing_grp;
 
+
+setAttr ($ikikHandle[0] +".visibility") 0;
+setAttr -lock true ($ikikHandle[0] +".v");
  
  
  
@@ -293,6 +330,9 @@ string$temp_jiesu_a=$ik_jiesizan_bns[$zie_a];
      group -n ($clusterss[1]+"con"+$jjj+"grp_a");
      group -n ($clusterss[1]+"con"+$jjj+"grp_b");
      group -n ($clusterss[1]+"con"+$jjj+"grp_c");
+     
+     connectAttr -f($qvxian_FXB+".kaiguan") ($clusterss[1]+"con"+$jjj+"grp_c"+".visibility");
+     
      $donglixuezu_temp+=($clusterss[1]+"con"+$jjj+"grp_b")+" ";
      delete`parentConstraint $clusterss[1]($clusterss[1]+"con"+$jjj+"grp_c")`; 
      parent  $clusterss[1]($clusterss[1]+"con"+$jjj);
@@ -306,7 +346,9 @@ string$temp_jiesu_a=$ik_jiesizan_bns[$zie_a];
  select -add $qvxian_IK_EX ;
  string$ikikHandle_aa[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
   parent $ikikHandle_aa[0] $heir_IKkonghziqbing_grp;
- 
+
+setAttr ($ikikHandle_aa[0]+".visibility") 0;
+setAttr -lock true ($ikikHandle_aa[0] +".v");
  string$aaabn=zxb_baocunguanjie_mingzi_proc($bn, 0);
    string $aaabns[]= stringToStringArray($aaabn, " ");
 for($iij=0;$iij<(size($ik_jiesizan_bns)-1);$iij++)
@@ -340,7 +382,7 @@ for($iij=0;$iij<(size($ik_jiesizan_bns)-1);$iij++)
    
 
       
-      
+setAttr "HAIR_FX.kaiguan" 0;     
 
 }
 
@@ -469,3 +511,19 @@ global proc zxb_ADD_shuxing_double_B_proc(string$kongzhiqi,string$shuxing,float$
  }
  
  }
+ 
+ //////////////////计算长度///////////////////////
+global proc float zxb_banjing_shuzhi_x(string$kaishi_temp,string$jiesu_temp)
+{
+string$temp_qvxian_a="temp_qvxian_a";
+string$qvxian_curveInfo="qvxian_curveInfo_temp";
+float $temp_Pos_a[]=`xform -q -ws -t $kaishi_temp`;
+float $temp_Pos_b[]=`xform -q -ws -t $jiesu_temp`;
+curve -d 1 -p $temp_Pos_a[0] $temp_Pos_a[1] $temp_Pos_a[2] -p $temp_Pos_b[0] $temp_Pos_b[1] $temp_Pos_b[2] -k 0 -k 1 -n $temp_qvxian_a;
+shadingNode -asUtility curveInfo -n $qvxian_curveInfo; //曲线信息
+string $curveShape_temp_a[]=`listRelatives -s $temp_qvxian_a`; 
+connectAttr -force  ($curveShape_temp_a[0]+".worldSpace[0]") ($qvxian_curveInfo+".inputCurve");
+float$chang_temp=`getAttr ($qvxian_curveInfo+".arcLength")`;
+delete  $temp_qvxian_a   $qvxian_curveInfo;
+return $chang_temp;
+}
