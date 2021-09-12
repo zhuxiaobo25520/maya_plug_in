@@ -1,5 +1,5 @@
-//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12           13             14            15         16          17                18            19        20          21       22             23                24           25                26                 27          28
-global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_upjaw","UI_dwjaw","UI_pomum","UI_Jawknot","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire","UI_eye_L_wire","UI_eye_L_lash","UI_all_dead_vertex"};
+//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12                  13             14            15         16          17                18            19        20          21       22             23                24           25                26                 27          28                    29                 30
+global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_oral_inside_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_upjaw","UI_dwjaw","UI_pomum","UI_Jawknot","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire","UI_eye_L_wire","UI_eye_L_lash","UI_all_dead_vertex","UI_cheek_face"};
 
 global proc zxb_fase_window_proc(){
 
@@ -34,10 +34,10 @@ checkBox -l "对称角色" -value 1 duicheng;
 text -l "  "   ;
 text -l "  "   ;*/
 global string$UI_array[];
-///                  1           2        3            4       5            6          7         8            9          10         11    12    13     14     15      16     17    18       19       20   21     22       23       24         25          26        27          28                                 
-string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴","上颌骨","下颌骨","喉结","颌结","L眼球模型","R眼球模型","眼眶线R","眼眶线L","睫毛泪腺模型","头部所有顶点"};
-          //     1   2   3   4   5   6   7   8   9   10 11  12  13  14  15  16  17  18  19  20   21  22 23   24  25  26  27   28                                                  
-string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","0","0","0","0","0","0","0","0","0","0","0","0","1","1","1","1","1"};
+///                  1           2        3            4       5            6          7         8            9          10         11       12     13     14     15      16     17    18       19       20   21     22       23       24         25          26        27          28           29    30                  
+string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","口腔内环线","鼻子","鼻头","鼻底","鼻翼R","脸颊R","颧骨R","下巴","上颌骨","下颌骨","喉结","颌结","L眼球模型","R眼球模型","眼眶线R","眼眶线L","睫毛泪腺模型","头部所有顶点","脸颊面"};
+          //     1   2   3   4   5   6   7   8   9   10 11  12  13  14  15  16  17  18  19  20   21  22 23   24  25  26  27   28 29  30                                               
+string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","1","0","0","0","0","0","0","0","0","0","0","0","0","1","1","1","1","1","1"};
 int$ui_size=size($UI_array);
 int$uiname_size=size($UI_name);
 if($ui_size!=$uiname_size){error ("UI数组不一致\n");}
