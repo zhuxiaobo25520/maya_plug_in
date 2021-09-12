@@ -1306,6 +1306,8 @@ global proc zxb_xiababangding_proc()
   group -n $qvxian_grpB;
   group -n $qvxian_grpC;
   delete `pointConstraint $jaw_end $qvxian_grpC`;
+ 
+  
   float$tx=`getAttr  ($jaw_end+".tx")`;
   select -r ($bn_con+".cv[0:9999]") ;
   //move -r -os -wd ($tx*0.3) 0 0 ;
@@ -1392,6 +1394,8 @@ global proc zxb_xiababangding_proc()
  delete`pointConstraint  $zuiba_zhengti $zhengti_grp  `;
  parent $zhengti_grp $grp;
  parent $zuiba_zhengti $zhengti_grp;
+scaleConstraint -mo   -skip x -skip y -weight 1   $bn_con  $zuiba_zhengti;
+ 
  setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ($bn_con+".ty") ($zuiba_zhengti+".ty");  
  setDrivenKeyframe -itt "linear" -ott "spline" -v -1 -dv -1 -cd ($bn_con+".ty") ($zuiba_zhengti+".ty"); 
  setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ($bn_con+".ty") ($zuiba_zhengti+".ty"); 
@@ -10484,7 +10488,7 @@ string$nurbsToSubd_mode[]=`subdToPoly -ch off -aut on -format 1 -depth 0 -sample
 delete  $nurbsToSubd_shape[0];
 select -r$qvmian;
 parent  $qvmian"jaw_curve_grp";
-//delete $qvmian;
+delete $qvmian;
 //parent
 
 parent $nurbsToSubd_mode[0] "jaw_curve_grp";
@@ -11169,6 +11173,7 @@ zxb_bolangzui_proc($qvxianDss);//跟随曲线创建波浪嘴巴
 
 
 
+
 /////////////////////拉链嘴巴权重计算
 global proc zxb_fase_wire_proc()
 {
@@ -11205,7 +11210,11 @@ global proc zxb_fase_wire_proc()
   
    zxb_vex_xuan($modces,$all_exvs);
   string$all_exvss[]= `ls -sl -fl`;
- 
+  
+  select -r "lip_mode_plane_nei.vtx[0:9999999999999999999]" ;
+ string$all_exv_nei_xuanran[]= `ls -sl -fl`;
+ string$all_exv_neiss= zxb_vex_xuan($modces,$all_exv_nei_xuanran);
+ string$all_exv_neis[]=`ls -sl -fl`;
   for ($i=0;$i<size($wirs);$i++)
       {
           string$wir=$wirs[$i];
@@ -11227,13 +11236,94 @@ global proc zxb_fase_wire_proc()
               {
                artAttrCtx -e -clear `currentCtx`;
                }
+               
+               
+           string$outer_wire=`textFieldGrp -q -tx UI_mouth_outer_wire `;
+           string$outer_wires[]=stringToStringArray($outer_wire," ");
+           select -r$outer_wires;
+           ConvertSelectionToVertices;
+            string$all_zhongjian[]= `ls -sl -fl`;
+           
+           string$outer_wiress=zxb_mode_huanxian($all_zhongjian,$modces);
+           string$outer_wires_temp[]=stringToStringArray($outer_wiress," ");
+           string$rl_s=zxb_vex_RL_PROC($outer_wires_temp);
+           string$rl_ss[]=stringToStringArray($rl_s," ");
+           //select -r$rl_ss;
+           
           select -cl  ;
+          select -r $all_exvss;
+          if($i==0){select -d $mode_all_up_cvs;}else{select -d $mode_all_dw_cvs;}
+          string$temp_vex_updw[]=`ls -sl -fl`;
+          select -cl  ;
+          global string $gSelect;
+          global string $gMainProgressBar;
+          setToolTo $gSelect;
+          progressBar -e -st ("查找蔟权重...") -bp -ii 1 -min 0 -max `size($temp_vex_updw)` $gMainProgressBar;//开始
+          for ($ii=0;$ii<size($temp_vex_updw);$ii++)
+               {
+                    if(`progressBar -q -ic $gMainProgressBar`)   //循环内
+                    break;
+                     progressBar -e -s 1 $gMainProgressBar;  
+                 string$vex_temp=$temp_vex_updw[$ii];
+                 float$zhia[]=`percent -q -v $wir $vex_temp `;
+                 if($zhia[0]<0.8&&$zhia[0]>0.01){select -add $vex_temp;}
+                 //help percent
+               }
+           progressBar -e -ep $gMainProgressBar;  //结束
+           
+         string$temp_vex_updw_A[]=`ls -sl -fl`; 
+         select -cl  ;
+         for ($ii=0;$ii<size($temp_vex_updw_A);$ii++)
+             {
+               string$vex_temp=$temp_vex_updw_A[$ii];
+               float $temp_pos_a[]=`xform -q -ws -t $vex_temp`;//////查询位置
+               float $temp_pos_b[];
+               if($i==0)
+                 {   
+                 $temp_pos_b =`xform -q -ws -t $rl_ss[0]`;
+                 if( $temp_pos_a[1]>$temp_pos_b[1])
+                   {
+                       select -add $vex_temp;
+                    }
+                 }else
+                     {
+                         $temp_pos_b =`xform -q -ws -t $rl_ss[1]`;
+                          if( $temp_pos_a[1]<$temp_pos_b[1])
+                            {
+                            select -add $vex_temp;
+                              }
+                      }
+               
+               
+                
+              }
+        select -d $mode_all_up_cvs $mode_all_dw_cvs  $all_exv_neis;
+       // select -r  $all_exv_neis;
+        artSetToolAndSelectAttr( "artAttrCtx", "wire."+$wir+".weights" );
+        artAttrCtx -e -value 0.9 `currentCtx`;
+        artAttrPaintOperation artAttrCtx Replace;
+        artAttrCtx -e -clear `currentCtx`;
+        artAttrPaintOperation artAttrCtx Smooth;
+        for ($j=0;$j<10;$j++)
+            {
+             artAttrCtx -e -clear `currentCtx`;
+             }
+             
+         select -r $all_exvss;  
+         
+        artSetToolAndSelectAttr( "artAttrCtx", "wire."+$wir+".weights" );
+        artAttrPaintOperation artAttrCtx Smooth;
+        for ($j=0;$j<10;$j++)
+            {
+             artAttrCtx -e -clear `currentCtx`;
+             }  
+         
       }
 
 
 
-
 }
+
 
   
   ///////////////////////区分嘴巴上下模型//////////////////////////////
@@ -11660,19 +11750,35 @@ global proc zxb_zxb_all_faceFrame_proc()
            setDrivenKeyframe -itt "linear" -ott "spline" -dv-1  -v 20 -cd "ctrlMouth_M.translateY" ($fujiedians[0]+".rotateZ"); //设置驱动张嘴
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.translateY" ($zhengticon+".translateY");  
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd "ctrlMouth_M.translateY" ($zhengticon+".translateY"); //设置驱动嘴巴向上顶
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 1  -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 0.5 -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ"); //设置驱动张嘴
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 1  -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1.2 -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ"); //设置驱动张嘴
+           zxb_ADD_shuxing_double_B_proc("ctrlMouth_M","Face_open_reverse",0,10) ;
+           zxb_ADD_shuxing_double_B_proc("ctrlMouth_M","lalian_L",0,10) ;
+           zxb_ADD_shuxing_double_B_proc("ctrlMouth_M","lalian_R",0,10) ;
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.Face_open_reverse" ($jaw_controller+".Face_open_reverse");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv  10  -v 10 -cd "ctrlMouth_M.Face_open_reverse" ($jaw_controller+".Face_open_reverse"); //设置驱动张嘴
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.lalian_L" ($jaw_controller+".lalian_L");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv  10  -v 10 -cd "ctrlMouth_M.lalian_L" ($jaw_controller+".lalian_L"); //设置驱动张嘴
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.lalian_R" ($jaw_controller+".lalian_R");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv  10  -v 10 -cd "ctrlMouth_M.lalian_R" ($jaw_controller+".lalian_R"); //设置驱动张嘴
+           
+           
+           
+           
           
          }
           if($Corner=="ctrlMouth_MM")
             {
               setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ($Corner+".translateY") ($zhengticon+".translateY");  
               setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd   ($Corner+".translateY") ($zhengticon+".translateY"); //设置驱动嘴巴向上顶
-              
               setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ($Corner+".translateY") ($zhengticon+".translateY");  
               setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd ($Corner+".translateY")($zhengticon+".translateY"); //设置驱动嘴巴向上顶
-              
                setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ($Corner+".translateX") ($zhengticon+".translateX");  
               setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd   ($Corner+".translateX") ($zhengticon+".translateX"); //设置驱动嘴巴向上顶
-              
               setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ($Corner+".translateX") ($zhengticon+".translateX");  
               setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd ($Corner+".translateX")($zhengticon+".translateX"); //设置驱动嘴巴向上顶
              }
