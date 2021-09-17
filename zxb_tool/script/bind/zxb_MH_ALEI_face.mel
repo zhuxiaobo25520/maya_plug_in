@@ -16,8 +16,8 @@ textFieldGrp  -cw2 100 130 -l "载入前缀" -tx "前缀" -ed 1  zxb_qianzui;
 //button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
 
 text -l " "  ;
-string$UI_bs_string_array[]={"悲伤","愤怒","坏笑","惊喜","纠结","微笑","严肃"};
-string$UI_bs_name_string_array[]={"sadness","rage","snicker","surprise","Tangle","smile","serious"};
+string$UI_bs_string_array[]={"微笑","惊喜","惊讶","害羞","生气","严肃","委屈","哭泣","藐视"};
+string$UI_bs_name_string_array[]={"smile","surprise","amazed","shy","Angry","serious","aggrieved","weep","despise"};
 
 for ($i=0;$i<size($UI_bs_string_array);$i++)
     {
@@ -53,7 +53,7 @@ showWindow zxb__A_Lei_BSWin_columnLayout;
 global proc zxb_Alei_bs_chuangjian_proc_maonang()
 {
  string$UI_bs_modeui_string_array[]={"face","upper","lower","tooth","eyeball_L","eyeball_R","eyelash","police","eyemask","else"};
- string$UI_bs_name_string_array[]={"sadness","rage","snicker","surprise","Tangle","smile","serious"};
+ string$UI_bs_name_string_array[]={"smile","surprise","amazed","shy","Angry","serious","aggrieved","weep","despise"};
 //string$bs_sss[]= stringToStringArray($UI_bs_name_string_array, " ");//关节
 
  string$modessss="";
@@ -823,4 +823,3 @@ setAttr ($childs[$j]+".overrideColor") 22;
 
       
 }
-
