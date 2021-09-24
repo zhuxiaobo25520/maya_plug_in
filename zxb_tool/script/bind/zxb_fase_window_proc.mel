@@ -1,5 +1,5 @@
-//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12                  13             14            15              16          17         18           19        20          21       22             23                24           25                26                 27          28                    29                 30      31
-global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_oral_inside_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_smile","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_upjaw","UI_dwjaw","UI_pomum","UI_Jawknot","UI_eye_L_mode","UI_eye_R_mode","UI_eye_R_wire","UI_eye_L_wire","UI_eye_L_lash","UI_all_dead_vertex","UI_cheek_face"};
+//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12                  13             14            15              16          17         18           19        20          21       22             23                24           25                26                 27          28                    29                     30               31                   32               33                      34
+global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_oral_inside_wire","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_smile","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_upjaw","UI_dwjaw","UI_pomum","UI_Jawknot","UI_eye_L_mode","UI_eye_R_mode","UI_eye_outer_wire","UI_eye_middle_wire","UI_eye_inside_wire","UI_eye_boundary_R","UI_eye_boundary_L","UI_eye_L_lash","UI_all_dead_vertex","UI_cheek_face"};
 
 global proc zxb_fase_window_proc(){
 
@@ -34,10 +34,10 @@ checkBox -l "对称角色" -value 1 duicheng;
 text -l "  "   ;
 text -l "  "   ;*/
 global string$UI_array[];
-///                  1           2        3            4       5            6          7         8            9          10         11       12     13     14     15      16     17    18       19       20   21     22       23       24         25          26        27          28           29    30    31              
-string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","口腔内环线","鼻子","鼻头","鼻底","鼻翼R","微笑","脸颊R","颧骨R","下巴","上颌骨","下颌骨","喉结","颌结","L眼球模型","R眼球模型","眼眶线R","眼眶线L","睫毛泪腺模型","头部所有顶点","脸颊面"};
-          //     1   2   3   4   5   6   7   8   9   10 11  12  13  14  15  16  17  18  19  20   21  22 23   24  25  26  27   28 29  30   31                                            
-string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","1","0","0","0","0","1","0","0","0","0","0","0","0","0","1","1","1","1","1","1"};
+///                  1           2        3            4       5            6          7         8            9          10         11       12     13       14   15     16     17     18     19      20     21       22   23      24       25         26        27       28          29          30            31            32              33         34
+string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","口腔内环线","鼻子","鼻头","鼻底","鼻翼R","微笑","脸颊R","颧骨R","下巴","上颌骨","下颌骨","喉结","颌结","L眼球模型","R眼球模型","眼眶线外","眼眶线中间","眼眶线内","眼眶上下分界线R","眼眶上下分界线L","睫毛泪腺模型","头部所有顶点","脸颊面"};
+          //     1   2   3   4   5   6   7   8   9   10 11  12  13  14  15  16  17  18  19  20   21  22 23   24  25  26  27  28  29  30  31  32  33 34                                       
+string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","1","0","0","0","0","1","0","0","0","0","0","0","0","0","1","1","1","1","1","1","1","1","1" };
 int$ui_size=size($UI_array);
 int$uiname_size=size($UI_name);
 if($ui_size!=$uiname_size){error ("UI数组不一致\n");}
@@ -69,10 +69,10 @@ separator;
 rowColumnLayout -nc 1 -cw 1 250 -cw 2 250 ;
 
 string$UI_establish[]={"zuibazhengti_button","zuibazhengti_button_delete","hedebs_button","headhunhebianxing_button","headhunhebianxing_edit_button","headhunhebianxing_add_button","hedemianbankuan_button","hedemianbankuan_delete_button","hedemianbankuan_wancheng_button","hedemianbankuan_bianji_button","hedemianbankuan_Add_button","hedemianbankuan_Add_delete_button","hede_open_reverse_button","lip_BN_button","lip_controller_button","lip_Curve_button","lip_bs_button","UI_face_Cluster_button","eye_button","eyelid_button","eye_secondary_button","UI_lip_zuibalalian","UI_lip_zuiba_boliang","UI_fuzhao_eye_pde_ciji","UI_qvxiangensui_mode","UI_serve_button"};
-                         //          1     2  计算嘴巴权重   3 创建嘴巴拉链绑定   4 创建拉链线包裹 5  创建嘴巴次级控制器            6添加混合变形           7          8 删除表情面板            9                10               11                  12删除表情控制控框制器               13链接嘴巴混合变形                   14            15              16             17                 18              19             20            21              22             23          24               25                  26                                       
-string$UI_establish_name[]={"创建嘴巴整体绑定","计算嘴巴权重 ","创建嘴巴拉链绑定 ","创建拉链线包裹","创建嘴巴次级控制器","创建面板","创建表情面板","                    ","完成表情面板框","编辑表情面板框","添加表情控制控框制器","                                  ",""                          ,"创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","创建眼皮次级绑定","            ","创建嘴巴波浪","眼睛次模型级自动附着","碰撞曲线跟随模型","保存UI上的名称"};
-//                                   1                       2                                  3                    4                        5                        6         7                    8                   9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21                                      22            23       24                  25
-string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_jaw_jisuanquanzhong","zxb_zuibalalian_all_proc","zxb_lalianbaoguo_A_poc","zxb_button_lipjoint_proc","zxb_zxb_all_faceFrame_proc","zxb_head_biankuang","zxb_head_chongxing","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","                     ","","zxb_fuzhao_mode_proc","zxb_mesh_nurbsSurface_to_obj_proc","zxb_UI_mingzi_serve"};
+                         //          1     2  计算嘴巴权重   3 创建嘴巴拉链绑定   4 创建拉链线包裹 5创建嘴巴次级控制器6创建表情面板   7创建面部次级控制器          8 删除表情面板            9                10               11                  12删除表情控制控框制器               13链接嘴巴混合变形                   14            15              16             17                 18              19             20            21              22             23          24               25                  26                                       
+string$UI_establish_name[]={"1创建嘴巴整体绑定","2计算嘴巴权重 ","3创建嘴巴拉链绑定 ","4创建拉链线包裹","5创建嘴巴次级控制器","6创建面板","7创建面部次级控制器","8创建眼睛控制器","完成表情面板框","编辑表情面板框","添加表情控制控框制器","                                  ",""                          ,"创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","创建眼皮次级绑定","            ","创建嘴巴波浪","眼睛次模型级自动附着","碰撞曲线跟随模型","保存UI上的名称"};
+//                                   1                       2                                  3                    4                        5                        6                            7                            8                   9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21                                      22            23       24                  25
+string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_jaw_jisuanquanzhong","zxb_zuibalalian_all_proc","zxb_lalianbaoguo_A_poc","zxb_button_lipjoint_proc","zxb_zxb_all_faceFrame_proc","zxb_face_to_Cluster_proc","zxb_eye_con_bn_proc","zxb_mianbanwancheng_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","                     ","","zxb_fuzhao_mode_proc","zxb_mesh_nurbsSurface_to_obj_proc","zxb_UI_mingzi_serve"};
 int$ui_establish_size=size($UI_establish);
 int$uiname_establish_size=size($UI_establish_name);
 int$UI_establish_proc_size=size($UI_establish_proc);
@@ -1687,225 +1687,6 @@ return $return;
 }
 
 
-
-/////////////////////创建面板/
-global proc zxb_head_biankuang(){
-$teststring=`textFieldGrp -q -tx UI_head_mode `;
-$con=`textFieldGrp -q -tx UI_head_controller `;
-
-int$ex=`objExists $teststring`; 
-if($ex==0){ error  "头部模型没有载入" ;}
-
-int$ex=`objExists $con`; 
-if($ex==0){ error  "头部控制器没有载入" ;}
-
-string $mode_sheps[]=`listRelatives -s $teststring`;
-int$ex=`objExists ($mode_sheps[0]+".outMesh")`; 
-if($ex==0){ error  "载入的头部物体不是多边形网格" ;}
-$gtCN=$teststring;
-zxb_zairufangfa_D_proc("hedemianbankuan_button");
-string $gtCname;
-$gtCname=$gtCN+"_";
-string$head=$gtCname;
-string$qvxian= ($gtCname+"faceFrame");
-int $state=`objExists  ($gtCname+"faceFrame")`;
-
-if($state==1) error "当前名字已被使用，请用其它名字!!!";
-
-curve -d 3 -p -6 -6 0 -p 6 -6 0 -p 6 -6 0 -p 6 -6 0 -p 6 6 0 -p 6 6 0 -p 6 6 0 -p -6 6 0 -p -6 6 0 
--p -6 6 0 -p -6 -6 0 -k 0 -k 0 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 8 -k 8  -n ($gtCname+"faceFrame");
-setAttr ($gtCname+"faceFrame.scaleX") 0.5;
-select -r ($gtCname+"faceFrame");
-channelBoxCommand -freezeScale;
-select -r ($gtCname+"faceFrame");
-duplicate -rr -n ($gtCname+"faceFrame1");
-scale 0.975 0.975 0.975;
-makeIdentity -apply true -t 0 -r 1 -s 1 -n 0;
-
-pickWalk -d down;
-select -add ($gtCname+"faceFrame");
-parent -s -r;
-delete ($gtCname+"faceFrame1");
-
-select -r ($gtCname+"faceFrame");
-addAttr -ln "FrameHnum"  -at long;
-
-float$obx_Max[]=`getAttr ($con+".boundingBoxMax")`;////绑定box节点
-float$soce=$obx_Max[0]*0.1;
-
-//setAttr -type float3  ($qvxian+".t") $obx_Max[0] $obx_Max[1] $obx_Max[2];
-string$kongzu=$qvxian+"_grp";
-zxb_ADD_kongzuA_proc( $kongzu,$qvxian);
-setAttr ($kongzu+".scale") $soce $soce $soce;
-
-delete`pointConstraint $con $kongzu`;//点约束
-setAttr ($kongzu+".translateX") $obx_Max[0] ;
-setAttr ($kongzu+".translateZ") $obx_Max[2] ;
-
-string$miaban="head_mianabn";
-zxb_ADD_shuxing_string_proc($con,$miaban);
-setAttr -type "string"($con+"."+$miaban) $kongzu;
-
-parent  $kongzu ("head_curve_Group");
-
-string$Mouth_MM="Mouth_MM";
-string$Mouth_M="Mouth_M";
-string$Mouth_L="Mouth_L";
-string$Mouth_R="Mouth_R";
-string$Cheek_L="Cheek_L";
-string$Cheek_R="Cheek_R";
-string$Nose_L="Nose_L";
-string$Nose_R="Nose_R";
-string$Eye_L="Eye_L";
-string$Eye_R="Eye_R";
-string$Brow_L="Brow_L";
-string$Brow_R="Brow_R";
-
-
-
-
-string$mouth_MM="mouth_MM";
-string$mouth_M="mouth_M";
-string$mouth_L="mouth_L";
-string$mouth_R="mouth_R";
-string$nose_L="nose_L";
-string$nose_R="nose_R";
-string$cheek_L="cheek_L";
-string$cheek_R="cheek_R";
-string$eye_L="eye_L";
-string$eye_R="eye_R";
-string$brow_L="brow_L";
-string$brow_R="brow_R";
-
-
-
-string$mianban_mouth_MM=$head+$mouth_MM;
-string$mianban_mouth_M=$head+$mouth_M;
-string$mianban_mouth_R=$head+$mouth_R;
-string$mianban_mouth_L=$head+$mouth_L;
-string$mianban_cheek_L=$head+$cheek_L;
-string$mianban_cheek_R=$head+$cheek_R;
-string$mianban_eye_L=$head+$eye_L;
-string$mianban_eye_R=$head+$eye_R;
-string$mianban_eye_LUp=$head+$eye_L+"Up";
-string$mianban_eye_LDown=$head+$eye_L+"Down";
-string$mianban_eye_RUp=$head+$eye_R+"Up";
-string$mianban_eye_RDown=$head+$eye_R+"Down";
-string$mianban_brow_L=$head+$brow_L;
-string$mianban_brow_R=$head+$brow_R;
-
-string$mianban_nose_L=$head+$nose_L;
-string$mianban_nose_R=$head+$nose_R;
-string$shuzu="";
-$shuzu+=$mianban_mouth_MM+" "+$mianban_mouth_M+" "+$mianban_mouth_R+" "+$mianban_mouth_L+" "+$mianban_nose_L+" "+$mianban_nose_R+" "+$mianban_cheek_L+" "+$mianban_cheek_R+" "+$mianban_eye_L+" "+$mianban_eye_R+" "+$mianban_brow_L+" "+$mianban_brow_R+" "+$mianban_eye_LUp+" "+$mianban_eye_LDown+" "+$mianban_eye_RUp+" "+$mianban_eye_RDown+" ";
-string$allcon="Head_allcon";
-zxb_ADD_shuxing_string_proc($con,$allcon);
-setAttr -type "string" ($con+"."+$allcon) $shuzu;
-
-string$mianban_Mouth_MM=$head+$Mouth_MM;
-zxb_chuangjananniu_proc(1,$mouth_MM,0,$Mouth_MM);
-setAttr -type float3($mianban_Mouth_MM+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Mouth_MM+".translateY") -3;
-setAttr ($mianban_Mouth_MM+".translateX") -1.5;
-
-string$mianban_Mouth_M=$head+$Mouth_M;
-zxb_chuangjananniu_proc(1,$mouth_M,0,$Mouth_M);
-setAttr -type float3($mianban_Mouth_M+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Mouth_M+".translateY") -3;
-setAttr ($mianban_Mouth_M+".translateX") 1.5;
-
-
-string$mianban_Mouth_R=$head+$Mouth_R;
-zxb_chuangjananniu_proc(1,$mouth_R,0,$Mouth_R);
-setAttr -type float3($mianban_Mouth_R+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Mouth_R+".translateY") -5;
-setAttr ($mianban_Mouth_R+".translateX") -1.5;
-
-string$mianban_Mouth_L=$head+$Mouth_L;
-zxb_chuangjananniu_proc(1,$mouth_L,0,$Mouth_L);
-setAttr -type float3($mianban_Mouth_L+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Mouth_L+".translateY") -5;
-setAttr ($mianban_Mouth_L+".translateX") 1.5;
-
-
-
-string$mianban_Nose_L=$head+$Nose_L;
-zxb_chuangjananniu_proc(1,$nose_L,0,$Nose_L);
-setAttr -type float3($mianban_Nose_L+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Nose_L+".translateX") -1.5;
-setAttr ($mianban_Nose_L+".translateY") -1;
-
-
-string$mianban_Nose_R=$head+$Nose_R;
-zxb_chuangjananniu_proc(1,$nose_R,0,$Nose_R);
-setAttr -type float3($mianban_Nose_R+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Nose_R+".translateX") 1.5;
-setAttr ($mianban_Nose_R+".translateY") -1;
-
-
-string$mianban_Cheek_L=$head+$Cheek_L;
-zxb_chuangjananniu_proc(1,$cheek_L,0,$Cheek_L);
-setAttr -type float3($mianban_Cheek_L+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Cheek_L+".translateY") 1;
-setAttr ($mianban_Cheek_L+".translateX") 1.5;
-
-string$mianban_Cheek_R=$head+$Cheek_R;
-zxb_chuangjananniu_proc(1,$cheek_R,0,$Cheek_R);
-setAttr -type float3($mianban_Cheek_R+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Cheek_R+".translateX") -1.5;
-setAttr ($mianban_Cheek_R+".translateY") 1;
-
-string$mianban_Eye_L=$head+$Eye_L;
-zxb_chuangjananniu_proc(4,$eye_L,0,$Eye_L);
-setAttr -type float3($mianban_Eye_L+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Eye_L+".translateY") 3;
-setAttr ($mianban_Eye_L+".translateX") -1.5;
-
-
-string$mianban_Eye_R=$head+$Eye_R;
-zxb_chuangjananniu_proc(4,$eye_R,0,$Eye_R);
-setAttr -type float3($mianban_Eye_R+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Eye_R+".translateY") 3;
-setAttr ($mianban_Eye_R+".translateX") 1.5;
-
-
-string$mianban_Brow_L=$head+$Brow_L;
-zxb_chuangjananniu_proc(1,$brow_L,0,$Brow_L);
-setAttr -type float3($mianban_Brow_L+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Brow_L+".translateY") 5;
-setAttr ($mianban_Brow_L+".translateX")1.5;
-
-
-string$mianban_Brow_R=$head+$Brow_R;
-zxb_chuangjananniu_proc(1,$brow_R,0,$Brow_R);
-setAttr -type float3($mianban_Brow_R+".scale") 0.5 0.5 0.5;
-setAttr ($mianban_Brow_R+".translateY") 5;
-setAttr ($mianban_Brow_R+".translateX") -1.5;
-
-
-
-zxb_zairufangfa_vsanniu_proc("hedemianbankuan_delete_button");
-zxb_zairufangfa_vsanniu_proc("hedemianbankuan_wancheng_button");
-zxb_zairufangfa_vsanniu_proc("hedemianbankuan_bianji_button");
-zxb_zairufangfa_vsanniu_proc("hedemianbankuan_Add_button");
-zxb_zairufangfa_vsanniu_proc("hedemianbankuan_Add_delete_button");
-
-}
-///////////删除面板/////////////
-
-global proc zxb_head_chongxing()
-{
-  string $head_qvxian=`textFieldGrp -q -tx UI_head_controller `;
-  zxb_zairufangfa_vsanniu_proc("hedemianbankuan_button");
-  string$mianban=`getAttr ($head_qvxian+".head_mianabn")`;
-  delete $mianban;
-  zxb_zairufangfa_vsanniu_proc("hedemianbankuan_button");
-  zxb_zairufangfa_vsanniu_on_proc("hedemianbankuan_delete_button");
-  zxb_zairufangfa_vsanniu_on_proc("hedemianbankuan_wancheng_button");
-  zxb_zairufangfa_vsanniu_on_proc("hedemianbankuan_bianji_button");
-  zxb_zairufangfa_vsanniu_on_proc("hedemianbankuan_Add_button");
-  zxb_zairufangfa_vsanniu_on_proc("hedemianbankuan_Add_delete_button");
-}
 
 
 
@@ -4672,733 +4453,8 @@ connectAttr -f  ($chengchu_B+".output") ($bn+".r")  ;
 
 
 
-////////////////////////////////////////////创建眼睛控制器//////////////////////////////////////////
-global proc zxb_chuangjianyanjingguyanjie_fangfa_proc()
-{
- string $xiaba_bn=`textFieldGrp -q -tx  UI_zxb_eye`;
- string $toubukongzhiqi=`textFieldGrp -q -tx UI_head_controller `;
- string $toubuguanjie=`textFieldGrp -q -tx UI_head_bn `;
- //string $zongkongzhiqi=`textFieldGrp -q -tx  zxb_zairuzongkongzhiqi`;
-
- int$xingwei=`checkBox -q  -value  xingwei`;
-  int$duicheng_bn=`checkBox -q  -value   duicheng`;
-
-  string$bns[];
-  clear $bns;
-  int $nemt=`tokenize $xiaba_bn" " $bns`;//分离字符串存到变量
-  string$bn=$bns[0];
-  string$bn_p[]=`listRelatives -p $bn`;
-  int$panduan_A=`objExists $bn_p[0]`;
-  if($panduan_A==1)
-  {  
-  select -r $bn;
-  parent -w;
-  }
 
 
-  string$bn_end[]=`listRelatives -c $bn`;
-   //float$temp_poss=1.1072335187;
-
- //  float$temp_poss_Aa[]=`getAttr  ($bn_end[0]+".translateX")`;
- float$temp_poss_A=`getAttr  ($bn_end[0]+".translateX")`;
- float$temp_poss=$temp_poss_A*3;
-  //float$temp_poss=$temp_poss_Aa[0]*3;
-  float$bn_pos[]=`xform -q -ws -t $bn`;
-  string$LLRR="";
-  string$jingxiang="";
-  string$array[];
-  clear $array;
-  if($bn_pos[0]>0.001)
-    {
-     $LLRR="L";  
-     $jingxiang="R";
-     $array= stringToStringArray($bn, $LLRR);//字符串转化数组
-     int$size=size($array);
-
-
-      if($size<1){error "关节利面没有镜像名称";}
-    select -r  $bn;
-    if($duicheng_bn==1){
-         if($xingwei==0)
-         {
-         mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $LLRR $jingxiang;
-          }else
-              {
-                mirrorJoint -mirrorYZ -searchReplace $LLRR $jingxiang;
-              }
-    
-         }
-    }
-    if($bn_pos[0]<0.001)
-   {
-     $LLRR="R";  
-     $jingxiang="L";
-     $array= stringToStringArray($bn, $LLRR);//字符串转化数组
-     int$size=size($array);
-     if($size<=1){error "关节利面没有镜像名称";}
-      select -r  $bn;
-    if($duicheng_bn==1)
-      {
-       if($xingwei==0)
-          {
-           mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $LLRR $jingxiang;
-          }else
-              {
-                mirrorJoint -mirrorYZ -searchReplace $LLRR $jingxiang;
-                }
-       }
-     }
-    string$temp_bn=($array[0]+$jingxiang+$array[1]);
-    select -r $bn; 
-    if($duicheng_bn==1){select -add $temp_bn; }
-   
-   string$alleyebns[]=`ls -sl`;  
-   string$kongzhiqi_D=($bn+"_eye_kongzhiqi_D");
-   string$kongzhiqi_D_GRP_A=($bn+"_eye_kongzhiqi_D_grp_A");
-   string$kongzhiqi_D_GRP_B=($bn+"_eye_kongzhiqi_D_grp_B");
-   string$kongzhiqi_D_GRP_C=($bn+"_eye_kongzhiqi_D_grp_C"); 
-   
-   
-   string$loc=$bn+"dingwei_loc";
-   string$loc_grp_A=$bn+"dingwei_loc_grp_A";
-   spaceLocator -p 0 0 0 -n $loc ;
-   group -n $loc_grp_A;
-   parent  $loc_grp_A $toubuguanjie;
-   setAttr -type float3 ($loc_grp_A+".translate") 0 0 0;
-   setAttr -type float3  ($loc_grp_A+".rotate") 0 0 0 ;
-
-   delete`orientConstraint $bn $loc_grp_A` ;
-   setAttr ($loc_grp_A+".visibility") 0;
-   setAttr -lock true ($loc_grp_A+".v");
-   string$kongzhiqi="";
-   for ($i=0;$i<size($alleyebns);$i++)
-       {
-       string$temp_BN=$alleyebns[$i];
-       string$BN=$temp_BN+"_zhengti";
-       string$en_BN=$BN+"end";
-       string$kongzhiqi_A=($temp_BN+"_eye_kongzhiqi_A");
-       string$kongzhiqi_A_GRP_A=($temp_BN+"_eye_kongzhiqi_A_GRP_A");
-       string$kongzhiqi_A_GRP_B=($temp_BN+"_eye_kongzhiqi_A_GRP_B");
-       string$kongzhiqi_A_GRP_C=($temp_BN+"_eye_kongzhiqi_A_GRP_C");
-       
-       string$kongzhiqi_B=($temp_BN+"_eye_kongzhiqi_B");
-       string$kongzhiqi_B_GRP_A=($temp_BN+"_eye_kongzhiqi_B_grp_A");
-       string$kongzhiqi_B_GRP_B=($temp_BN+"_eye_kongzhiqi_B_grp_B");
-       string$kongzhiqi_B_GRP_C=($temp_BN+"_eye_kongzhiqi_B_grp_C");
-       
-       string$kongzhiqi_C=($temp_BN+"_eye_kongzhiqi_C");
-       string$kongzhiqi_C_GRP_A=($temp_BN+"_eye_kongzhiqi_C_grp_A");
-       string$kongzhiqi_C_GRP_B=($temp_BN+"_eye_kongzhiqi_C_grp_B");
-       string$kongzhiqi_C_GRP_C=($temp_BN+"_eye_kongzhiqi_C_grp_C");
-       
-     $kongzhiqi+=$kongzhiqi_A+" ";
-       
-       select -r  $temp_BN;
-       duplicate -rr -n $BN ;
-       string$BN_end[]=`listRelatives -c -pa $BN`;
-       rename $BN_end[0]  $en_BN;
-       select -r  $en_BN;
-       setAttr ($en_BN+".translateX") ($temp_poss*0.5);
-
-       //move -r -os -wd 0 0 ($temp_poss*-0.5) ;
-       //setAttr ($en_BN+".tx") ($temp_poss*0.5);
-       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss*0.2) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_A; 
-       group -n $kongzhiqi_A_GRP_A;
-       group -n $kongzhiqi_A_GRP_B;    
-       group -n $kongzhiqi_A_GRP_C;
-      // string$qvxian_shap[]=`listRelatives -s $kongzhiqi_A`;
-       setAttr ($kongzhiqi_A+".overrideEnabled") 1;
-       setAttr  ($kongzhiqi_A+".overrideColor") 13;
-       delete`parentConstraint $temp_BN  $kongzhiqi_A_GRP_C`;
-       select -r ($kongzhiqi_A+".cv[0:999]") ;
-       move -r -os -wd $temp_poss 0 0 ;
-       parentConstraint  $kongzhiqi_A $BN ;
-       
-       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss*0.1) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_B; 
-       group -n $kongzhiqi_B_GRP_A;
-       group -n $kongzhiqi_B_GRP_B;    
-       group -n $kongzhiqi_B_GRP_C;
-       string$qvxian_shap_B[]=`listRelatives -s $kongzhiqi_B`;
-       setAttr ($kongzhiqi_B+".overrideEnabled") 1;
-       setAttr  ($kongzhiqi_B+".overrideColor") 17;
-       delete`parentConstraint $temp_BN  $kongzhiqi_B_GRP_C`;
-       select -r ($kongzhiqi_B+".cv[0:999]") ;
-       move -r -os -wd $temp_poss 0 0 ;
-       parentConstraint  $kongzhiqi_B $temp_BN ;
-
-       //select -r ($kongzhiqi_B+".cv[1]") ($kongzhiqi_B+".cv[5]") ($kongzhiqi_B+".cv[3]")  ($kongzhiqi_B+".cv[7]");
-       //scale -r -p 0.469494cm 14.99773cm 0.943909cm 0.2 0.2 0.2 ;
-
-
-       string$bn_dingwei=$temp_BN+"_temp";
-       select -r $temp_BN;
-       duplicate -rr -n $bn_dingwei;
-       select -r $bn_dingwei;
-       move -r -os -wd ($temp_poss*3) 0 0 ;
-       
-       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss*0.2) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_C; 
-       group -n $kongzhiqi_C_GRP_A;
-       group -n $kongzhiqi_C_GRP_B;    
-       group -n $kongzhiqi_C_GRP_C;
-       setAttr ($kongzhiqi_C+".overrideEnabled") 1;
-       setAttr  ($kongzhiqi_C+".overrideColor") 17;
-       delete`parentConstraint $bn_dingwei  $kongzhiqi_C_GRP_C`;
-      
-
-      int$ex=`objExists $kongzhiqi_D`;
-      if($ex==0)
-         {  
-       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_D; 
-       group -n $kongzhiqi_D_GRP_A;
-       group -n $kongzhiqi_D_GRP_B;    
-       group -n $kongzhiqi_D_GRP_C;
-       setAttr ($kongzhiqi_D+".overrideEnabled") 1;
-       setAttr  ($kongzhiqi_D+".overrideColor") 17;
-       delete`parentConstraint $bn_dingwei  $kongzhiqi_D_GRP_C`;
-       setAttr ($kongzhiqi_D_GRP_C+".translateX") 0;
-        setAttr -type float3 ($kongzhiqi_D_GRP_C+".r") 0 -90 0;
-        select -r ($kongzhiqi_D+".cv[0:7]") ;
-
-          }
-          
-      delete $bn_dingwei;
-      parent $kongzhiqi_A_GRP_C  $toubukongzhiqi;
-      parent $kongzhiqi_B_GRP_C  $toubukongzhiqi;
-      parent $kongzhiqi_C_GRP_C  $kongzhiqi_D;
-      if($i==0){parent $kongzhiqi_D_GRP_C  $toubukongzhiqi;}
-      parent  $temp_BN $toubuguanjie;
-       parent  $BN $toubuguanjie ;
-      select -r $kongzhiqi_C;
-      select -add $kongzhiqi_B_GRP_B;
-      aimConstraint -offset 0 0 0 -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "objectrotation" -worldUpVector 0 1 0 -worldUpObject $loc;
-      connectAttr -f ($kongzhiqi_B_GRP_B+".rotate") ($kongzhiqi_A_GRP_B+".rotate");
-      connectAttr -f ($kongzhiqi_B_GRP_B+".t") ($kongzhiqi_A_GRP_B+".t");
-      connectAttr -f ($kongzhiqi_A+".t") ($kongzhiqi_B_GRP_A+".t");
-      connectAttr -f ($kongzhiqi_A+".r") ($kongzhiqi_B_GRP_A+".r");
-
-      connectAttr -f ($kongzhiqi_A+".s") ($temp_BN+".s");
-       connectAttr -f ($kongzhiqi_A+".s") ( $BN+".s");
-       connectAttr -f ($kongzhiqi_A+".s") ( $kongzhiqi_B_GRP_B+".s");
-       }
-       
-     
-  
-zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_con");
-setAttr -type "string" ($toubukongzhiqi+".eye_con")$kongzhiqi ;
-
-
- 
-}
-
-
-
-
-
-////////////////////////////////////创建眼皮绑定//////////////////////////////////////////
-global proc zxb_chuangjianyanpiguanjie_fangfa_proc()
-{
- string $xiaba_bn=`textFieldGrp -q -tx  UI_zxb_eye`;//眼球关节
- string $toubukongzhiqi=`textFieldGrp -q -tx UI_head_controller `;//头部控制器
- string $toubuguanjie=`textFieldGrp -q -tx UI_head_bn `;//头部关节
- string$temp_commm=`getAttr ($toubukongzhiqi+".eye_con")`;
- 
-  string $eye_con=$temp_commm;//眼球控制器
-    string $eye_cons[]= stringToStringArray($eye_con, " ");//字符串转化数组
-
-  string $diana=`textFieldGrp -q -tx UI_zxb_eye_point_up`;
-   string $dianb=`textFieldGrp -q -tx  UI_zxb_eye_point_dw`;
-   
-zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_lip_ik");
-zxb_ADD_kongzu_proc("zxb_fase_eye_loc");
-zxb_ADD_kongzu_proc("zxb_fase_eye_ikHandle");
-zxb_ADD_kongzu_proc("zxb_fase_eye_joints");
-zxb_ADD_kongzu_proc("zxb_fase_eye_grp");
-zxb_ADD_kongzu_proc("Face_Group");
-zxb_ADD_kongzu_proc("zxb_eye_loc");
-parent ("zxb_eye_loc")("head_all_loc_Group");
-parent ("zxb_fase_eye_loc")("zxb_fase_eye_grp");
-parent ("zxb_fase_eye_ikHandle")("zxb_fase_eye_grp");
-parent ("zxb_fase_eye_joints")("zxb_fase_eye_grp");
-parent("zxb_fase_eye_grp")("Face_Group");
-
-string$ik_eye_ikHandle="";
- //string $zongkongzhiqi=`textFieldGrp -q -tx  zxb_zairuzongkongzhiqi`;
-  float$diana_pos[]=`xform -q -ws -t $diana`;
-  float$dianb_pos[]=`xform -q -ws -t $dianb`;
-
- int$xingwei=`checkBox -q  -value  xingwei`;
-  int$duicheng_bn=`checkBox -q  -value   duicheng`;
-  
-  
-  string$bns[];
-  clear $bns;
-  int $nemt=`tokenize $xiaba_bn" " $bns`;//分离字符串存到变量
-  string$bn=$bns[0];
-  string$yanpi_UP_bn=$bn+"_UP_yanpi";
-  string$yanpi_UP_bn_end=$bn+"_UP_yanpi_end";
-   
-  string$yanpi_DW_bn=$bn+"_DW_yanpi";
-  string$yanpi_UP_DW_end=$bn+"_DW_yanpi_end";
-  
-  select -r  $bn;
-  duplicate -rr -n $yanpi_UP_bn;
-  string$bn_end[]=`listRelatives -c -pa -type "joint" $yanpi_UP_bn`;
-  string$bn_end_a[]=`listRelatives -c -pa  $yanpi_UP_bn`;
-  select -r $bn_end_a;
-  select -d $bn_end[0];
-  doDelete;
-  
-  rename $bn_end[0] $yanpi_UP_bn_end;
-  float$temp_poss=`getAttr  ($yanpi_UP_bn_end+".tx")`;
-  select -r $yanpi_UP_bn;
-  move -r -os -wd 0 ($temp_poss*0.025) 0 ;
-  
-  
-   select -r  $bn;
-  duplicate -rr -n $yanpi_DW_bn;
-  string$bn_end_dw[]=`listRelatives -c -pa -type "joint" $yanpi_DW_bn`;
-  string$bn_end_dwa[]=`listRelatives -c -pa  $yanpi_DW_bn`;
-  select -r $bn_end_dwa;
-  select -d $bn_end_dw[0];
-  doDelete;
-  
-  rename$bn_end_dw[0] $yanpi_UP_DW_end;
-  float$temp_posd=`getAttr  ($yanpi_UP_DW_end+".tx")`;
-  select -r $yanpi_DW_bn;
-  move -r -os -wd 0 ($temp_posd*-0.025) 0 ;
-  
-  
-  string $tepup_loc=$bn+"_temp_uploca";
-  string $tepdw_loc=$bn+"_temp_dwloca";
-  spaceLocator -p 0 0 0  -n $tepup_loc ;
-  parent $tepup_loc $yanpi_UP_bn_end;
-  setAttr -type float3 ($tepup_loc+".translate") 0 0 0;
-  spaceLocator -p 0 0 0  -n $tepdw_loc ;
-  
-  parent $tepdw_loc $yanpi_UP_DW_end;
-  setAttr -type float3 ($tepdw_loc+".translate") 0 0 0;
-  
-  float$diss=10000000;
-   select -r  $yanpi_DW_bn ;
-    select -add  $yanpi_UP_bn ;
-   string $bianliang[]=`ls -sl`;
-   float$rz=0;
-   for ($i=0;$i<size($bianliang);$i++)
-       {
-        string$guge=$bianliang[$i];
-        string$temp_zi[]=`listRelatives -c  $guge`;
-        string$temp_loc[]=`listRelatives -c  $temp_zi[0]`;
-        float$temp_po[];
-        clear$temp_po;
-        if($i==0){$temp_po=$diana_pos;}else{$temp_po=$dianb_pos;$diss=10000000; }
-        for ($ii=0;$ii<360;$ii++)
-            {
-              setAttr ($guge+".rotateZ") $ii;
-              float$pos[]=`xform -q -ws -t $temp_loc[0]`;
-              float$cdiss=mag(<<$temp_po[0],$temp_po[1],$temp_po[2]>>-<<$pos[0],$pos[1],$pos[2]>>);
-              if($cdiss<$diss)
-                {
-                $diss=$cdiss;
-                $rz=$ii;
-                }
-             
-             }
-             //print $rz;
-        setAttr ($guge+".rotateZ") $rz;
-        }
-        
-        
-   float$diss=10000000;
-   select -r $yanpi_DW_bn ;
-    select -add $yanpi_UP_bn;
-   string $bianliang[]=`ls -sl`;
-   float$rz=0;
-   for ($i=0;$i<size($bianliang);$i++)
-       {
-        string$guge=$bianliang[$i];
-        string$temp_zi[]=`listRelatives -c  $guge`;
-        string$temp_loc[]=`listRelatives -c  $temp_zi[0]`;
-        float$temp_po[];
-        clear$temp_po;
-        if($i==0){$temp_po=$diana_pos;}else{$temp_po=$dianb_pos;$diss=10000000; }
-        for ($ii=0;$ii<360;$ii++)
-            {
-              setAttr ($guge+".rotateY") $ii;
-              float$pos[]=`xform -q -ws -t $temp_loc[0]`;
-              float$cdiss=mag(<<$temp_po[0],$temp_po[1],$temp_po[2]>>-<<$pos[0],$pos[1],$pos[2]>>);
-              if($cdiss<$diss)
-                {
-                $diss=$cdiss;
-                $rz=$ii;
-                }
-             
-             }
-             //print $rz;
-        setAttr ($guge+".rotateY") $rz;
-        }
-             
-     delete  $tepup_loc  $tepdw_loc;
-     float$upry=` getAttr  ($yanpi_UP_bn+".ry")`;
-     float$dwry=` getAttr  ($yanpi_DW_bn+".ry")`;
-     float$rot=($upry+$dwry)*0.5;
-     setAttr  ($yanpi_UP_bn+".ry")  $rot;
-     setAttr  ($yanpi_DW_bn+".ry")  $rot;
-     
-     
-     select -r  $yanpi_UP_bn $yanpi_DW_bn;
-     FreezeTransformations;
-     parent -w;
-
-     
-     string$root_bn=($bn+"_root_bn");
-     float$temp_pos[]=`xform -q -ws -t $yanpi_UP_bn`;
-     select -cl  ;
-      joint -p 0 $temp_pos[1]  $temp_pos[2] -n $root_bn;
-      
-    parent $root_bn("zxb_fase_eye_joints");
-      
-      
-     
-      string$AA="";
-      string$bb="";
-      string$R_bn="";
-      if($duicheng_bn==1)
-      {
-      float$aa_pos[]=`xform -q -ws -t  $bn`;
-      if($aa_pos[0]<0.001){$AA="R"; $bb="L";}else{$AA="L"; $bb="R";}
-      string$zhuguanjioeS[]= stringToStringArray($bn, $AA);//字符串转化数组
-      int$size=size($zhuguanjioeS);
-      if($size<=1){error "关节利面没有镜像名称";}
-     $R_bn=$zhuguanjioeS[0]+$bb+$zhuguanjioeS[1];
-     }
-
-     
-     
-      if($duicheng_bn==1)
-     {
-     select -r  $bn  $R_bn;
-     }else
-         {
-             select -r  $bn;
-         }
-         
-     string$rrlll[];
-     clear $rrlll ;
-     string $RL_bn[]=`ls -sl`;
-     for ($i=0;$i<size($RL_bn);$i++)
-     {
-         
-      string$c_bn=$RL_bn[$i];
-      string$kongzu_A= $c_bn+"_ROOT_zu_A";
-      string$kongzu_Aa= $c_bn+"_ROOT_zu_Aa";
-      string$kongzu_B= $c_bn+"_ROOT_zu_B";
-      string$kongzu_Bb= $c_bn+"_ROOT_zu_Bb";
-      select -cl  ;
-      group -empty -n  $kongzu_A;
-      group -n $kongzu_Aa;
-      delete`parentConstraint $c_bn $kongzu_Aa`;
-      parentConstraint   -mo $c_bn $kongzu_Aa;
-      parent   $kongzu_Aa ("head_all_loc_Group") ;
-      
-      select -cl  ;
-      group -empty -n  $kongzu_B;
-      group -n $kongzu_Bb;
-      delete`parentConstraint  $c_bn $kongzu_Bb`;
-      parentConstraint  -mo $toubuguanjie $kongzu_Bb;
-      parent  $kongzu_Bb ("zxb_eye_loc");
-      orientConstraint -mo $kongzu_A $kongzu_B ;
-      
-      
-     string$root_gensui_bn_root="zxb_eye_loc_bn_"+$c_bn;;
-     float$temp_pos[]=`xform -q -ws -t $yanpi_UP_bn`;
-     select -cl  ;
-     joint -p 0 0 0 -n $root_gensui_bn_root;
-     $rrlll[$i]=$root_gensui_bn_root;
-     delete`parentConstraint  $c_bn  $root_gensui_bn_root`;
-     select -r $root_gensui_bn_root;
-     makeIdentity -apply true -t 0 -r 1 -s 0 -n 0 -pn 1;
-
-     parent $root_gensui_bn_root $root_bn;
-     connectAttr -f   ($kongzu_B+".r")   ($root_gensui_bn_root+".r");
-      //parent $root_gensui_bn  $toubuguanjie;
-     }
-    string$LLRR="";
-    string$jingxiang="";
-    string$array[];
-    clear $array;
-    string$up[];
-    clear$up;
-    string$dw[];
-    clear$dw;
-  for ($i=0;$i<size($bianliang);$i++)
-      {
-       string$temp_bn=$bianliang[$i];
-      float$bn_pos[]=`xform -q -ws -t $temp_bn`; 
-     
-
-    if($bn_pos[0]>0.001)
-      {
-       $LLRR="L";  
-       $jingxiang="R";
-      
-       $array= stringToStringArray($temp_bn, $LLRR);//字符串转化数组
-        if($i==0){$dw=$array;}else{$up=$array;}
-       int$size=size($array);
-
-
-       if($size<=1){error "关节利面没有镜像名称";}
-       select -r  $temp_bn;
-       if($duicheng_bn==1)
-         {
-           
-           mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $LLRR $jingxiang;
-           
-    
-         } 
-    }
-    if($bn_pos[0]<0.001)
-      {
-     $LLRR="R";  
-     $jingxiang="L";
-     $array= stringToStringArray($bn, $LLRR);//字符串转化数组
-     if($i==0){$dw=$array;}else{$up=$array;}
-
-     int$size=size($array);
-     if($size<=1){error "关节利面没有镜像名称";}
-      select -r  $bn;
-    if($duicheng_bn==1)
-      {
-       
-           mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $LLRR $jingxiang;
-         
-       }
-     }
-  }
-
-  string$shang_bn=$dw[0]+$jingxiang+$dw[1];
-  string$xia_bn=$up[0]+$jingxiang+$up[1];
- if($duicheng_bn==1) 
-    { 
-    select -r $yanpi_DW_bn  $yanpi_UP_bn $shang_bn $xia_bn ;
-    }else
-       {
-           select -r $yanpi_DW_bn  $yanpi_UP_bn;
-        }
-
- string $RL_BNS[]=`ls -sl`;
- select -add ("zxb_fase_eye_joints");
- parent;
- string$jiajian_s[];
- clear $jiajian_s;
-  string$fk_c[];
- clear $fk_c;
-   string$fk_gensui[];
- clear $fk_gensui;
- 
-    string$Fk_[];
- clear $Fk_;
- 
-
- for ($i=0;$i<size($RL_BNS);$i++)
-     {
-      string$temp_bn=$RL_BNS[$i];
-      string$upik=$temp_bn+"_IK";
-      string$upik_end=$temp_bn+"_IK_end";
-      string$upfk=$temp_bn+"_FK";
-      string$upfk_end=$temp_bn+"_FK_end";
-      string$lik_loc=$temp_bn+"_ik_loc"+$i;
-       string$lik_loc_grp=$lik_loc+"_grp";
-      
-  
-     select -r $temp_bn;
-     duplicate -rr -n $upik;
-     setAttr ($upik+".visibility") 0;
-     string$bn_up_end_ik[]=`listRelatives -c -pa  $upik`;
-     rename $bn_up_end_ik[0] $upik_end;
-  
-     select -r $yanpi_DW_bn;
-     duplicate -rr -n $upfk;
-     setAttr ($upfk+".visibility") 0;
-     string$bn_up_end_fk[]=`listRelatives -c -pa  $upfk`;
-     rename $bn_up_end_fk[0] $upfk_end;
-     
-     string$jiajianjiedian=($temp_bn+"_plusMinusAverage_eye_A");
-     int $ex=`objExists $jiajianjiedian`;//查询这个物体是否纯在
-     if($ex==1){delete $jiajianjiedian;}
-      shadingNode -asUtility plusMinusAverage -n $jiajianjiedian;//创建加减节点
-      $jiajian_s[$i]=$jiajianjiedian;
-      connectAttr -f ($upik+".rotateZ") ($jiajianjiedian+".input3D[0].input3Dz");
-      connectAttr -f ($upfk+".rotate") ($jiajianjiedian+".input3D[1]");
-
-      connectAttr -f ($jiajianjiedian+".output3D") ($temp_bn+".rotate");
-      
-      spaceLocator -p 0 0 0 -n $lik_loc ;
-      group -n  $lik_loc_grp;
-      setAttr  ($lik_loc+".visibility") 0;
-     setAttr -lock true ($lik_loc+".v");
-      parent $lik_loc_grp("zxb_fase_eye_loc");
-      parent $upik $root_bn;
-      parent $upfk $root_bn;
-      select -r $upik;
-      select -add $upik_end;
-     string$ikhade[]=`ikHandle`;
-     delete`parentConstraint  $ikhade[0]  $lik_loc_grp`;
-     parent$ikhade[0]("zxb_fase_eye_ikHandle");
-     $ik_eye_ikHandle+=$ikhade[0]+" ";
-     setAttr  ($ikhade[0]+".visibility") 0;
-     setAttr -lock true ($ikhade[0]+".v");
-     select -r $lik_loc_grp;
-     move -r -os -wd 0.02 0 0 ;
-     select -r $lik_loc;
-     select -add $ikhade[0];
-     poleVectorConstraint -weight 1;
-     float$rx=`getAttr ($temp_bn+".rx")`;
-     if($i<=1)
-       {
-        if($rx>0){$rx=$rx*-1;}else{float$abs=abs($rx);$rx=$abs;}
-        }
-     
-     setAttr ($ikhade[0]+".twist") $rx;
-     // parent $temp_bn $root_bn; 
-     //select -add $yanpi_UP_bn;
-     
-      string$upfk_C=$temp_bn+"_FK_C";
-      string$upfkC_end=$temp_bn+"_FK_end_C";
-      select -r $temp_bn;
-      duplicate -rr -n $upfk_C;  
-      setAttr ($upfk_C+".visibility") 0;
-      string$bn_up_end_fkC[]=`listRelatives -c -pa  $upfk_C`;
-      rename $bn_up_end_fkC[0] $upfkC_end;
-      
-      string$upfk_gensui=$temp_bn+"_FK_gensui";
-      string$upfk_gensui_end=$temp_bn+"_FK_end_gensui";
-      select -r $temp_bn;
-      duplicate -rr -n $upfk_gensui;  
-      setAttr ($upfk_gensui+".visibility") 0;
-      string$bn_upfk_gensui[]=`listRelatives -c -pa  $upfk_gensui`;
-      rename $bn_upfk_gensui[0] $upfk_gensui_end;
-      
-      
-      orientConstraint   $upfk_gensui  $upfk_C;
-      string $fk_qvxian=$temp_bn+"_fk_com";
-      string$fk_qvxian_grp_A=$fk_qvxian+"_A";
-      string$fk_qvxian_grp_B=$fk_qvxian+"_B";
-
-
-      parent  $upfk_C $root_bn;
-      string$rrll_bn="";
-      if($i<=1){$rrll_bn=$rrlll[0];}else{$rrll_bn=$rrlll[1];}
-      parent  $upfk_gensui  $rrll_bn ;
-      $fk_c[$i]=$upfk_C;
-     $fk_gensui[$i]=$upfk_gensui;
-     $Fk_[$i]=$upfk;
-  }
-  
- for ($i=0;$i<size($eye_cons);$i++)
-   {
-
-      int$a=0;
-      int$b=1;
-      if($i==1){$a=2; $b=3;}
-      
-       string$con=$eye_cons[$i];
-       addAttr -ln "shang"  -at double  -dv 0 -k 1 $con ;
-       addAttr -ln "xia"  -at double   -dv 0 -k 1 $con ;
-       addAttr -ln "biyan"  -at double   -dv 0 -k 1 $con ;
-       addAttr -ln "beishu"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-       addAttr -ln "shangxia"  -at double   -dv 0 -k 1 $con ;
-       
-       
-     addAttr -ln "gensui_rx_up"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-     addAttr -ln "gensui_ry_up"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-     addAttr -ln "gensui_rz_up"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-     
-     addAttr -ln "gensui_rx_dw"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-     addAttr -ln "gensui_ry_dw"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-     addAttr -ln "gensui_rz_dw"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
-     
-     setAttr -keyable false -channelBox true($con+".gensui_rx_up");
-     setAttr -keyable false -channelBox true($con+".gensui_ry_up");
-     setAttr -keyable false -channelBox true($con+".gensui_rz_up");
-     setAttr -keyable false -channelBox true($con+".gensui_rx_dw");
-     setAttr -keyable false -channelBox true($con+".gensui_ry_dw");
-     setAttr -keyable false -channelBox true($con+".gensui_rz_dw");
-     
-     
-     setAttr -keyable false -channelBox true($con+".beishu");
-     string$chengchu_A=$con+"_multiplyDivide_A";
-     string$chengchu_B=$con+"_multiplyDivide_B";
-     
-      string$chengchu_C=$con+"_multiplyDivide_C";
-     
-     string$chengchu_D=$con+"_multiplyDivide_D";
-      string$chengchu_E=$con+"_multiplyDivide_E";
-     string$chengchu_F=$con+"_multiplyDivide_F";
-     int $ex=`objExists $chengchu_A`;//查询这个物体是否纯在
-     if($ex==1){delete $chengchu_A;}
-     shadingNode -asUtility multiplyDivide -n $chengchu_A;//创建乘除节点
-     
-     int $ex=`objExists $chengchu_B`;//查询这个物体是否纯在
-     if($ex==1){delete $chengchu_B;}
-     shadingNode -asUtility multiplyDivide -n $chengchu_B;//创建乘除节点
-     
-      int $ex=`objExists $chengchu_C`;//查询这个物体是否纯在
-     if($ex==1){delete $chengchu_C;}
-     shadingNode -asUtility multiplyDivide -n $chengchu_C;//创建乘除节点
-     
-     int $ex=`objExists $chengchu_D`;//查询这个物体是否纯在
-     if($ex==1){delete $chengchu_D;}
-     shadingNode -asUtility multiplyDivide -n $chengchu_D;//创建乘除节点
-     
-     
-     int $ex=`objExists $chengchu_E`;//查询这个物体是否纯在
-     if($ex==1){delete $chengchu_E;}
-     shadingNode -asUtility multiplyDivide -n $chengchu_E;//创建乘除节点
-     
-     int $ex=`objExists $chengchu_F`;//查询这个物体是否纯在
-     if($ex==1){delete $chengchu_F;}
-     shadingNode -asUtility multiplyDivide -n $chengchu_F;//创建乘除节点
-     
-     
-    connectAttr -f   ($con+".biyan") ($chengchu_A+".input1X");
-    connectAttr -f   ($con+".beishu") ($chengchu_A+".input2X");
-    connectAttr -f ($chengchu_A+".outputX") ($jiajian_s[$b]+".input3D[2].input3Dz");
-    setAttr ($chengchu_B+".input2X") -1;
-    connectAttr -f   ($con+".biyan") ($chengchu_B+".input1X");
-    connectAttr -f ($chengchu_B+".outputX") ($jiajian_s[$a]+".input3D[2].input3Dz");
-    
-    
-    connectAttr -f($con+".shang")  ($chengchu_C+".input1X");
-    connectAttr -f($con+".xia")  ($chengchu_D+".input1X");
-    setAttr  ($chengchu_D+".input2X") -1;
-
-    connectAttr -f ($chengchu_C+".outputX") ($jiajian_s[$b]+".input3D[3].input3Dz");
-    connectAttr -f ($chengchu_D+".outputX") ($jiajian_s[$a]+".input3D[3].input3Dz");
-
-    connectAttr -f ($con+".shangxia")  ($jiajian_s[$b]+".input3D[4].input3Dz");
-    connectAttr -f ($con+".shangxia")  ($jiajian_s[$a]+".input3D[4].input3Dz");
-    
-    connectAttr -f ($con+".gensui_rx_up")  ($chengchu_E+".input1X");
-    connectAttr -f ($con+".gensui_ry_up")  ($chengchu_E+".input1Y");
-    connectAttr -f ($con+".gensui_rz_up")  ($chengchu_E+".input1Z");
-    
-    connectAttr -f ($fk_c[$a]+".r")     ($chengchu_E+".input2");
-    connectAttr -f ($chengchu_E+".output") ($Fk_[$a]+".r")   ; 
-    
-    
-     connectAttr -f ($con+".gensui_rx_dw")  ($chengchu_F+".input1X");
-    connectAttr -f ($con+".gensui_ry_dw")  ($chengchu_F+".input1Y");
-    connectAttr -f ($con+".gensui_rz_dw")  ($chengchu_F+".input1Z");
-    
-    connectAttr -f ($fk_c[$b]+".r")     ($chengchu_F+".input2");
-    connectAttr -f ($chengchu_F+".output") ($Fk_[$b]+".r")   ; 
-     // parent $yanpi_UP_bn  $root_bn;
-     // parent $yanpi_DW_bn  $root_bn;
- }
- 
- setAttr -type "string" ($toubukongzhiqi+".eye_lip_ik") $ik_eye_ikHandle;
-zxb_eye_lip_con_controller;
-} 
 
 
 
@@ -6475,6 +5531,7 @@ global proc zxb_eye_lip_con_controller()
 /////////////////////////////////面部簇创建簇//////////////////////////////////////////////
 global proc zxb_face_to_Cluster_proc(){
 string$mianban_UI[]={"UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_cheek","UI_cheekbone_R","UI_jwa_point"};
+string$mianban_UI_name[]={"noseCluster","noseguardCluster","basisCluster","nose_rl_Cluster","cheekCluster","cheekboneCluster","jwaCluster"};
 string$dian="";
 int$fan=`checkBox -q -v duicheng`;
 for($i=0;$i<size($mianban_UI);$i++)
@@ -6510,15 +5567,17 @@ string$mingzi="";
 for ($i=0;$i<size($dingdian_s);$i++)
     {
         string$dingdian=$dingdian_s[$i];
+        string$name_temp=$mianban_UI_name[$i];
         string$sikn_cu=($cu_mode+"_cluster_Handle"+$i);
         select -r  $dingdian;
         newCluster " -envelope 1  " ;
          string$temp_s[]=`ls -sl`;//选中顶点创建簇
-        parent $temp_s[0] $zu_root;
+        rename $temp_s[0] $name_temp;
+         parent $name_temp $zu_root;
         /*string $loc=($temp_s[0]+"_temp_loc");
         spaceLocator -p 0 0 0 -n $loc ;
         delete`pointConstraint $temp_s[0] $loc`;*/
-        $mingzi+=$temp_s[0]+" ";
+        $mingzi+=$name_temp+" ";
         if($jingxiang==1)
            {
              float$pos_temp[]=`xform -q -ws -t $dingdian`;
@@ -6529,9 +5588,9 @@ for ($i=0;$i<size($dingdian_s);$i++)
                      select -r ($cu_mode+".vtx["+$index+"]");
                      newCluster " -envelope 1 " ;
                         string$temp_s_a[]=`ls -sl`;//选中顶点创建簇
-                        rename $temp_s_a[0] ($temp_s[0]+"sid");
-                         $mingzi+=($temp_s[0]+"sid")+" ";
-                        parent ($temp_s[0]+"sid") $zu_root;
+                        rename $temp_s_a[0] ($name_temp+"sid");
+                         $mingzi+= ($name_temp+"sid")+" ";
+                        parent  ($name_temp+"sid") $zu_root;
                         
                      
                  }
@@ -11759,10 +10818,20 @@ string$cheek_conss=`getAttr ($head_controller+".cheek_con")`;
            setAttr ($Corner_frame+".translateY") -4.5;
            
             string $cheek_cons_fu[]=`listRelatives -p $cheek_cons[0]`;
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_R.translateY" ($cheek_cons_fu[0]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1  -cd "ctrlMouthCorner_R.translateY" ($cheek_cons_fu[0]+".translateX");  
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_R.translateY" ($cheek_cons_fu[0]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1  -cd "ctrlMouthCorner_R.translateY" ($cheek_cons_fu[0]+".translateX");  
            
            
-           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_R.translateY" ($cheek_cons_fu[0]+".translateY");  
-           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 0.8  -cd "ctrlMouthCorner_R.translateY" ($cheek_cons_fu[0]+".translateY");  
+            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_R.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1  -cd "ctrlMouthCorner_R.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_R.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1  -cd "ctrlMouthCorner_R.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           
+           
            
          }
           if($Corner=="ctrlMouthCorner_L")
@@ -11771,6 +10840,21 @@ string$cheek_conss=`getAttr ($head_controller+".cheek_con")`;
            setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
            setAttr ($Corner_frame+".translateX") 1.5;
            setAttr ($Corner_frame+".translateY") -4.5;
+           
+           
+             string $cheek_cons_fu[]=`listRelatives -p $cheek_cons[1]`;
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_L.translateY" ($cheek_cons_fu[0]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1  -cd "ctrlMouthCorner_L.translateY" ($cheek_cons_fu[0]+".translateX");  
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_L.translateY" ($cheek_cons_fu[0]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1  -cd "ctrlMouthCorner_L.translateY" ($cheek_cons_fu[0]+".translateX");  
+           
+           
+            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_L.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1  -cd "ctrlMouthCorner_L.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouthCorner_L.translateX" ($cheek_cons_fu[0]+".translateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1  -cd "ctrlMouthCorner_L.translateX" ($cheek_cons_fu[0]+".translateZ");  
          }
          
            if($Corner=="ctrlMouth_M")
@@ -12164,28 +11248,53 @@ string$controller_RL="temp_loc_R_con"+" "+"temp_loc_L_con";
 zxb_ADD_shuxing_string_proc($head_controller,"cheek_con");
 setAttr -type "string" ($head_controller+".cheek_con")$controller_RL;
 }
-setAttr (temp_loc_L_con+".zhouxiangX") 45;
-setAttr (temp_loc_R_con+".zhouxiangX") 45;
+setAttr ("temp_loc_L_con"+".zhouxiangX") 45;
+setAttr ("temp_loc_R_con"+".zhouxiangX") -45;
 for ($i=0;$i<size($controller_s);$i++)
      {
       string$temp_bianliang=$controller_s[$i];
+      
+      
       string$mingzi[];
       clear $mingzi;//清除数组
       int $nemt=`tokenize $temp_bianliang "_" $mingzi`;//分离字符串存到变量
       int$zhushzi=$mingzi[6];
       if($zhushzi<3&&$zhushzi>0)
         {
-         print $zhushzi;
+        	
          select -cl  ;
          select -r $temp_bianliang;
          select -add temp_loc_L_con ;
          zxb_ciji_gensui_proc_trs_a;
-         setAttr ($temp_bianliang+".temp_loc_L_consuofang_Z") 0;
-         setAttr  ($temp_bianliang+".temp_loc_L_consuofang_X") 0;
-         setAttr  ($temp_bianliang+".temp_loc_L_consuofang_Y") 0;
-         setAttr  ($temp_bianliang+".temp_loc_L_conxuanzhuan_Z") 0;
-         setAttr  ($temp_bianliang+".temp_loc_L_conxuanzhuan_X") 0;
-         setAttr  ($temp_bianliang+".temp_loc_L_conxuanzhuan_Y") 0;
+         string $temp_fu_a[]=`listRelatives -p temp_loc_L_con`; 
+         string $temp_fu_b[]=`listRelatives -p $temp_fu_a[0]`; 
+         string $temp_fu_c[]=`listRelatives -p $temp_fu_b[0]`; 
+         string $temp_fu_d[]=`listRelatives -p $temp_fu_c[0]`; 
+         string $temp_fu_e[]=`listRelatives -p $temp_fu_d[0]`; 
+         string $temp_fu_f[]=`listRelatives -p $temp_fu_e[0]`; 
+         string $temp_fu_g[]=`listRelatives -p $temp_fu_f[0]`; 
+         string$shuzu_temp_all[]={"temp_loc_L_con",$temp_fu_a[0],$temp_fu_b[0],$temp_fu_c[0],$temp_fu_d[0],$temp_fu_e[0],$temp_fu_f[0],$temp_fu_g[0]};
+         for ($p=0;$p<size($shuzu_temp_all);$p++)
+             {
+              string$shuxing_name_temp=$shuzu_temp_all[$p];
+              
+              string$shuxing_xyz[]={($shuxing_name_temp+"suofang_X"),($shuxing_name_temp+"suofang_Y"),($shuxing_name_temp+"suofang_Z"),($shuxing_name_temp+"xuanzhuan_X"),($shuxing_name_temp+"xuanzhuan_Y"),($shuxing_name_temp+"xuanzhuan_Z"),($shuxing_name_temp+"xuanzhuan_X")};
+              for ($Y=0;$Y<size($shuxing_xyz);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz[$Y];
+                     setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0;
+                   }
+                   
+              string$shuxing_xyz_weiyi[]={($shuxing_name_temp+"weiyi_X"),($shuxing_name_temp+"weiyi_Y"),($shuxing_name_temp+"weiyi_Z")};
+              for ($Y=0;$Y<size($shuxing_xyz_weiyi);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz_weiyi[$Y];
+                     if($zhushzi==1){setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0.8;}
+                     if($zhushzi==2){setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0.1;}
+                     
+                   }
+             }
+
          setAttr ($temp_bianliang+".zhouxiangX") 45;
         }
       if($zhushzi>3)
@@ -12194,12 +11303,35 @@ for ($i=0;$i<size($controller_s);$i++)
          select -r $temp_bianliang;
          select -add temp_loc_R_con ;
          zxb_ciji_gensui_proc_trs_a;
-          setAttr ($temp_bianliang+".temp_loc_R_consuofang_Z") 0;
-         setAttr  ($temp_bianliang+".temp_loc_R_consuofang_X") 0;
-         setAttr  ($temp_bianliang+".temp_loc_R_consuofang_Y") 0;
-         setAttr  ($temp_bianliang+".temp_loc_R_conxuanzhuan_Z") 0;
-         setAttr  ($temp_bianliang+".temp_loc_R_conxuanzhuan_X") 0;
-         setAttr  ($temp_bianliang+".temp_loc_R_conxuanzhuan_Y") 0;
+         string $temp_fu_a[]=`listRelatives -p temp_loc_R_con`; 
+         string $temp_fu_b[]=`listRelatives -p $temp_fu_a[0]`; 
+         string $temp_fu_c[]=`listRelatives -p $temp_fu_b[0]`; 
+         string $temp_fu_d[]=`listRelatives -p $temp_fu_c[0]`; 
+         string $temp_fu_e[]=`listRelatives -p $temp_fu_d[0]`; 
+         string $temp_fu_f[]=`listRelatives -p $temp_fu_e[0]`; 
+         string $temp_fu_g[]=`listRelatives -p $temp_fu_f[0]`; 
+         string$shuzu_temp_all[]={"temp_loc_R_con",$temp_fu_a[0],$temp_fu_b[0],$temp_fu_c[0],$temp_fu_d[0],$temp_fu_e[0],$temp_fu_f[0],$temp_fu_g[0]};
+         for ($p=0;$p<size($shuzu_temp_all);$p++)
+             {
+              string$shuxing_name_temp=$shuzu_temp_all[$p];
+              
+              string$shuxing_xyz[]={($shuxing_name_temp+"suofang_X"),($shuxing_name_temp+"suofang_Y"),($shuxing_name_temp+"suofang_Z"),($shuxing_name_temp+"xuanzhuan_X"),($shuxing_name_temp+"xuanzhuan_Y"),($shuxing_name_temp+"xuanzhuan_Z"),($shuxing_name_temp+"xuanzhuan_X")};
+              for ($Y=0;$Y<size($shuxing_xyz);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz[$Y];
+                     setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0;
+                   }
+                   
+              string$shuxing_xyz_weiyi[]={($shuxing_name_temp+"weiyi_X"),($shuxing_name_temp+"weiyi_Y"),($shuxing_name_temp+"weiyi_Z")};
+              for ($Y=0;$Y<size($shuxing_xyz_weiyi);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz_weiyi[$Y];
+                     if($zhushzi==5){setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0.8;}
+                     if($zhushzi==4){setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0.1;}
+                     
+                   }
+             }
+
          setAttr ($temp_bianliang+".zhouxiangX") -45;
         }
      if($zhushzi==0)
@@ -12211,18 +11343,64 @@ for ($i=0;$i<size($controller_s);$i++)
             	
              select -add temp_loc_L_con ;
              zxb_ciji_gensui_proc_trs_a;
-             setAttr  ($temp_bianliang+".temp_loc_L_conweiyi_Z") 1;
-             setAttr  ($temp_bianliang+".temp_loc_L_conweiyi_X") 1;
-             setAttr  ($temp_bianliang+".temp_loc_L_conweiyi_Y") 1;
-             setAttr ($temp_bianliang+".zhouxiangX") 45;
+         string $temp_fu_a[]=`listRelatives -p temp_loc_L_con`; 
+         string $temp_fu_b[]=`listRelatives -p $temp_fu_a[0]`; 
+         string $temp_fu_c[]=`listRelatives -p $temp_fu_b[0]`; 
+         string $temp_fu_d[]=`listRelatives -p $temp_fu_c[0]`; 
+         string $temp_fu_e[]=`listRelatives -p $temp_fu_d[0]`; 
+         string $temp_fu_f[]=`listRelatives -p $temp_fu_e[0]`; 
+         string $temp_fu_g[]=`listRelatives -p $temp_fu_f[0]`; 
+         string$shuzu_temp_all[]={"temp_loc_L_con",$temp_fu_a[0],$temp_fu_b[0],$temp_fu_c[0],$temp_fu_d[0],$temp_fu_e[0],$temp_fu_f[0],$temp_fu_g[0]};
+         for ($p=0;$p<size($shuzu_temp_all);$p++)
+             {
+              string$shuxing_name_temp=$shuzu_temp_all[$p];
+              
+              string$shuxing_xyz[]={($shuxing_name_temp+"suofang_X"),($shuxing_name_temp+"suofang_Y"),($shuxing_name_temp+"suofang_Z"),($shuxing_name_temp+"xuanzhuan_X"),($shuxing_name_temp+"xuanzhuan_Y"),($shuxing_name_temp+"xuanzhuan_Z"),($shuxing_name_temp+"xuanzhuan_X")};
+              for ($Y=0;$Y<size($shuxing_xyz);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz[$Y];
+                     setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0;
+                   }
+              string$shuxing_xyz_weiyi[]={($shuxing_name_temp+"weiyi_X"),($shuxing_name_temp+"weiyi_Y"),($shuxing_name_temp+"weiyi_Z")};
+              for ($Y=0;$Y<size($shuxing_xyz_weiyi);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz_weiyi[$Y];
+                     setAttr ($temp_bianliang+"."+$shuxing_wancheng) 1;
+                   }
+             }
+
+         setAttr ($temp_bianliang+".zhouxiangX") 45;
             }
             else
                {
                	select -add temp_loc_R_con ;
                	zxb_ciji_gensui_proc_trs_a;
-                setAttr  ($temp_bianliang+".temp_loc_R_conweiyi_Z") 1;
-                setAttr  ($temp_bianliang+".temp_loc_R_conweiyi_X") 1;
-                setAttr  ($temp_bianliang+".temp_loc_R_conweiyi_Y") 1;
+               	
+         string $temp_fu_a[]=`listRelatives -p temp_loc_R_con`; 
+         string $temp_fu_b[]=`listRelatives -p $temp_fu_a[0]`; 
+         string $temp_fu_c[]=`listRelatives -p $temp_fu_b[0]`; 
+         string $temp_fu_d[]=`listRelatives -p $temp_fu_c[0]`; 
+         string $temp_fu_e[]=`listRelatives -p $temp_fu_d[0]`; 
+         string $temp_fu_f[]=`listRelatives -p $temp_fu_e[0]`; 
+         string $temp_fu_g[]=`listRelatives -p $temp_fu_f[0]`; 
+         string$shuzu_temp_all[]={"temp_loc_R_con",$temp_fu_a[0],$temp_fu_b[0],$temp_fu_c[0],$temp_fu_d[0],$temp_fu_e[0],$temp_fu_f[0],$temp_fu_g[0]};
+         for ($p=0;$p<size($shuzu_temp_all);$p++)
+             {
+              string$shuxing_name_temp=$shuzu_temp_all[$p];
+              
+              string$shuxing_xyz[]={($shuxing_name_temp+"suofang_X"),($shuxing_name_temp+"suofang_Y"),($shuxing_name_temp+"suofang_Z"),($shuxing_name_temp+"xuanzhuan_X"),($shuxing_name_temp+"xuanzhuan_Y"),($shuxing_name_temp+"xuanzhuan_Z"),($shuxing_name_temp+"xuanzhuan_X")};
+              for ($Y=0;$Y<size($shuxing_xyz);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz[$Y];
+                     setAttr ($temp_bianliang+"."+$shuxing_wancheng) 0;
+                   }
+              string$shuxing_xyz_weiyi[]={($shuxing_name_temp+"weiyi_X"),($shuxing_name_temp+"weiyi_Y"),($shuxing_name_temp+"weiyi_Z")};
+              for ($Y=0;$Y<size($shuxing_xyz_weiyi);$Y++)
+                   {
+                     string$shuxing_wancheng=$shuxing_xyz_weiyi[$Y];
+                     setAttr ($temp_bianliang+"."+$shuxing_wancheng) 1;
+                   }
+                }
                 setAttr ($temp_bianliang+".zhouxiangX") -45;
                
                }
@@ -12253,130 +11431,141 @@ for ($i=0;$i<$con_num;$i++)
    select -r $con;
    string$weiyi="";
    
-   ///////////////////位移//////////////////////////////////////
-   if($trs==1)
-   {
-    $weiyi="weiyi";
-    string $jianjianjiedian[]= `listConnections -d 1 -s 0 -scn 1($con+".zhaodao_trs")`;
-    string$jiedian=$jianjianjiedian[0];
-    string $kongzhiqi=$zuiba_con+$weiyi;
-    string $kongzhiqi_X=$zuiba_con+$weiyi+"_X";
-    string $kongzhiqi_Y=$zuiba_con+$weiyi+"_Y";
-    string $kongzhiqi_Z=$zuiba_con+$weiyi+"_Z";
-    $ex=`objExists ($con+"."+$kongzhiqi)`;
-    if($ex==0){
-    addAttr -ln $kongzhiqi -at bool  -dv 0 -k 1 $con;
-    setAttr -lock true ($con+"."+$kongzhiqi);
-    addAttr -ln $kongzhiqi_X -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    addAttr -ln $kongzhiqi_Y -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    addAttr -ln $kongzhiqi_Z -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_X);
-    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Y);
-    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Z);
-     string $multiplyDivide_AA=($con+$kongzhiqi+"_multiplyDivide_AA");
-    int $panduan=`objExists $multiplyDivide_AA`;
-    if($panduan==1){delete $multiplyDivide_AA; }
-    shadingNode -asUtility multiplyDivide -n $multiplyDivide_AA;//创建乘除节点
-    connectAttr -force  ($con+"."+$kongzhiqi_X)  ($multiplyDivide_AA+".input1X");
-    connectAttr -force  ($con+"."+$kongzhiqi_Y)  ($multiplyDivide_AA+".input1Y");
-    connectAttr -force  ($con+"."+$kongzhiqi_Z)  ($multiplyDivide_AA+".input1Z");
-    connectAttr -force  ($zuiba_con+".tx")  ($multiplyDivide_AA+".input2X");
-    connectAttr -force  ($zuiba_con+".ty")  ($multiplyDivide_AA+".input2Y");
-    connectAttr -force  ($zuiba_con+".tz")  ($multiplyDivide_AA+".input2Z");
-     string $inpute3d[]= `listConnections -d 0 -s 1 -scn 1($jiedian+".input3D")`;
-     int$index=size($inpute3d);
-     connectAttr -force   ($multiplyDivide_AA+".output") ($jiedian+".input3D["+$index+"]");
-    }
-   }
+   string $grp_A_s[]=`listRelatives -p $zuiba_con`; 
+   string $grp_B_s[]=`listRelatives -p  $grp_A_s[0]`; 
+   string $grp_C_s[]=`listRelatives -p  $grp_B_s[0]`; 
+   string $grp_D_s[]=`listRelatives -p  $grp_C_s[0]`; 
+   string $grp_E_s[]=`listRelatives -p  $grp_D_s[0]`; 
+   string $grp_F_s[]=`listRelatives -p  $grp_E_s[0]`;
+   string $grp_G_s[]=`listRelatives -p  $grp_F_s[0]`;  
    
    
-   ///////////////////旋转//////////////////////////
-   
-    if($rot==1)
-   {
-    $weiyi="suofang";
-    string $jianjianjiedian[]= `listConnections -d 1 -s 0 -scn 1($con+".zhaodao_rot")`;
-    string$jiedian=$jianjianjiedian[0];
-    string $kongzhiqi=$zuiba_con+$weiyi;
-    string $kongzhiqi_X=$zuiba_con+$weiyi+"_X";
-    string $kongzhiqi_Y=$zuiba_con+$weiyi+"_Y";
-    string $kongzhiqi_Z=$zuiba_con+$weiyi+"_Z";
-    $ex=`objExists ($con+"."+$kongzhiqi)`;
-    if($ex==0){
-    addAttr -ln $kongzhiqi -at bool  -dv 0 -k 1 $con;
-    setAttr -lock true ($con+"."+$kongzhiqi);
-    addAttr -ln $kongzhiqi_X -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    addAttr -ln $kongzhiqi_Y -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    addAttr -ln $kongzhiqi_Z -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-   setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_X);
-   setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Y);
-   setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Z);
-    string $multiplyDivide_AA=($con+$kongzhiqi+"_multiplyDivide_AA");
-    int $panduan=`objExists $multiplyDivide_AA`;
-    if($panduan==1){delete $multiplyDivide_AA; }
-    shadingNode -asUtility multiplyDivide -n $multiplyDivide_AA;//创建乘除节点
-    connectAttr -force  ($con+"."+$kongzhiqi_X)  ($multiplyDivide_AA+".input1X");
-    connectAttr -force  ($con+"."+$kongzhiqi_Y)  ($multiplyDivide_AA+".input1Y");
-    connectAttr -force  ($con+"."+$kongzhiqi_Z)  ($multiplyDivide_AA+".input1Z");
-    string $plusMinusAverage_AA=($con+$kongzhiqi+"_plusMinusAverage_AA");
-    int $panduan=`objExists $plusMinusAverage_AA`;
-    if($panduan==1){delete $plusMinusAverage_AA; }
-    shadingNode -asUtility plusMinusAverage -n $plusMinusAverage_AA;//创建加减节点
-     connectAttr -force  ($zuiba_con+".s")  ($plusMinusAverage_AA+".input3D[0]");
-     setAttr -type float3 ($plusMinusAverage_AA+".input3D[1]") 1 1 1;
-     setAttr ($plusMinusAverage_AA+".operation") 2;
-     connectAttr -force   ($plusMinusAverage_AA+".output3D") ($multiplyDivide_AA+".input2");
-     string $inpute3d[]= `listConnections -d 0 -s 1 -scn 1($jiedian+".input3D")`;
-     int$index=size($inpute3d);
-     connectAttr -force   ($multiplyDivide_AA+".output") ($jiedian+".input3D["+$index+"]");
-    }
-   }
-   
-   
-   /////////////////////////缩放///////////////////////////////
-   
-   
-   
-    if($scl==1)
-   {
-    $weiyi="xuanzhuan";
-    string $jianjianjiedian[]= `listConnections -d 1 -s 0 -scn 1($con+".zhaodao_scl")`;
-    string$jiedian=$jianjianjiedian[0];
-    string $kongzhiqi=$zuiba_con+$weiyi;
-    string $kongzhiqi_X=$zuiba_con+$weiyi+"_X";
-    string $kongzhiqi_Y=$zuiba_con+$weiyi+"_Y";
-    string $kongzhiqi_Z=$zuiba_con+$weiyi+"_Z";
-    $ex=`objExists ($con+"."+$kongzhiqi)`;
-    if($ex==0){
-    addAttr -ln $kongzhiqi -at bool  -dv 0 -k 1 $con;
-    setAttr -lock true ($con+"."+$kongzhiqi);
-    addAttr -ln $kongzhiqi_X -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    addAttr -ln $kongzhiqi_Y -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    addAttr -ln $kongzhiqi_Z -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
-    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_X);
-    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Y);
-   setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Z);
-    string $multiplyDivide_AA=($con+$kongzhiqi+"_multiplyDivide_AA");
-    int $panduan=`objExists $multiplyDivide_AA`;
-    if($panduan==1){delete $multiplyDivide_AA; }
-    shadingNode -asUtility multiplyDivide -n $multiplyDivide_AA;//创建乘除节点
-    connectAttr -force  ($con+"."+$kongzhiqi_X)  ($multiplyDivide_AA+".input1X");
-    connectAttr -force  ($con+"."+$kongzhiqi_Y)  ($multiplyDivide_AA+".input1Y");
-    connectAttr -force  ($con+"."+$kongzhiqi_Z)  ($multiplyDivide_AA+".input1Z");
-    connectAttr -force  ($zuiba_con+".rx")  ($multiplyDivide_AA+".input2X");
-    connectAttr -force  ($zuiba_con+".ry")  ($multiplyDivide_AA+".input2Y");
-    connectAttr -force  ($zuiba_con+".rz")  ($multiplyDivide_AA+".input2Z");
-     string $inpute3d[]= `listConnections -d 0 -s 1 -scn 1($jiedian+".input3D")`;
-     int$index=size($inpute3d);
-     connectAttr -force   ($multiplyDivide_AA+".output") ($jiedian+".input3D["+$index+"]");
-     }
-   }
-   
-   
-   
-   
+   string$all_grp_s[]={$zuiba_con,$grp_A_s[0], $grp_B_s[0],$grp_C_s[0],$grp_D_s[0],$grp_E_s[0],$grp_F_s[0],$grp_G_s[0]};
+   for ($iii=0;$iii<size($all_grp_s);$iii++)
+        {
+        	 string$grp_kongzhi=$all_grp_s[$iii];
+        	 $zuiba_con=$grp_kongzhi;
+        	 string $jianjianjiedian[]= `listConnections -d 1 -s 0 -scn 1($con+".zhaodao_trs")`;
+             string$jiedian=$jianjianjiedian[0];
+             ///////////////////位移//////////////////////////////////////
+             if($trs==1)
+               {
+                $weiyi="weiyi";
+                string $kongzhiqi=$zuiba_con+$weiyi;
+                string $kongzhiqi_X=$zuiba_con+$weiyi+"_X";
+                string $kongzhiqi_Y=$zuiba_con+$weiyi+"_Y";
+                string $kongzhiqi_Z=$zuiba_con+$weiyi+"_Z";
+                $ex=`objExists ($con+"."+$grp_kongzhi)`;
+                if($ex==0)
+                  {
+                  addAttr -ln $kongzhiqi -at bool  -dv 0 -k 1 $con;
+                  setAttr -lock true ($con+"."+$kongzhiqi);
+                  addAttr -ln $kongzhiqi_X -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+                  addAttr -ln $kongzhiqi_Y -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+                  addAttr -ln $kongzhiqi_Z -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+                  setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_X);
+                  setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Y);
+                  setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Z);
+                  
+                  string $multiplyDivide_AA=($grp_kongzhi+$kongzhiqi+"_multiplyDivide_AA_"+$con+$iii);
+                  int $panduan=`objExists $multiplyDivide_AA`;
+                  if($panduan==1){delete $multiplyDivide_AA; }
+                  shadingNode -asUtility multiplyDivide -n $multiplyDivide_AA;//创建乘除节点
+                  connectAttr -force  ($con+"."+$kongzhiqi_X)  ($multiplyDivide_AA+".input1X");
+                  connectAttr -force  ($con+"."+$kongzhiqi_Y)  ($multiplyDivide_AA+".input1Y");
+                  connectAttr -force  ($con+"."+$kongzhiqi_Z)  ($multiplyDivide_AA+".input1Z");
+                  connectAttr -force  ($zuiba_con+".tx")  ($multiplyDivide_AA+".input2X");
+                  connectAttr -force  ($zuiba_con+".ty")  ($multiplyDivide_AA+".input2Y");
+                  connectAttr -force  ($zuiba_con+".tz")  ($multiplyDivide_AA+".input2Z");
+                  string $inpute3d[]= `listConnections -d 0 -s 1 -scn 1($jiedian+".input3D")`;
+                  int$index=size($inpute3d);
+                  connectAttr -force   ($multiplyDivide_AA+".output") ($jiedian+".input3D["+$index+"]");
+                  }
+                }
     
-}
+              ///////////////////旋转//////////////////////////
+              string $jianjianjiedian[]= `listConnections -d 1 -s 0 -scn 1($con+".zhaodao_rot")`;
+              string$jiedian=$jianjianjiedian[0];
+              if($rot==1)
+                {
+                 $weiyi="suofang";
+
+                 string $kongzhiqi=$zuiba_con+$weiyi;
+                 string $kongzhiqi_X=$zuiba_con+$weiyi+"_X";
+                 string $kongzhiqi_Y=$zuiba_con+$weiyi+"_Y";
+                 string $kongzhiqi_Z=$zuiba_con+$weiyi+"_Z";
+                 $ex=`objExists($con+"."+$grp_kongzhi)`;
+                 if($ex==0)
+                   {
+                    addAttr -ln $kongzhiqi -at bool  -dv 0 -k 1 $con;
+                    setAttr -lock true ($con+"."+$kongzhiqi);
+                    addAttr -ln $kongzhiqi_X -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+                    addAttr -ln $kongzhiqi_Y -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+                    addAttr -ln $kongzhiqi_Z -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+                    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_X);
+                    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Y);
+                    setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Z);
+                    string $multiplyDivide_AA=($grp_kongzhi+$kongzhiqi+"_multiplyDivide_AA_"+$con+$iii);
+                    int $panduan=`objExists $multiplyDivide_AA`;
+                    if($panduan==1){delete $multiplyDivide_AA; }
+                    shadingNode -asUtility multiplyDivide -n $multiplyDivide_AA;//创建乘除节点
+                    connectAttr -force  ($con+"."+$kongzhiqi_X)  ($multiplyDivide_AA+".input1X");
+                    connectAttr -force  ($con+"."+$kongzhiqi_Y)  ($multiplyDivide_AA+".input1Y");
+                    connectAttr -force  ($con+"."+$kongzhiqi_Z)  ($multiplyDivide_AA+".input1Z");
+                    string $plusMinusAverage_AA=($grp_kongzhi+$kongzhiqi+"_plusMinusAverage_AA");
+                    int $panduan=`objExists $plusMinusAverage_AA`;
+                    if($panduan==1){delete $plusMinusAverage_AA; }
+                    shadingNode -asUtility plusMinusAverage -n $plusMinusAverage_AA;//创建加减节点
+                    connectAttr -force  ($zuiba_con+".s")  ($plusMinusAverage_AA+".input3D[0]");
+                    setAttr -type float3 ($plusMinusAverage_AA+".input3D[1]") 1 1 1;
+                    setAttr ($plusMinusAverage_AA+".operation") 2;
+                    connectAttr -force   ($plusMinusAverage_AA+".output3D") ($multiplyDivide_AA+".input2");
+                    string $inpute3d[]= `listConnections -d 0 -s 1 -scn 1($jiedian+".input3D")`;
+                    int$index=size($inpute3d);
+                   connectAttr -force   ($multiplyDivide_AA+".output") ($jiedian+".input3D["+$index+"]");
+                   }
+             }
+                  
+        
+         /////////////////////////缩放///////////////////////////////
+       string $jianjianjiedian[]= `listConnections -d 1 -s 0 -scn 1($con+".zhaodao_scl")`;
+       string$jiedian=$jianjianjiedian[0];
+       if($scl==1)
+         {
+         $weiyi="xuanzhuan";
+
+         string $kongzhiqi=$zuiba_con+$weiyi;
+         string $kongzhiqi_X=$zuiba_con+$weiyi+"_X";
+         string $kongzhiqi_Y=$zuiba_con+$weiyi+"_Y";
+         string $kongzhiqi_Z=$zuiba_con+$weiyi+"_Z";
+         $ex=`objExists ($con+"."+$grp_kongzhi)`;
+        if($ex==0)
+          {
+          addAttr -ln $kongzhiqi -at bool  -dv 0 -k 1 $con;
+          setAttr -lock true ($con+"."+$kongzhiqi);
+          addAttr -ln $kongzhiqi_X -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+          addAttr -ln $kongzhiqi_Y -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+          addAttr -ln $kongzhiqi_Z -at double  -dv 0.5 -min -1 -max 2 -k 1 $con;
+          setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_X);
+          setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Y);
+          setAttr -keyable false -channelBox true ($con+"."+$kongzhiqi_Z);
+          string $multiplyDivide_AA=($grp_kongzhi+$kongzhiqi+"_multiplyDivide_AA_"+$con+$iii);
+          int $panduan=`objExists $multiplyDivide_AA`;
+          if($panduan==1){delete $multiplyDivide_AA; }
+          shadingNode -asUtility multiplyDivide -n $multiplyDivide_AA;//创建乘除节点
+          connectAttr -force  ($con+"."+$kongzhiqi_X)  ($multiplyDivide_AA+".input1X");
+          connectAttr -force  ($con+"."+$kongzhiqi_Y)  ($multiplyDivide_AA+".input1Y");
+          connectAttr -force  ($con+"."+$kongzhiqi_Z)  ($multiplyDivide_AA+".input1Z");
+          connectAttr -force  ($zuiba_con+".rx")  ($multiplyDivide_AA+".input2X");
+          connectAttr -force  ($zuiba_con+".ry")  ($multiplyDivide_AA+".input2Y");
+          connectAttr -force  ($zuiba_con+".rz")  ($multiplyDivide_AA+".input2Z");
+          string $inpute3d[]= `listConnections -d 0 -s 1 -scn 1($jiedian+".input3D")`;
+          int$index=size($inpute3d);
+          connectAttr -force   ($multiplyDivide_AA+".output") ($jiedian+".input3D["+$index+"]");
+         }
+       }   
+   }  
+ }
 
 }
 
@@ -13193,6 +12382,747 @@ select -r $lip_mode;
 select -add $mode;
 CopySkinWeights;
 }
+
+
+
+
+
+
+
+
+////////////////////////////////////////////创建眼睛控制器//////////////////////////////////////////
+global proc zxb_chuangjianyanjingguyanjie_fangfa_proc()
+{
+ string $xiaba_bn=`textFieldGrp -q -tx  UI_zxb_eye`;
+ string $toubukongzhiqi=`textFieldGrp -q -tx UI_head_controller `;
+ string $toubuguanjie=`textFieldGrp -q -tx UI_head_bn `;
+ 
+string$con=`textFieldGrp -q -tx UI_head_controller `;
+string $con_sheps[]=`listRelatives -s $con`;
+float$obx_Max[]=`getAttr ($con_sheps[0]+".boundingBoxMax")`;////绑定box节点
+float$soce=$obx_Max[0]*0.1;
+
+ int$xingwei=`checkBox -q  -value  xingwei`;
+  int$duicheng_bn=`checkBox -q  -value   duicheng`;
+
+  string$bns[];
+  clear $bns;
+  int $nemt=`tokenize $xiaba_bn" " $bns`;//分离字符串存到变量
+  string$bn=$bns[0];
+ // string$bn_p[]=`listRelatives -p $bn`;
+ 
+  
+  float$bn_pos_aa[]=`xform -q -ws -t $bn`;
+string$LLRR_qianzui="";
+if($bn_pos_aa[0]>0){$LLRR_qianzui="L";}else{$LLRR_qianzui="R";}
+ string$temp_lingshi_bn="zxb_Eye_"+$LLRR_qianzui;
+string$eye_End=$temp_lingshi_bn+"_End";
+ int$panduan_A=`objExists $temp_lingshi_bn`;
+  if($panduan_A==0)
+  {  
+  
+  select -cl;
+  joint -p 0 0 0 -n $temp_lingshi_bn ;
+  joint -p 0 0 $soce  -n $eye_End;
+  delete`pointConstraint $bn $temp_lingshi_bn` ;
+  select -r $temp_lingshi_bn;
+  joint -e  -oj xyz -secondaryAxisOrient yup -ch -zso;
+  setAttr ($eye_End+".jointOrientY") 0;
+
+  /*select -r $bn;
+  duplicate -rr -n $temp_lingshi_bn;
+  parent -w;*/
+  }
+  
+ string$bn=$temp_lingshi_bn;
+ float$temp_poss_A=`getAttr  ($eye_End+".translateX")`;
+ float$temp_poss=$temp_poss_A*3;
+  float$bn_pos[]=`xform -q -ws -t $bn`;
+  string$LLRR="";
+  string$jingxiang="";
+  string$array[];
+  clear $array;
+  if($bn_pos[0]>0.001)
+    {
+     $LLRR="L";  
+     $jingxiang="R";
+     $array= stringToStringArray($bn, $LLRR);//字符串转化数组
+     int$size=size($array);
+
+
+      if($size<1){error "关节利面没有镜像名称";}
+    select -r  $bn;
+    if($duicheng_bn==1){
+         if($xingwei==0)
+         {
+         mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $LLRR $jingxiang;
+          }else
+              {
+                mirrorJoint -mirrorYZ -searchReplace $LLRR $jingxiang;
+              }
+    
+         }
+    }
+    if($bn_pos[0]<0.001)
+   {
+     $LLRR="R";  
+     $jingxiang="L";
+     $array= stringToStringArray($bn, $LLRR);//字符串转化数组
+     int$size=size($array);
+     if($size<1){error "关节利面没有镜像名称";}
+      select -r  $bn;
+    if($duicheng_bn==1)
+      {
+       if($xingwei==0)
+          {
+           mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $LLRR $jingxiang;
+          }else
+              {
+                mirrorJoint -mirrorYZ -searchReplace $LLRR $jingxiang;
+                }
+       }
+     }
+    string$temp_bn=($array[0]+$jingxiang+$array[1]);
+    select -r $bn; 
+    if($duicheng_bn==1){select -add $temp_bn; }
+   
+   string$alleyebns[]=`ls -sl`;  
+   string$kongzhiqi_D=($bn+"_eye_kongzhiqi_D");
+   string$kongzhiqi_D_GRP_A=($bn+"_eye_kongzhiqi_D_grp_A");
+   string$kongzhiqi_D_GRP_B=($bn+"_eye_kongzhiqi_D_grp_B");
+   string$kongzhiqi_D_GRP_C=($bn+"_eye_kongzhiqi_D_grp_C"); 
+   
+   
+   string$loc=$bn+"dingwei_loc";
+   string$loc_grp_A=$bn+"dingwei_loc_grp_A";
+   spaceLocator -p 0 0 0 -n $loc ;
+   group -n $loc_grp_A;
+   
+   string$eye_grp="Eye_all_grp";
+   zxb_ADD_kongzu_proc($eye_grp);
+   parent  $eye_grp "Face_Group";
+   parent  $loc_grp_A $eye_grp;
+   setAttr -type float3 ($loc_grp_A+".translate") 0 0 0;
+   setAttr -type float3  ($loc_grp_A+".rotate") 0 0 0 ;
+   
+   
+   string$head_gep_temp="eye_controller_all_grp";
+   zxb_ADD_kongzu_proc($head_gep_temp);
+   delete`parentConstraint   $toubuguanjie $head_gep_temp `;
+   parent $head_gep_temp  $eye_grp;
+   parentConstraint  -mo  $toubuguanjie $head_gep_temp;
+   scaleConstraint -mo $toubuguanjie $head_gep_temp;
+   
+   delete`orientConstraint $bn $loc_grp_A` ;
+   parentConstraint  -mo $bn  $loc_grp_A;
+   scaleConstraint -mo $bn  $loc_grp_A;
+   setAttr ($loc_grp_A+".visibility") 0;
+   setAttr -lock true ($loc_grp_A+".v");
+   string$kongzhiqi="";
+   for ($i=0;$i<size($alleyebns);$i++)
+       {
+       string$temp_BN=$alleyebns[$i];
+       string$BN=$temp_BN+"_zhengti";
+       string$en_BN=$BN+"_End";
+       string$kongzhiqi_A=($temp_BN+"_eye_kongzhiqi_A");
+       string$kongzhiqi_A_GRP_A=($temp_BN+"_eye_kongzhiqi_A_GRP_A");
+       string$kongzhiqi_A_GRP_B=($temp_BN+"_eye_kongzhiqi_A_GRP_B");
+       string$kongzhiqi_A_GRP_C=($temp_BN+"_eye_kongzhiqi_A_GRP_C");
+       
+       string$kongzhiqi_B=($temp_BN+"_eye_kongzhiqi_B");
+       string$kongzhiqi_B_GRP_A=($temp_BN+"_eye_kongzhiqi_B_grp_A");
+       string$kongzhiqi_B_GRP_B=($temp_BN+"_eye_kongzhiqi_B_grp_B");
+       string$kongzhiqi_B_GRP_C=($temp_BN+"_eye_kongzhiqi_B_grp_C");
+       
+       string$kongzhiqi_C=($temp_BN+"_eye_kongzhiqi_C");
+       string$kongzhiqi_C_GRP_A=($temp_BN+"_eye_kongzhiqi_C_grp_A");
+       string$kongzhiqi_C_GRP_B=($temp_BN+"_eye_kongzhiqi_C_grp_B");
+       string$kongzhiqi_C_GRP_C=($temp_BN+"_eye_kongzhiqi_C_grp_C");
+       
+     $kongzhiqi+=$kongzhiqi_A+" ";
+       
+       select -r  $temp_BN;
+       duplicate -rr -n $BN ;
+       string$BN_end[]=`listRelatives -c -pa $BN`;
+       rename $BN_end[0]  $en_BN;
+       select -r  $en_BN;
+       setAttr ($en_BN+".translateX") ($temp_poss*0.5);
+
+       //move -r -os -wd 0 0 ($temp_poss*-0.5) ;
+       //setAttr ($en_BN+".tx") ($temp_poss*0.5);
+       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss*0.2) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_A; 
+       group -n $kongzhiqi_A_GRP_A;
+       group -n $kongzhiqi_A_GRP_B;    
+       group -n $kongzhiqi_A_GRP_C;
+      // string$qvxian_shap[]=`listRelatives -s $kongzhiqi_A`;
+       setAttr ($kongzhiqi_A+".overrideEnabled") 1;
+       setAttr  ($kongzhiqi_A+".overrideColor") 13;
+       delete`parentConstraint $temp_BN  $kongzhiqi_A_GRP_C`;
+       select -r ($kongzhiqi_A+".cv[0:999]") ;
+       move -r -os -wd $temp_poss 0 0 ;
+       parentConstraint  $kongzhiqi_A $BN ;
+       
+       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss*0.1) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_B; 
+       group -n $kongzhiqi_B_GRP_A;
+       group -n $kongzhiqi_B_GRP_B;    
+       group -n $kongzhiqi_B_GRP_C;
+       string$qvxian_shap_B[]=`listRelatives -s $kongzhiqi_B`;
+       setAttr ($kongzhiqi_B+".overrideEnabled") 1;
+       setAttr  ($kongzhiqi_B+".overrideColor") 17;
+       delete`parentConstraint $temp_BN  $kongzhiqi_B_GRP_C`;
+       select -r ($kongzhiqi_B+".cv[0:999]") ;
+       move -r -os -wd $temp_poss 0 0 ;
+       parentConstraint  $kongzhiqi_B $temp_BN ;
+
+       //select -r ($kongzhiqi_B+".cv[1]") ($kongzhiqi_B+".cv[5]") ($kongzhiqi_B+".cv[3]")  ($kongzhiqi_B+".cv[7]");
+       //scale -r -p 0.469494cm 14.99773cm 0.943909cm 0.2 0.2 0.2 ;
+
+
+       string$bn_dingwei=$temp_BN+"_temp";
+       select -r $temp_BN;
+       duplicate -rr -n $bn_dingwei;
+       select -r $bn_dingwei;
+       move -r -os -wd ($temp_poss*3) 0 0 ;
+       
+       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss*0.2) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_C; 
+       group -n $kongzhiqi_C_GRP_A;
+       group -n $kongzhiqi_C_GRP_B;    
+       group -n $kongzhiqi_C_GRP_C;
+       setAttr ($kongzhiqi_C+".overrideEnabled") 1;
+       setAttr  ($kongzhiqi_C+".overrideColor") 17;
+       delete`parentConstraint $bn_dingwei  $kongzhiqi_C_GRP_C`;
+      
+
+      int$ex=`objExists $kongzhiqi_D`;
+      if($ex==0)
+         {  
+       circle -c 0 0 0 -nr 1 0 0 -sw 360 -r ($temp_poss) -d 3 -ut 0 -tol 0.01 -s 8 -ch 0 -n $kongzhiqi_D; 
+       group -n $kongzhiqi_D_GRP_A;
+       group -n $kongzhiqi_D_GRP_B;    
+       group -n $kongzhiqi_D_GRP_C;
+       setAttr ($kongzhiqi_D+".overrideEnabled") 1;
+       setAttr  ($kongzhiqi_D+".overrideColor") 17;
+       delete`parentConstraint $bn_dingwei  $kongzhiqi_D_GRP_C`;
+       setAttr ($kongzhiqi_D_GRP_C+".translateX") 0;
+        setAttr -type float3 ($kongzhiqi_D_GRP_C+".r") 0 -90 0;
+        select -r ($kongzhiqi_D+".cv[0:7]") ;
+
+          }
+          
+      delete $bn_dingwei;
+      parent $kongzhiqi_A_GRP_C  $head_gep_temp;
+      parent $kongzhiqi_B_GRP_C  $head_gep_temp;
+      parent $kongzhiqi_C_GRP_C  $kongzhiqi_D;
+      
+      if($i==0){parent $kongzhiqi_D_GRP_C   $head_gep_temp;}
+      parent  $temp_BN $toubuguanjie;
+      parent  $BN $toubuguanjie ;
+      select -r $kongzhiqi_C;
+      select -add $kongzhiqi_B_GRP_B;
+      aimConstraint -offset 0 0 0 -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "objectrotation" -worldUpVector 0 1 0 -worldUpObject $loc;
+      connectAttr -f ($kongzhiqi_B_GRP_B+".rotate") ($kongzhiqi_A_GRP_B+".rotate");
+      connectAttr -f ($kongzhiqi_B_GRP_B+".t") ($kongzhiqi_A_GRP_B+".t");
+      connectAttr -f ($kongzhiqi_A+".t") ($kongzhiqi_B_GRP_A+".t");
+      connectAttr -f ($kongzhiqi_A+".r") ($kongzhiqi_B_GRP_A+".r");
+
+      connectAttr -f ($kongzhiqi_A+".s") ($temp_BN+".s");
+       connectAttr -f ($kongzhiqi_A+".s") ( $BN+".s");
+       connectAttr -f ($kongzhiqi_A+".s") ( $kongzhiqi_B_GRP_B+".s");
+       }
+       
+     
+  
+zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_con");
+setAttr -type "string" ($toubukongzhiqi+".eye_con")$kongzhiqi ;
+
+
+ 
+}
+
+
+
+
+
+
+////////////////////////////////////创建眼皮绑定//////////////////////////////////////////
+global proc zxb_chuangjianyanpiguanjie_fangfa_proc()
+{
+string $xiaba_bn=`textFieldGrp -q -tx  UI_zxb_eye`;//眼球关节
+string $toubukongzhiqi=`textFieldGrp -q -tx UI_head_controller `;//头部控制器
+string $toubuguanjie=`textFieldGrp -q -tx UI_head_bn `;//头部关节
+string$temp_commm=`getAttr ($toubukongzhiqi+".eye_con")`;
+string $eye_con=$temp_commm;//眼球控制器
+string $eye_cons[]= stringToStringArray($eye_con, " ");//字符串转化数组
+string $diana=`textFieldGrp -q -tx UI_zxb_eye_point_up`;
+string $dianb=`textFieldGrp -q -tx  UI_zxb_eye_point_dw`;
+zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_lip_ik");
+zxb_ADD_kongzu_proc("zxb_fase_eye_loc");
+zxb_ADD_kongzu_proc("zxb_fase_eye_ikHandle");
+zxb_ADD_kongzu_proc("zxb_fase_eye_joints");
+zxb_ADD_kongzu_proc("zxb_fase_eye_grp");
+zxb_ADD_kongzu_proc("Face_Group");
+zxb_ADD_kongzu_proc("zxb_eye_loc");
+parent ("zxb_eye_loc")("Eye_all_grp");
+parent ("zxb_fase_eye_loc")("Eye_all_grp");
+parent ("zxb_fase_eye_ikHandle")("Eye_all_grp");
+parent ("zxb_fase_eye_joints")("Eye_all_grp");
+parent("zxb_fase_eye_grp")("Eye_all_grp");
+string$ik_eye_ikHandle="";
+float$diana_pos[]=`xform -q -ws -t $diana`;
+float$dianb_pos[]=`xform -q -ws -t $dianb`;
+int$xingwei=`checkBox -q  -value  xingwei`;
+int$duicheng_bn=`checkBox -q  -value   duicheng`;
+string$bns[];
+clear $bns;
+int $nemt=`tokenize $xiaba_bn" " $bns`;//分离字符串存到变量
+string$bn=$bns[0];
+string$yanpi_UP_bn=$bn+"_UP_yanpi";
+string$yanpi_UP_bn_end=$bn+"_UP_yanpi_end";
+string$yanpi_DW_bn=$bn+"_DW_yanpi";
+string$yanpi_UP_DW_end=$bn+"_DW_yanpi_end";
+select -r  $bn;
+duplicate -rr -n $yanpi_UP_bn;
+string$bn_end[]=`listRelatives -c -pa -type "joint" $yanpi_UP_bn`;
+string$bn_end_a[]=`listRelatives -c -pa  $yanpi_UP_bn`;
+select -r $bn_end_a;
+select -d $bn_end[0];
+doDelete;
+rename $bn_end[0] $yanpi_UP_bn_end;
+float$temp_poss=`getAttr  ($yanpi_UP_bn_end+".tx")`;
+select -r $yanpi_UP_bn;
+move -r -os -wd 0 ($temp_poss*0.025) 0 ;
+select -r  $bn;
+duplicate -rr -n $yanpi_DW_bn;
+string$bn_end_dw[]=`listRelatives -c -pa -type "joint" $yanpi_DW_bn`;
+string$bn_end_dwa[]=`listRelatives -c -pa  $yanpi_DW_bn`;
+select -r $bn_end_dwa;
+select -d $bn_end_dw[0];
+doDelete;
+rename$bn_end_dw[0] $yanpi_UP_DW_end;
+float$temp_posd=`getAttr  ($yanpi_UP_DW_end+".tx")`;
+select -r $yanpi_DW_bn;
+move -r -os -wd 0 ($temp_posd*-0.025) 0 ;
+
+string $tepup_loc=$bn+"_temp_uploca";
+string $tepdw_loc=$bn+"_temp_dwloca";
+spaceLocator -p 0 0 0  -n $tepup_loc ;
+parent $tepup_loc $yanpi_UP_bn_end;
+setAttr -type float3 ($tepup_loc+".translate") 0 0 0;
+spaceLocator -p 0 0 0  -n $tepdw_loc ;
+parent $tepdw_loc $yanpi_UP_DW_end;
+setAttr -type float3 ($tepdw_loc+".translate") 0 0 0;
+float$diss=10000000;
+select -r  $yanpi_DW_bn ;
+select -add  $yanpi_UP_bn ;
+string $bianliang[]=`ls -sl`;
+float$rz=0;
+for ($i=0;$i<size($bianliang);$i++)
+    {
+     string$guge=$bianliang[$i];
+     string$temp_zi[]=`listRelatives -c  $guge`;
+     string$temp_loc[]=`listRelatives -c  $temp_zi[0]`;
+     float$temp_po[];
+     clear$temp_po;
+     if($i==0){$temp_po=$diana_pos;}else{$temp_po=$dianb_pos;$diss=10000000; }
+     for ($ii=0;$ii<360;$ii++)
+         {
+          setAttr ($guge+".rotateZ") $ii;
+          float$pos[]=`xform -q -ws -t $temp_loc[0]`;
+          float$cdiss=mag(<<$temp_po[0],$temp_po[1],$temp_po[2]>>-<<$pos[0],$pos[1],$pos[2]>>);
+          if($cdiss<$diss)
+            {
+            $diss=$cdiss;
+            $rz=$ii;
+             }
+             
+          }
+    setAttr ($guge+".rotateZ") $rz;
+    }
+        
+        
+float$diss=10000000;
+select -r $yanpi_DW_bn ;
+select -add $yanpi_UP_bn;
+string $bianliang[]=`ls -sl`;
+float$rz=0;
+for ($i=0;$i<size($bianliang);$i++)
+    {
+     string$guge=$bianliang[$i];
+     string$temp_zi[]=`listRelatives -c  $guge`;
+     string$temp_loc[]=`listRelatives -c  $temp_zi[0]`;
+     float$temp_po[];
+     clear$temp_po;
+     if($i==0){$temp_po=$diana_pos;}else{$temp_po=$dianb_pos;$diss=10000000; }
+     for ($ii=0;$ii<360;$ii++)
+         {
+         setAttr ($guge+".rotateY") $ii;
+         float$pos[]=`xform -q -ws -t $temp_loc[0]`;
+         float$cdiss=mag(<<$temp_po[0],$temp_po[1],$temp_po[2]>>-<<$pos[0],$pos[1],$pos[2]>>);
+         if($cdiss<$diss)
+           {
+            $diss=$cdiss;
+             $rz=$ii;
+            }
+             
+         }
+     setAttr ($guge+".rotateY") $rz;
+    }
+             
+             
+             
+delete  $tepup_loc  $tepdw_loc;
+
+float$upry=` getAttr  ($yanpi_UP_bn+".ry")`;
+float$dwry=` getAttr  ($yanpi_DW_bn+".ry")`;
+float$rot=($upry+$dwry)*0.5;
+setAttr  ($yanpi_UP_bn+".ry")  $rot;
+setAttr  ($yanpi_DW_bn+".ry")  $rot;
+select -r  $yanpi_UP_bn $yanpi_DW_bn;
+FreezeTransformations;
+parent -w;
+string$root_bn=($bn+"_root_bn");
+float$temp_pos[]=`xform -q -ws -t $yanpi_UP_bn`;
+select -cl  ;
+joint -p 0 $temp_pos[1]  $temp_pos[2] -n $root_bn;
+parent $root_bn("zxb_fase_eye_joints");
+string$AA="";
+string$bb="";
+string$R_bn="";
+if($duicheng_bn==1)
+  {
+   float$aa_pos[]=`xform -q -ws -t  $bn`;
+   if($aa_pos[0]<0){$AA="R";$bb="L";}else{$AA="L";$bb="R";}
+   string$zhuguanjioeS[]= stringToStringArray($bn, $AA);//字符串转化数组
+   int$size=size($zhuguanjioeS);
+   if($size<1){error "关节利面没有镜像名称";}
+   $R_bn=$zhuguanjioeS[0]+$bb+$zhuguanjioeS[1];
+   /*select -r $bn;
+   mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $AA $bb;*/
+  }
+if($duicheng_bn==1){select -r  $bn  $R_bn;}else{select -r  $bn;} 
+
+string$rrlll[];
+clear $rrlll ;
+string $RL_bn[]=`ls -sl`;
+
+
+
+for ($i=0;$i<size($RL_bn);$i++)
+    {   
+      string$c_bn=$RL_bn[$i];
+      string$kongzu_A= $c_bn+"_ROOT_zu_A";
+      string$kongzu_Aa= $c_bn+"_ROOT_zu_Aa";
+      string$kongzu_B= $c_bn+"_ROOT_zu_B";
+      string$kongzu_Bb= $c_bn+"_ROOT_zu_Bb";
+      select -cl  ;
+      group -empty -n  $kongzu_A;
+      group -n $kongzu_Aa;
+      delete`parentConstraint $c_bn $kongzu_Aa`;
+      parentConstraint   -mo $c_bn $kongzu_Aa;
+      parent   $kongzu_Aa ("Eye_all_grp") ;
+      select -cl  ;
+      group -empty -n  $kongzu_B;
+      group -n $kongzu_Bb;
+      delete`parentConstraint  $c_bn $kongzu_Bb`;
+      parentConstraint  -mo $toubuguanjie $kongzu_Bb;
+      parent  $kongzu_Bb ("zxb_eye_loc");
+      orientConstraint -mo $kongzu_A $kongzu_B ;
+     string$root_gensui_bn_root="zxb_eye_loc_bn_"+$c_bn;;
+     float$temp_pos[]=`xform -q -ws -t $yanpi_UP_bn`;
+     select -cl  ;
+     joint -p 0 0 0 -n $root_gensui_bn_root;
+     $rrlll[$i]=$root_gensui_bn_root;
+     delete`parentConstraint  $c_bn  $root_gensui_bn_root`;
+     select -r $root_gensui_bn_root;
+     makeIdentity -apply true -t 0 -r 1 -s 0 -n 0 -pn 1;
+     parent $root_gensui_bn_root $root_bn;
+     connectAttr -f   ($kongzu_B+".r")   ($root_gensui_bn_root+".r");
+   }
+string$LLRR="";
+string$jingxiang="";
+string$array[];
+clear $array;
+string$up[];
+clear$up;
+string$dw[];
+clear$dw;
+//select -r $bianliang;
+for ($i=0;$i<size($bianliang);$i++)
+    {
+         string$temp_bn=$bianliang[$i];
+         float$bn_pos[]=`xform -q -ws -t $temp_bn`; 
+         if($bn_pos[0]>0)
+           {
+            $LLRR="L";  
+            $jingxiang="R";
+            if($bn_pos[0]<0){$AA="R";$bb="L";}else{$AA="L";$bb="R";}
+            $array= stringToStringArray($temp_bn, $LLRR);//字符串转化数组
+            if($i==0){$dw=$array;}else{$up=$array;}
+            int$size=size($array);
+            if($size<1){error "关节利面没有镜像名称";}
+            select -r  $temp_bn;
+            if($duicheng_bn==1)
+              {
+               mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $AA $bb;
+               //print $LLRR;
+              } 
+          }
+        if($bn_pos[0]<0)
+          {
+          $LLRR="R";  
+          $jingxiang="L";
+           if($bn_pos[0]<0){$AA="R";$bb="L";}else{$AA="L";$bb="R";}
+          $array= stringToStringArray($temp_bn, $LLRR);//字符串转化数组
+          if($i==0){$dw=$array;}else{$up=$array;}
+          int$size=size($array);
+          if($size<=1){error "关节利面没有镜像名称";}
+          select -r $temp_bn;
+          if($duicheng_bn==1)
+            {
+            mirrorJoint -mirrorYZ -mirrorBehavior -searchReplace $AA $bb;
+         
+             }
+          }
+  
+    }
+
+string$shang_bn=$dw[0]+$jingxiang+$dw[1];
+string$xia_bn=$up[0]+$jingxiang+$up[1];
+if($duicheng_bn==1) 
+  { 
+  select -r $yanpi_DW_bn  $yanpi_UP_bn $shang_bn $xia_bn ;
+   }else
+       {
+        select -r $yanpi_DW_bn  $yanpi_UP_bn;
+        }
+
+string $RL_BNS[]=`ls -sl`;
+ select -add ("zxb_fase_eye_joints");
+ parent;
+ string$jiajian_s[];
+ clear $jiajian_s;
+  string$fk_c[];
+ clear $fk_c;
+   string$fk_gensui[];
+ clear $fk_gensui;
+ 
+    string$Fk_[];
+ clear $Fk_;
+ 
+
+ for ($i=0;$i<size($RL_BNS);$i++)
+     {
+      string$temp_bn=$RL_BNS[$i];
+      string$upik=$temp_bn+"_IK";
+      string$upik_end=$temp_bn+"_IK_end";
+      string$upfk=$temp_bn+"_FK";
+      string$upfk_end=$temp_bn+"_FK_end";
+      string$lik_loc=$temp_bn+"_ik_loc"+$i;
+       string$lik_loc_grp=$lik_loc+"_grp";
+      
+  
+     select -r $temp_bn;
+     duplicate -rr -n $upik;
+     setAttr ($upik+".visibility") 0;
+     string$bn_up_end_ik[]=`listRelatives -c -pa  $upik`;
+     rename $bn_up_end_ik[0] $upik_end;
+  
+     select -r $temp_bn;
+     duplicate -rr -n $upfk;
+     setAttr ($upfk+".visibility") 0;
+     string$bn_up_end_fk[]=`listRelatives -c -pa  $upfk`;
+     rename $bn_up_end_fk[0] $upfk_end;
+     
+     string$jiajianjiedian=($temp_bn+"_plusMinusAverage_eye_A");
+     int $ex=`objExists $jiajianjiedian`;//查询这个物体是否纯在
+     if($ex==1){delete $jiajianjiedian;}
+      shadingNode -asUtility plusMinusAverage -n $jiajianjiedian;//创建加减节点
+      $jiajian_s[$i]=$jiajianjiedian;
+      connectAttr -f ($upik+".rotateZ") ($jiajianjiedian+".input3D[0].input3Dz");
+      connectAttr -f ($upfk+".rotate") ($jiajianjiedian+".input3D[1]");
+
+      connectAttr -f ($jiajianjiedian+".output3D") ($temp_bn+".rotate");
+      
+      spaceLocator -p 0 0 0 -n $lik_loc ;
+      group -n  $lik_loc_grp;
+      setAttr  ($lik_loc+".visibility") 0;
+     setAttr -lock true ($lik_loc+".v");
+      parent $lik_loc_grp("zxb_fase_eye_loc");
+      parent $upik $root_bn;
+      parent $upfk $root_bn;
+      select -r $upik;
+      select -add $upik_end;
+     string$ikhade[]=`ikHandle`;
+     delete`parentConstraint  $ikhade[0]  $lik_loc_grp`;
+     parent$ikhade[0]("zxb_fase_eye_ikHandle");
+     $ik_eye_ikHandle+=$ikhade[0]+" ";
+     setAttr  ($ikhade[0]+".visibility") 0;
+     setAttr -lock true ($ikhade[0]+".v");
+     select -r $lik_loc_grp;
+     move -r -os -wd 0.2 0.2 0 ;
+     select -r $lik_loc;
+     select -add $ikhade[0];
+     poleVectorConstraint -weight 1;
+     float$rx=`getAttr ($temp_bn+".rx")`;
+     if($i<=1)
+       {
+        if($rx>0){$rx=$rx*-1;}else{float$abs=abs($rx);$rx=$abs;}
+        }
+     
+     setAttr ($ikhade[0]+".twist") $rx;
+     // parent $temp_bn $root_bn; 
+     //select -add $yanpi_UP_bn;
+     
+      string$upfk_C=$temp_bn+"_FK_C";
+      string$upfkC_end=$temp_bn+"_FK_end_C";
+      select -r $temp_bn;
+      duplicate -rr -n $upfk_C;  
+      setAttr ($upfk_C+".visibility") 0;
+      string$bn_up_end_fkC[]=`listRelatives -c -pa  $upfk_C`;
+      rename $bn_up_end_fkC[0] $upfkC_end;
+      
+      string$upfk_gensui=$temp_bn+"_FK_gensui";
+      string$upfk_gensui_end=$temp_bn+"_FK_end_gensui";
+      select -r $temp_bn;
+      duplicate -rr -n $upfk_gensui;  
+      setAttr ($upfk_gensui+".visibility") 0;
+      string$bn_upfk_gensui[]=`listRelatives -c -pa  $upfk_gensui`;
+      rename $bn_upfk_gensui[0] $upfk_gensui_end;
+      
+      
+      orientConstraint   $upfk_gensui  $upfk_C;
+      string $fk_qvxian=$temp_bn+"_fk_com";
+      string$fk_qvxian_grp_A=$fk_qvxian+"_A";
+      string$fk_qvxian_grp_B=$fk_qvxian+"_B";
+
+
+      parent  $upfk_C $root_bn;
+      string$rrll_bn="";
+      if($i<=1){$rrll_bn=$rrlll[0];}else{$rrll_bn=$rrlll[1];}
+      parent  $upfk_gensui  $rrll_bn ;
+      $fk_c[$i]=$upfk_C;
+     $fk_gensui[$i]=$upfk_gensui;
+     $Fk_[$i]=$upfk;
+  }
+  
+ for ($i=0;$i<size($eye_cons);$i++)
+   {
+
+      int$a=0;
+      int$b=1;
+      if($i==1){$a=2; $b=3;}
+      
+       string$con=$eye_cons[$i];
+       addAttr -ln "shang"  -at double  -dv 0 -k 1 $con ;
+       addAttr -ln "xia"  -at double   -dv 0 -k 1 $con ;
+       addAttr -ln "biyan"  -at double   -dv 0 -k 1 $con ;
+       addAttr -ln "beishu"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+       addAttr -ln "shangxia"  -at double   -dv 0 -k 1 $con ;
+       
+       
+     addAttr -ln "gensui_rx_up"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+     addAttr -ln "gensui_ry_up"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+     addAttr -ln "gensui_rz_up"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+     
+     addAttr -ln "gensui_rx_dw"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+     addAttr -ln "gensui_ry_dw"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+     addAttr -ln "gensui_rz_dw"  -at double  -min 0 -max 1 -dv 0.5 -k 1 $con ;
+     
+     setAttr -keyable false -channelBox true($con+".gensui_rx_up");
+     setAttr -keyable false -channelBox true($con+".gensui_ry_up");
+     setAttr -keyable false -channelBox true($con+".gensui_rz_up");
+     setAttr -keyable false -channelBox true($con+".gensui_rx_dw");
+     setAttr -keyable false -channelBox true($con+".gensui_ry_dw");
+     setAttr -keyable false -channelBox true($con+".gensui_rz_dw");
+     
+     
+     setAttr -keyable false -channelBox true($con+".beishu");
+     string$chengchu_A=$con+"_multiplyDivide_A";
+     string$chengchu_B=$con+"_multiplyDivide_B";
+     
+      string$chengchu_C=$con+"_multiplyDivide_C";
+     
+     string$chengchu_D=$con+"_multiplyDivide_D";
+      string$chengchu_E=$con+"_multiplyDivide_E";
+     string$chengchu_F=$con+"_multiplyDivide_F";
+     int $ex=`objExists $chengchu_A`;//查询这个物体是否纯在
+     if($ex==1){delete $chengchu_A;}
+     shadingNode -asUtility multiplyDivide -n $chengchu_A;//创建乘除节点
+     
+     int $ex=`objExists $chengchu_B`;//查询这个物体是否纯在
+     if($ex==1){delete $chengchu_B;}
+     shadingNode -asUtility multiplyDivide -n $chengchu_B;//创建乘除节点
+     
+      int $ex=`objExists $chengchu_C`;//查询这个物体是否纯在
+     if($ex==1){delete $chengchu_C;}
+     shadingNode -asUtility multiplyDivide -n $chengchu_C;//创建乘除节点
+     
+     int $ex=`objExists $chengchu_D`;//查询这个物体是否纯在
+     if($ex==1){delete $chengchu_D;}
+     shadingNode -asUtility multiplyDivide -n $chengchu_D;//创建乘除节点
+     
+     
+     int $ex=`objExists $chengchu_E`;//查询这个物体是否纯在
+     if($ex==1){delete $chengchu_E;}
+     shadingNode -asUtility multiplyDivide -n $chengchu_E;//创建乘除节点
+     
+     int $ex=`objExists $chengchu_F`;//查询这个物体是否纯在
+     if($ex==1){delete $chengchu_F;}
+     shadingNode -asUtility multiplyDivide -n $chengchu_F;//创建乘除节点
+     
+     
+    connectAttr -f   ($con+".biyan") ($chengchu_A+".input1X");
+    connectAttr -f   ($con+".beishu") ($chengchu_A+".input2X");
+    connectAttr -f ($chengchu_A+".outputX") ($jiajian_s[$b]+".input3D[2].input3Dz");
+    setAttr ($chengchu_B+".input2X") -1;
+    connectAttr -f   ($con+".biyan") ($chengchu_B+".input1X");
+    connectAttr -f ($chengchu_B+".outputX") ($jiajian_s[$a]+".input3D[2].input3Dz");
+    
+    
+    connectAttr -f($con+".shang")  ($chengchu_C+".input1X");
+    connectAttr -f($con+".xia")  ($chengchu_D+".input1X");
+    setAttr  ($chengchu_D+".input2X") -1;
+
+    connectAttr -f ($chengchu_C+".outputX") ($jiajian_s[$b]+".input3D[3].input3Dz");
+    connectAttr -f ($chengchu_D+".outputX") ($jiajian_s[$a]+".input3D[3].input3Dz");
+
+    connectAttr -f ($con+".shangxia")  ($jiajian_s[$b]+".input3D[4].input3Dz");
+    connectAttr -f ($con+".shangxia")  ($jiajian_s[$a]+".input3D[4].input3Dz");
+    
+    connectAttr -f ($con+".gensui_rx_up")  ($chengchu_E+".input1X");
+    connectAttr -f ($con+".gensui_ry_up")  ($chengchu_E+".input1Y");
+    connectAttr -f ($con+".gensui_rz_up")  ($chengchu_E+".input1Z");
+    
+    connectAttr -f ($fk_c[$a]+".r")     ($chengchu_E+".input2");
+    connectAttr -f ($chengchu_E+".output") ($Fk_[$a]+".r")   ; 
+    
+    
+     connectAttr -f ($con+".gensui_rx_dw")  ($chengchu_F+".input1X");
+    connectAttr -f ($con+".gensui_ry_dw")  ($chengchu_F+".input1Y");
+    connectAttr -f ($con+".gensui_rz_dw")  ($chengchu_F+".input1Z");
+    
+    connectAttr -f ($fk_c[$b]+".r")     ($chengchu_F+".input2");
+    connectAttr -f ($chengchu_F+".output") ($Fk_[$b]+".r")   ; 
+     // parent $yanpi_UP_bn  $root_bn;
+     // parent $yanpi_DW_bn  $root_bn;
+ }
+ 
+ setAttr -type "string" ($toubukongzhiqi+".eye_lip_ik") $ik_eye_ikHandle;
+zxb_eye_lip_con_controller;
+} 
+
+
+
+global proc zxb_eye_con_bn_proc()
+{
+	
+	zxb_chuangjianyanjingguyanjie_fangfa_proc;
+	zxb_chuangjianyanpiguanjie_fangfa_proc;
+}
+
+
+
+
 
 
 global proc  zxb_biaoqing_shengcheng()
