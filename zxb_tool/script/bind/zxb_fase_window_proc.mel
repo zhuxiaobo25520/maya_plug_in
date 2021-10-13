@@ -6636,8 +6636,8 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
           zxb_eye_qvmiankongzhiqqvxian_proc($qvxian_HH,$qvxian_qvmian);
           
          string$mode_qvmian=`zxb_tongkong_qvmian_mode_extract_proc($ui_name_mode)`;//创建曲面球
-         setAttr ($mode_qvmian+".visibility") 0;
-         setAttr -lock true ($mode_qvmian+".v");
+         //setAttr ($mode_qvmian+".visibility") 0;
+         //setAttr -lock true ($mode_qvmian+".v");
          string $nurbsSphere_a[]= stringToStringArray($mode_qvmian, " ");//字符串转化数组
          string$nurbsSphere=$nurbsSphere_a[0];
          $fuzhao_qvmian=$nurbsSphere;
@@ -6681,8 +6681,8 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
         parent $temp_cu_sss[1]$eye_cu_grp;
         setAttr -type "string" ($head_qvxian+"."+$eye_cu_shuxing) $temp_name_cu;
         
-        string$qianzui="L";
-        if($e==1){$qianzui="R";}
+        string$qianzui="R";
+        if($e==1){$qianzui="L";}
         string$all_op_cs=$zhangkai_qvxian_A+$bihe_qvxian;
          int$ex=`objExists $mnians[0]`;    ///判断
          if($ex==1)
@@ -6690,12 +6690,13 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
             $qvmian_temp+=$fuzhao_qvmian+" ";
             zxb_child_object_proc($head_mode,$head_joinr,$temp_name_cu,0,1,0,0); //创建控制器
             string$bn_return=zxb_yanjing_yanpichuangjian_guanjie_proc($DD_QVXIAN,$eye_con_A,$fuzhao_qvmian,$e);
-            $all_temp_eye_bn+=$bn_return;
+            $all_temp_eye_bn=$bn_return;
             zxb_dingweiqi_kongzhiqvxian_eye($gensui_qvxian_D,$qianzui);
             zxb_dingweiqi_gensuiqvxian_A($all_op_cs,$qianzui);
             zxb_global_lalian_a($zhangkai_qvxian_A,$bihe_qvxian,$gensui_qvxian_D,$qianzui);
-            
             zxb_bolangzui_a($gensui_qvxian_D);
+            zxb_ADD_shuxing_string_proc($UI_head_controller,"eye_bn_"+$qianzui);
+            setAttr -type "string" ($UI_head_controller+".eye_bn_"+$qianzui) $all_temp_eye_bn;
             }
          
           //string$qvmian_zu[]=`listRelatives -p $qvmian_temp`; 
@@ -6747,8 +6748,7 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
     
     }
     
-zxb_ADD_shuxing_string_proc($UI_head_controller,"eye_bn");
-setAttr -type "string" ($UI_head_controller+".eye_bn") $all_temp_eye_bn;
+
 
 }
 
@@ -13605,6 +13605,7 @@ for ($i=0;$i<50;$i++)
 select -r  $mode;
 doMirrorSkinWeightsArgList( 2, { " -mirrorMode YZ -mirrorInverse -surfaceAssociation closestPoint -influenceAssociation closestJoint" } );
 select -cl  ;
+delete $qvxian_names;
 }
 
 

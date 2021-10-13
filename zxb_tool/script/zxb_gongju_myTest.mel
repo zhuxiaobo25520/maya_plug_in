@@ -48,6 +48,7 @@ button -l "设置组不可K帧" -c "zxb_jiazai(\"xiao_keyable_proc_columnLayout\")";
 button -l "复制简模高模 解算用" -c "zxb_jiazai(\"xiao_fuzhijianmo_gaomo_proc_columnLayout\")";
 button -l "插入关节" -c "zxb_jiazai(\"zxb_charuguanjie_proc\")";
 button -l "体型绑定纯模型" -c "zxb_jiazai(\"zxb_MH_ALEI_shengtiA\")";
+button -l "批量导出ABC" -c "zxb_jiazai(\"xiao_batch_to_obj_ABC_proc\")";
 
 setParent ..; 
 int$liang_A=200;
