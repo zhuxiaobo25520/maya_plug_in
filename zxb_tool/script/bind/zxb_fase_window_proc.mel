@@ -5003,14 +5003,17 @@ global proc  zxb_button_lipjoint_proc()
   zxb_ADD_shuxing_string_proc($head_qvxian,"lip_Cluster");
   setAttr -type "string"($head_qvxian+".lip_Cluster") $Cluster;//保存蔟的名字
   zxb_secondary_controller;//创建次级控制器
-  
+  select -cl  ;
   zxb_lip_ciji_controller_genshui;
+  select -cl  ;
   zxb_quanz_lipjoint_proc("lip_lay","secondary_lip_grp");
+  select -cl  ;
 }
 
 global proc  zxb_zuiba_lipjoint_quanzhongchongxiangjisuan_proc()
 {
 zxb_quanz_lipjoint_proc("lip_lay","secondary_lip_grp");
+select -cl  ;
 }
 
 
@@ -10778,20 +10781,17 @@ global proc zxb_zxb_all_faceFrame_proc()
 }
 
 
-
-
 global proc zxb_qvdong_faceFrame_proc()
 {
 
 string$jaw_controller=`textFieldGrp -q -tx "UI_jaw_controller" `;
- string$head_controller=`textFieldGrp -q -tx "UI_head_controller"`;
- string$zhengticon=`getAttr ($head_controller+".jaw_controller")`;
- string$Corner_array[]={"ctrlMouthCorner_R","ctrlMouthCorner_L","ctrlMouth_M","ctrlMouth_MM", "ctrlMouth_MMUP" , "ctrlMouth_MMDW" };
- 
+string$head_controller=`textFieldGrp -q -tx "UI_head_controller"`;
+string$zhengticon=`getAttr ($head_controller+".jaw_controller")`;
+string$Corner_array[]={"ctrlMouthCorner_R","ctrlMouthCorner_L","ctrlMouth_M","ctrlMouth_MM", "ctrlMouth_MMUP" , "ctrlMouth_MMDW","ctrlNose_R","ctrlNose_L" ,"ctrlCheek_R","ctrlCheek_L","ctrlEye_R","ctrlEye_L","ctrlBrow_R","ctrlBrow_L"};
 string$cheek_conss=`getAttr ($head_controller+".cheek_con")`;
- string$cheek_cons[]=stringToStringArray($cheek_conss, " ");
- for ($i=0;$i<size($Corner_array);$i++)
-      {
+string$cheek_cons[]=stringToStringArray($cheek_conss, " ");
+for ($i=0;$i<size($Corner_array);$i++)
+    {
        string$Corner=$Corner_array[$i];
        string$Corner_frame=$Corner+"_frame";
        if($Corner=="ctrlMouthCorner_R")
@@ -10844,13 +10844,10 @@ string$cheek_conss=`getAttr ($head_controller+".cheek_con")`;
            if($Corner=="ctrlMouth_M")
          {
              string $fujiedians[]=`listRelatives -p  ($jaw_controller)`;
-
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.translateY" ($fujiedians[0]+".rotateZ");  
            setDrivenKeyframe -itt "linear" -ott "spline" -dv-1  -v 20 -cd "ctrlMouth_M.translateY" ($fujiedians[0]+".rotateZ"); //设置驱动张嘴
-           
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.translateY" ($zhengticon+".translateY");  
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd "ctrlMouth_M.translateY" ($zhengticon+".translateY"); //设置驱动嘴巴向上顶
-           
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 1  -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ");  
            setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 0.5 -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ"); //设置驱动张嘴
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 1  -cd "ctrlMouth_M.translateX" ($zhengticon+".scaleZ");  
@@ -10860,7 +10857,6 @@ string$cheek_conss=`getAttr ($head_controller+".cheek_con")`;
            zxb_ADD_shuxing_double_B_proc("ctrlMouth_M","lalian_R",0,10) ;
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.Face_open_reverse" ($jaw_controller+".Face_open_reverse");  
            setDrivenKeyframe -itt "linear" -ott "spline" -dv  10  -v 10 -cd "ctrlMouth_M.Face_open_reverse" ($jaw_controller+".Face_open_reverse"); //设置驱动张嘴
-           
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.lalian_L" ($jaw_controller+".lalian_L");  
            setDrivenKeyframe -itt "linear" -ott "spline" -dv  10  -v 10 -cd "ctrlMouth_M.lalian_L" ($jaw_controller+".lalian_L"); //设置驱动张嘴
            setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd "ctrlMouth_M.lalian_R" ($jaw_controller+".lalian_R");  
@@ -10919,9 +10915,69 @@ string$cheek_conss=`getAttr ($head_controller+".cheek_con")`;
              } 
         
         
+        if($Corner=="ctrlNose_R")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") -1.5;
+           setAttr ($Corner_frame+".translateY") -0.5;
+         }
+       if($Corner=="ctrlNose_L")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") 1.5;
+           setAttr ($Corner_frame+".translateY") -0.5;
+         }
          
-       }
+         
+       if($Corner=="ctrlCheek_R")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") -1.5;
+           setAttr ($Corner_frame+".translateY") 1.2;
+         }
+       if($Corner=="ctrlCheek_L")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") 1.5;
+           setAttr ($Corner_frame+".translateY") 1.2;
+         }
+       if($Corner=="ctrlEye_R")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") -1.5;
+           setAttr ($Corner_frame+".translateY") 2.9;
+         }
+       if($Corner=="ctrlEye_L")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") 1.5;
+           setAttr ($Corner_frame+".translateY") 2.9;
+         }
+         
+       if($Corner=="ctrlBrow_R")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") -1.5;
+           setAttr ($Corner_frame+".translateY") 4.7;
+         }
+         if($Corner=="ctrlBrow_L")
+         { 
+           zxb_anniu_fangxing($Corner);
+           setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
+           setAttr ($Corner_frame+".translateX") 1.5;
+           setAttr ($Corner_frame+".translateY") 4.7;
+         }
+   }
 }
+
+
 
 global proc zxb_zxb_faceFrame_proc()
 {
@@ -12476,6 +12532,7 @@ string$temp_mode=zxb_quanzhong_lip_jicji_proc($lip_mode,$temp_root_bn,$All_bn_fu
 /*select -r  $temp_mode; 
 select -add $lip_mode ; 
 CopySkinWeights;*/
+select -cl  ;  
 float$ex_vs=getAttr ($temp_mode+".visibility");
 if($ex_vs==1)
   {
@@ -12504,6 +12561,7 @@ setAttr ($head_mode+".visibility") 1;
 select -r $temp_mode;
 select -add $mode;
 CopySkinWeights;
+select -cl  ;
 }
 
 

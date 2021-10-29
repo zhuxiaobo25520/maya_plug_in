@@ -27,7 +27,7 @@ for ($i=0;$i<size($mode);$i++)
        group -n $bn_namekongzhiqi_grpC;
        delete `parentConstraint $bn_name $bn_namekongzhiqi_grpC ` ;//¸¸×ÓÔ¼Êø
        parentConstraint $bn_namekongzhiqi  $bn_name;
-       
+       scaleConstraint -mo $bn_namekongzhiqi  $bn_name ;
        select -r   $bn_name;
        select -add $temp; 
        newSkinCluster "-toSelectedBones -mi 1 -omi true -dr 6 -rui true";   //    skinCluster;   //ÃÉÆ¤
