@@ -70,10 +70,10 @@ separator;
 rowColumnLayout -nc 1 -cw 1 250 -cw 2 250 ;
 
 string$UI_establish[]={"zuibazhengti_button","zuibazhengti_button_delete","hedebs_button","headhunhebianxing_button","headhunhebianxing_edit_button","headhunhebianxing_add_button","hedemianbankuan_button","hedemianbankuan_delete_button","hedemianbankuan_wancheng_button","hedemianbankuan_bianji_button","hedemianbankuan_Add_button","hedemianbankuan_Add_delete_button","hede_open_reverse_button","lip_BN_button","lip_controller_button","lip_Curve_button","lip_bs_button","UI_face_Cluster_button","eye_button","eyelid_button","eye_secondary_button","UI_lip_zuibalalian","UI_lip_zuiba_boliang","UI_fuzhao_eye_pde_ciji","UI_qvxiangensui_mode","UI_serve_button"};
-                         //          1     2  计算嘴巴权重   3 创建嘴巴拉链绑定   4 创建拉链线包裹 5创建嘴巴次级控制器6创建表情面板   7创建面部次级控制器          8 删除表情面板      9                10               11                  12删除表情控制控框制器               13链接嘴巴混合变形                   14            15              16             17                 18              19             20            21              22             23          24               25                  26                                       
-string$UI_establish_name[]={"1创建嘴巴整体绑定","2计算嘴巴权重 ","3创建嘴巴拉链绑定 ","4创建拉链线包裹","5创建嘴巴次级控制器","6创建面板","7创建面部次级控制器","8创建眼睛控制器","9眼皮次级控制创建","编辑表情面板框","添加表情控制控框制器","                                  ",""                          ,"创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","创建眼皮次级绑定","            ","创建嘴巴波浪","眼睛次模型级自动附着","碰撞曲线跟随模型","保存UI上的名称"};
-//                                   1                       2                                  3                    4                        5                        6                            7                            8                   9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21                                      22            23       24                  25
-string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_jaw_jisuanquanzhong","zxb_zuibalalian_all_proc","zxb_lalianbaoguo_A_poc","zxb_button_lipjoint_proc","zxb_zxb_all_faceFrame_proc","zxb_face_to_Cluster_proc","zxb_eye_con_bn_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","zxb_mianbanbianji_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","                     ","","zxb_fuzhao_mode_proc","zxb_mesh_nurbsSurface_to_obj_proc","zxb_UI_mingzi_serve"};
+                         //          1        2  计算嘴巴权重   3 创建嘴巴拉链绑定   4 创建拉链线包裹 5创建嘴巴次级控制器     6创建表情面板      7创建面部次级控制器   8 删除表情面板        9                10               11                  12删除表情控制控框制器               13链接嘴巴混合变形                   14            15              16             17                 18              19             20            21              22             23          24               25                  26                                       
+string$UI_establish_name[]={"1创建嘴巴整体绑定","2计算嘴巴权重 ","3创建嘴巴拉链绑定 ","4创建拉链线包裹","5创建嘴巴次级控制器","6创建面部次级控制器","7创建眼睛控制器","8眼皮次级控制创建","9创建眉毛控制器","10生成表情面板","                                  ",""                          ,"创建嘴巴次级关节","创建嘴巴次级控制器","创建抿嘴曲线","创建抿嘴曲线混合变形","创建面部簇","创建眼睛目标约束","创建眼皮绑定","创建眼皮次级绑定","            ","创建嘴巴波浪","眼睛次模型级自动附着","碰撞曲线跟随模型","保存UI上的名称",""};
+//                                   1                       2                                  3                    4                        5                        6                              7                        8                           9                            10                              11                       12                            13                       14                           15                    16                   17                                18                        19                                              20                                     21                                      22            23       24                  25
+string$UI_establish_proc[]={"zxb_xiababangding_proc","zxb_jaw_jisuanquanzhong","zxb_zuibalalian_all_proc","zxb_lalianbaoguo_A_poc","zxb_button_lipjoint_proc","zxb_face_to_Cluster_proc","zxb_eye_con_bn_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","zxb_zxb_all_faceFrame_proc","zxb_mianban_Addmianban_proc","zxb_mianban_Add_delete_proc","zxb_open_reverse_proc","zxb_button_lipjoint_proc","zxb_secondary_controller","zxb_extract_Curves_lip","zxb_extract_Curves_bs_lip","zxb_face_to_Cluster_proc","zxb_chuangjianyanjingguyanjie_fangfa_proc","zxb_chuangjianyanpiguanjie_fangfa_proc","zxb_yanjing_yanpi_qvxian_fangfa_proc","                     ","","zxb_fuzhao_mode_proc","zxb_mesh_nurbsSurface_to_obj_proc","zxb_UI_mingzi_serve",""};
 int$ui_establish_size=size($UI_establish);
 int$uiname_establish_size=size($UI_establish_name);
 int$UI_establish_proc_size=size($UI_establish_proc);
@@ -6491,6 +6491,7 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
      string$eye_bs_name=$eye_bs_name_ss[4];
     string$EYE_com_SS=`getAttr ($UI_head_controller+".eye_con")`;
     string $EYE_com_S[]= stringToStringArray($EYE_com_SS, " ");//字符串转化数组
+    string $UI_head_controller=`textFieldGrp -q -tx UI_head_controller `;
     zxb_ADD_shuxing_string_proc($UI_head_controller,"eye_qvmian");
     string$qvmian_temp="";
     string$qvmxian_DDD_temp="";
@@ -6501,14 +6502,20 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
          string$ui_mingzi="UI_eye_middle_wire";
          string $ui_name_mode=$ui_name_A[$e];
          string$eye_con_A=$EYE_com_S[$e];
-         
-         
          string$fuzhao_qvmian="";
          string$DD_QVXIAN="";
          string$grp_lr_temp="";
          string$zhangkai_qvxian_A="";
          string$gensui_qvxian_D="";
          string$bihe_qvxian="";
+         string$temp_rl_bianliang="";
+         if($e==0){$temp_rl_bianliang="R";}
+         if($e==1){$temp_rl_bianliang="L";}
+         string$all_rl_qvxian_MM="";
+         string$shuxing_baocun="eye_close"+$temp_rl_bianliang;
+         zxb_ADD_shuxing_string_proc($UI_head_controller,$shuxing_baocun);
+
+
          string $mnian_temp=`textFieldGrp -q -tx  $ui_mingzi`;//查询眼眶线的变量
          string $mnians_temp[]= stringToStringArray($mnian_temp, " ");//字符串转化数组
          if($ex_duichengtemp==1&&$e==1)
@@ -6655,6 +6662,8 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
           rename $temp_qvxian ($qvxian_A+"A");
           rename $qvxian_A $temp_qvxian;
           rename ($qvxian_A+"A") $qvxian_A; 
+          
+          $all_rl_qvxian_MM+=$temp_qvxian+" ";
           zxb_eye_qvmiankongzhiqqvxian_proc($qvxian_HH,$qvxian_qvmian);
          string$mode_qvmian=`zxb_tongkong_qvmian_mode_extract_proc($ui_name_mode)`;//创建曲面球
 
@@ -6664,6 +6673,7 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
          int$ex=`objExists $nurbsSphere`;
          if($ex==1){zxb_qvxian_gensui_yanqiu_fangfa_proc($qvxian_D,$qvxian_CC,$mode_qvmian);}else{error  "眼球曲面模型不存在";}
          } 
+         setAttr -type "string" ($UI_head_controller+"."+$shuxing_baocun)  $all_rl_qvxian_MM;
          string$temp_name_cu="";
          for ($aa=0;$aa<size($qvmians);$aa++) 
              {
@@ -6767,6 +6777,7 @@ global proc zxb_yanjing_yanpi_qvxian_fangfa_proc()
 
 
 zxb_eye_lip_quanzhong_jisuan;///计算次级权重
+zxb_eye_close_qvxian_fangfa;//波浪曲线闭合自动计算
 
 }
 
@@ -7686,10 +7697,11 @@ if ( $pos_r_panduan[0]>$pos_l_panduan[0])
 
 string$zuiba_loc_L=($bianliang[0]+"LL_ZUIBA_LOC");
 string$zuiba_loc_R=($bianliang[0]+"RR_ZUIBA_LOC");
-string$eye_loc_all_temp=$zuiba_loc_R+" "+$zuiba_loc_L;
+
+string$temp_RR_LL="";
+
+
 string$Controller=`textFieldGrp -q -tx UI_head_controller `;//头部控制器
-zxb_ADD_shuxing_string_proc($Controller,"eye_lalianloc");
-setAttr -type "string" ($Controller+".eye_lalianloc") $eye_loc_all_temp ;
 spaceLocator -p 0 0 0 -n $zuiba_loc_L;
 spaceLocator -p 0 0 0 -n $zuiba_loc_R;
 string$qvxianfu_temp[]=`listRelatives -p $openAs[0] `;
@@ -7710,6 +7722,14 @@ setAttr -keyable false -channelBox true ($zuiba_loc_L+".shuaijian");
 
 move -r  ($changduzhi*1.25) 0 0 ($zuiba_loc_L) ;
 move -r  ($changduzhi*-1.25) 0 0 ($zuiba_loc_R) ;
+
+string$eye_loc_all_temp=$zuiba_loc_R+" "+$zuiba_loc_L;
+float $pos_A_temp[]=`xform -q -ws -t $zuiba_loc_R`;
+if($pos_A_temp[0]>0){$temp_RR_LL="L";}else{$temp_RR_LL="R";}
+string$qvxian_name="eye_lalianloc_"+$temp_RR_LL;
+
+zxb_ADD_shuxing_string_proc($Controller,$qvxian_name);
+setAttr -type "string" ($Controller+"."+$qvxian_name) $eye_loc_all_temp ;
 for($j=0;$j<size($bianliang);$j++)
 {
 for($i=0;$i<size($qvxian_dian);$i++)
@@ -10951,21 +10971,184 @@ for ($i=0;$i<size($Corner_array);$i++)
            setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
            setAttr ($Corner_frame+".translateX") -1.5;
            setAttr ($Corner_frame+".translateY") 2.9;
+           select -r ctrlEye_R ;
+           duplicate -rr -n "ctrlEye_R_UP" ;
+           select -r ctrlEye_R_UP.cv[0:9999999] ;
+           scale  2 2 2   ;
+           select -r ctrlEye_R_UP.cv[5] ;
+           move -r -os -wd 0 0.5 0 ;
+           select -r ctrlEye_R_UP.cv[4] ctrlEye_R_UP.cv[6] ;
+           move -r -os -wd 0 0.3 0 ;
+           select -r ctrlEye_R ;
+           duplicate -rr -n "ctrlEye_R_DW" ;
+           select -r ctrlEye_R_DW.cv[0:9999999] ;
+           scale  2 2 2   ;
+           select -r ctrlEye_R_DW.cv[1] ;
+           move -r -os -wd 0 -0.5 0 ;
+           select -r ctrlEye_R_DW.cv[0] ctrlEye_R_DW.cv[2] ;
+           move -r -os -wd 0 -0.3 0 ;
+           select -r ctrlEye_R ;
+           duplicate -rr -n "ctrlEye_R_MM" ;
+           select -r ctrlEye_R_MM.cv[0:9999999] ;
+           scale  3 3 3    ;
+           string$all_boliang_controller=`getAttr ($head_controller+".boliang_controller")`;
+           string$all_boliang_controllers[]=stringToStringArray($all_boliang_controller, "   ");
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ("ctrlEye_R_UP"+".translateY") ($all_boliang_controllers[2]+".translateY");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd   ("ctrlEye_R_UP"+".translateY") ($all_boliang_controllers[2]+".translateY") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_UP"+".translateY")($all_boliang_controllers[2]+".translateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd ("ctrlEye_R_UP"+".translateY") ($all_boliang_controllers[2]+".translateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_UP"+".translateX")($all_boliang_controllers[2]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd    ("ctrlEye_R_UP"+".translateX")($all_boliang_controllers[2]+".translateX"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_UP"+".translateX")($all_boliang_controllers[2]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd  ("ctrlEye_R_UP"+".translateX")($all_boliang_controllers[2]+".translateX"); 
+
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ("ctrlEye_R_DW"+".translateY") ($all_boliang_controllers[3]+".translateY");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd   ("ctrlEye_R_DW"+".translateY") ($all_boliang_controllers[3]+".translateY") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_DW"+".translateY")($all_boliang_controllers[3]+".translateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd ("ctrlEye_R_DW"+".translateY") ($all_boliang_controllers[3]+".translateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_DW"+".translateX")($all_boliang_controllers[3]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd    ("ctrlEye_R_DW"+".translateX")($all_boliang_controllers[3]+".translateX"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_DW"+".translateX")($all_boliang_controllers[3]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd  ("ctrlEye_R_DW"+".translateX")($all_boliang_controllers[3]+".translateX"); 
+           
+           string$all_eye_con=`getAttr ($head_controller+".eye_con")`;
+           string$all_eye_con_s[]=stringToStringArray($all_eye_con, "   ");
+           string $fu_s[]=`listRelatives -p $all_eye_con_s[0]`; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ("ctrlEye_R_MM"+".translateY") ($fu_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd   ("ctrlEye_R_MM"+".translateY") ($fu_s[0]+".rotateZ") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_MM"+".translateY") ($fu_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd ("ctrlEye_R_MM"+".translateY") ($fu_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_MM"+".translateX")($fu_s[0]+".rotateY");  ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd    ("ctrlEye_R_MM"+".translateX")($fu_s[0]+".rotateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_R_MM"+".translateX")($fu_s[0]+".rotateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd  ("ctrlEye_R_MM"+".translateX")($fu_s[0]+".rotateY");
+           
+           string$all_eye_con_B=`getAttr ($head_controller+".eye_con_b")`;
+           string$all_eye_con_B_s[]=stringToStringArray($all_eye_con_B, "   ");
+           string $fu_A_s[]=`listRelatives -p $all_eye_con_B_s[0]`; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ($Corner+".translateY") ($fu_A_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd   ($Corner+".translateY") ($fu_A_s[0]+".rotateZ") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ($Corner+".translateY") ($fu_A_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd ($Corner+".translateY") ($fu_A_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ($Corner+".translateX")($fu_A_s[0]+".rotateY");  ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd    ($Corner+".translateX")($fu_A_s[0]+".rotateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ($Corner+".translateX")($fu_A_s[0]+".rotateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd  ($Corner+".translateX")($fu_A_s[0]+".rotateY");  
+           
+           zxb_ADD_shuxing_double_A_proc("ctrlEye_R_MM","lalian_L");
+           zxb_ADD_shuxing_double_A_proc("ctrlEye_R_MM","lalian_R");
+           string$eye_lalianloc_R_all=`getAttr ($head_controller+".eye_lalianloc_R")`;
+           string$eye_lalianloc_R_all_s[]=stringToStringArray($eye_lalianloc_R_all, " ");
+           
+           float $trs_A=`getAttr ($eye_lalianloc_R_all_s[0]+".translateX")`;
+           float $trs_B=`getAttr ($eye_lalianloc_R_all_s[1]+".translateX")`;
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v $trs_A  -cd  ("ctrlEye_R_MM.lalian_L") ($eye_lalianloc_R_all_s[0]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 10  -v $trs_B -cd    ("ctrlEye_R_MM.lalian_L") ($eye_lalianloc_R_all_s[0]+".translateX"); 
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v$trs_B  -cd  ("ctrlEye_R_MM.lalian_R") ($eye_lalianloc_R_all_s[1]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 10  -v $trs_A  -cd    ("ctrlEye_R_MM.lalian_R") ($eye_lalianloc_R_all_s[1]+".translateX"); 
+           
          }
        if($Corner=="ctrlEye_L")
          { 
            zxb_anniu_fangxing($Corner);
+           softSelect-softSelectEnabled 0;
            setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
            setAttr ($Corner_frame+".translateX") 1.5;
            setAttr ($Corner_frame+".translateY") 2.9;
+           select -r ctrlEye_L ;
+           duplicate -rr -n "ctrlEye_L_UP" ;
+           select -r ctrlEye_L_UP.cv[0:9999999] ;
+           scale  2 2 2   ;
+           select -r ctrlEye_L_UP.cv[5] ;
+           move -r -os -wd 0 0.5 0 ;
+           select -r ctrlEye_L_UP.cv[4] ctrlEye_L_UP.cv[6] ;
+           move -r -os -wd 0 0.3 0 ;
+           select -r ctrlEye_L ;
+           duplicate -rr -n "ctrlEye_L_DW" ;
+           select -r ctrlEye_L_DW.cv[0:9999999] ;
+           scale  2 2 2   ;
+           select -r ctrlEye_L_DW.cv[1] ;
+           move -r -os -wd 0 -0.5 0 ;
+           select -r ctrlEye_L_DW.cv[0] ctrlEye_L_DW.cv[2] ;
+           move -r -os -wd 0 -0.3 0 ;
+           select -r ctrlEye_L ;
+           duplicate -rr -n "ctrlEye_L_MM" ;
+           select -r ctrlEye_L_MM.cv[0:9999999] ;
+           scale  3 3 3    ;
+           
+           
+            string$all_boliang_controller=`getAttr ($head_controller+".boliang_controller")`;
+           string$all_boliang_controllers[]=stringToStringArray($all_boliang_controller, "   ");
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ("ctrlEye_L_UP"+".translateY") ($all_boliang_controllers[4]+".translateY");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd   ("ctrlEye_L_UP"+".translateY") ($all_boliang_controllers[4]+".translateY") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_UP"+".translateY")($all_boliang_controllers[4]+".translateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd ("ctrlEye_L_UP"+".translateY") ($all_boliang_controllers[4]+".translateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_UP"+".translateX")($all_boliang_controllers[4]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd    ("ctrlEye_L_UP"+".translateX")($all_boliang_controllers[4]+".translateX"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_UP"+".translateX")($all_boliang_controllers[4]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd  ("ctrlEye_L_UP"+".translateX")($all_boliang_controllers[4]+".translateX"); 
+           
+           
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ("ctrlEye_L_DW"+".translateY") ($all_boliang_controllers[5]+".translateY");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd   ("ctrlEye_L_DW"+".translateY") ($all_boliang_controllers[5]+".translateY") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_DW"+".translateY")($all_boliang_controllers[5]+".translateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd ("ctrlEye_L_DW"+".translateY") ($all_boliang_controllers[5]+".translateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_DW"+".translateX")($all_boliang_controllers[5]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v 1 -cd    ("ctrlEye_L_DW"+".translateX")($all_boliang_controllers[5]+".translateX"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_DW"+".translateX")($all_boliang_controllers[5]+".translateX") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v -1 -cd  ("ctrlEye_L_DW"+".translateX")($all_boliang_controllers[5]+".translateX"); 
+           
+           
+           string$all_eye_con=`getAttr ($head_controller+".eye_con")`;
+           string$all_eye_con_s[]=stringToStringArray($all_eye_con, "   ");
+           string $fu_s[]=`listRelatives -p $all_eye_con_s[1]`; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ("ctrlEye_L_MM"+".translateY") ($fu_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd   ("ctrlEye_L_MM"+".translateY") ($fu_s[0]+".rotateZ") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_MM"+".translateY") ($fu_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd ("ctrlEye_L_MM"+".translateY") ($fu_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_MM"+".translateX")($fu_s[0]+".rotateY");  ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd    ("ctrlEye_L_MM"+".translateX")($fu_s[0]+".rotateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ("ctrlEye_L_MM"+".translateX")($fu_s[0]+".rotateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd  ("ctrlEye_L_MM"+".translateX")($fu_s[0]+".rotateY");
+           
+           string$all_eye_con_B=`getAttr ($head_controller+".eye_con_b")`;
+           string$all_eye_con_B_s[]=stringToStringArray($all_eye_con_B, "   ");
+           string $fu_A_s[]=`listRelatives -p $all_eye_con_B_s[1]`; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd  ($Corner+".translateY") ($fu_A_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd   ($Corner+".translateY") ($fu_A_s[0]+".rotateZ") ; 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ($Corner+".translateY") ($fu_A_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd ($Corner+".translateY") ($fu_A_s[0]+".rotateZ");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ($Corner+".translateX")($fu_A_s[0]+".rotateY");  ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 1  -v -15 -cd    ($Corner+".translateX")($fu_A_s[0]+".rotateY"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v 0  -cd   ($Corner+".translateX")($fu_A_s[0]+".rotateY") ;  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv -1  -v 15 -cd  ($Corner+".translateX")($fu_A_s[0]+".rotateY");  
+           
+           
+           zxb_ADD_shuxing_double_A_proc("ctrlEye_L_MM","lalian_L");
+           zxb_ADD_shuxing_double_A_proc("ctrlEye_L_MM","lalian_L");
+           string$eye_lalianloc_L_all=`getAttr ($head_controller+".eye_lalianloc_L")`;
+           string$eye_lalianloc_L_all_s[]=stringToStringArray($eye_lalianloc_L_all, " ");
+           
+           float $trs_A=`getAttr ($eye_lalianloc_L_all_s[0]+".translateX")`;
+           float $trs_B=`getAttr ($eye_lalianloc_L_all_s[1]+".translateX")`;
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v $trs_A  -cd  ("ctrlEye_L_MM.lalian_L") ($eye_lalianloc_L_all_s[0]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 10  -v $trs_B -cd    ("ctrlEye_L_MM.lalian_L") ($eye_lalianloc_L_all_s[0]+".translateX"); 
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 0  -v $trs_B   -cd  ("ctrlEye_L_MM.lalian_L") ($eye_lalianloc_L_all_s[1]+".translateX");  
+           setDrivenKeyframe -itt "linear" -ott "spline" -dv 10  -v $trs_A  -cd    ("ctrlEye_L_MM.lalian_L") ($eye_lalianloc_L_all_s[1]+".translateX"); 
+           
+           
          }
          
        if($Corner=="ctrlBrow_R")
          { 
+         softSelect-softSelectEnabled 0;
            zxb_anniu_fangxing($Corner);
            setAttr -type float3 ($Corner_frame+".scale") 0.5 0.5 0.5;
            setAttr ($Corner_frame+".translateX") -1.5;
            setAttr ($Corner_frame+".translateY") 4.7;
+           
          }
          if($Corner=="ctrlBrow_L")
          { 
@@ -12680,6 +12863,7 @@ scaleConstraint -mo $toubuguanjie  $loc_grp_A;
 setAttr ($loc_grp_A+".visibility") 0;
 setAttr -lock true ($loc_grp_A+".v");
 string$kongzhiqi="";
+string$kongzhiqi_BB="";
    for ($i=0;$i<size($alleyebns);$i++)
        {
        string$temp_BN=$alleyebns[$i];
@@ -12693,11 +12877,13 @@ string$kongzhiqi="";
        string$kongzhiqi_B_GRP_A=($temp_BN+"_eye_kongzhiqi_B_grp_A");
        string$kongzhiqi_B_GRP_B=($temp_BN+"_eye_kongzhiqi_B_grp_B");
        string$kongzhiqi_B_GRP_C=($temp_BN+"_eye_kongzhiqi_B_grp_C");
+       string$kongzhiqi_B_GRP_D=($temp_BN+"_eye_kongzhiqi_B_grp_D");
        string$kongzhiqi_C=($temp_BN+"_eye_kongzhiqi_C");
        string$kongzhiqi_C_GRP_A=($temp_BN+"_eye_kongzhiqi_C_grp_A");
        string$kongzhiqi_C_GRP_B=($temp_BN+"_eye_kongzhiqi_C_grp_B");
        string$kongzhiqi_C_GRP_C=($temp_BN+"_eye_kongzhiqi_C_grp_C");
        $kongzhiqi+=$kongzhiqi_A+" ";
+       $kongzhiqi_BB+=$kongzhiqi_B+" ";
        select -r  $temp_BN;
        duplicate -rr -n $BN ;
        string$BN_end[]=`listRelatives -c -pa $BN`;
@@ -12718,10 +12904,11 @@ string$kongzhiqi="";
        group -n $kongzhiqi_B_GRP_A;
        group -n $kongzhiqi_B_GRP_B;    
        group -n $kongzhiqi_B_GRP_C;
+       group -n $kongzhiqi_B_GRP_D;
        string$qvxian_shap_B[]=`listRelatives -s $kongzhiqi_B`;
        setAttr ($kongzhiqi_B+".overrideEnabled") 1;
        setAttr  ($kongzhiqi_B+".overrideColor") 17;
-       delete`parentConstraint $temp_BN  $kongzhiqi_B_GRP_C`;
+       delete`parentConstraint $temp_BN  $kongzhiqi_B_GRP_D`;
        select -r ($kongzhiqi_B+".cv[0:999]") ;
        move -r -os -wd $temp_poss 0 0 ;
        parentConstraint  $kongzhiqi_B $temp_BN ;
@@ -12753,24 +12940,26 @@ string$kongzhiqi="";
           }  
       delete $bn_dingwei;
       parent $kongzhiqi_A_GRP_C  $head_gep_temp;
-      parent $kongzhiqi_B_GRP_C  $head_gep_temp;
+      parent $kongzhiqi_B_GRP_D  $head_gep_temp;
       parent $kongzhiqi_C_GRP_C  $kongzhiqi_D;
       if($i==0){parent $kongzhiqi_D_GRP_C   $head_gep_temp;}
       parent  $temp_BN $toubuguanjie;
       parent  $BN $toubuguanjie ;
       select -r $kongzhiqi_C;
-      select -add $kongzhiqi_B_GRP_B;
+      select -add $kongzhiqi_B_GRP_C;
       aimConstraint -offset 0 0 0 -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "objectrotation" -worldUpVector 0 1 0 -worldUpObject $loc;
-      connectAttr -f ($kongzhiqi_B_GRP_B+".rotate") ($kongzhiqi_A_GRP_B+".rotate");
-      connectAttr -f ($kongzhiqi_B_GRP_B+".t") ($kongzhiqi_A_GRP_B+".t");
-      connectAttr -f ($kongzhiqi_A+".t") ($kongzhiqi_B_GRP_A+".t");
-      connectAttr -f ($kongzhiqi_A+".r") ($kongzhiqi_B_GRP_A+".r");
+      connectAttr -f ($kongzhiqi_B_GRP_C+".rotate") ($kongzhiqi_A_GRP_B+".rotate");
+      connectAttr -f ($kongzhiqi_B_GRP_C+".t") ($kongzhiqi_A_GRP_B+".t");
+      connectAttr -f ($kongzhiqi_A+".t") ($kongzhiqi_B_GRP_B+".t");
+      connectAttr -f ($kongzhiqi_A+".r") ($kongzhiqi_B_GRP_B+".r");
       connectAttr -f ($kongzhiqi_A+".s") ($temp_BN+".s");
       connectAttr -f ($kongzhiqi_A+".s") ( $BN+".s");
-      connectAttr -f ($kongzhiqi_A+".s") ( $kongzhiqi_B_GRP_B+".s");
+      connectAttr -f ($kongzhiqi_A+".s") ( $kongzhiqi_B_GRP_C+".s");
       }   
 zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_con");
-setAttr -type "string" ($toubukongzhiqi+".eye_con")$kongzhiqi ;
+zxb_ADD_shuxing_string_proc($toubukongzhiqi,"eye_con_b");
+setAttr -type "string" ($toubukongzhiqi+".eye_con") $kongzhiqi ;
+setAttr -type "string" ($toubukongzhiqi+".eye_con_b") $kongzhiqi_BB ;
 
 }
 
@@ -14041,7 +14230,70 @@ select -cl  ;
 delete $qvxian_names;
 }
 
+//////////////////闭眼闭合曲线自动设置//////////////////////////////////////
 
+
+global proc zxb_eye_close_qvxian(string$qvxian_a,string$qvxian_b)
+{
+string$qvxian_UP=$qvxian_a;
+string$qvxian_DW=$qvxian_b;
+string$curve_temp="curve_name";
+select -r ($qvxian_UP+".cv[0:99999999999999]") ;
+
+string$all_cv_ss[]=`ls -sl -fl`;
+select -r ($qvxian_DW+".cv[0:99999999999999]") ;
+string$all_cv_ss_dw[]=`ls -sl -fl`;
+
+
+int$size_temp=size($all_cv_ss)-1;
+float $temp_pos_A[]=`xform -q -ws -t $all_cv_ss[$size_temp]`;
+float $temp_pos_B[]=`xform -q -ws -t $all_cv_ss[0]`;
+
+curve -d 1 -p $temp_pos_A[0] $temp_pos_A[1] $temp_pos_A[2] -p $temp_pos_B[0] $temp_pos_B[1] $temp_pos_B[2] -k 0 -k 1 -n $curve_temp;
+string $shepe[]=`listRelatives -s $curve_temp`; 
+string$nearestPointOnCurve_A="nearestPointOnCurve_A";
+string$pointOnCurveInfo_A="pointOnCurveInfo_A";
+zxb_ADD_jiedian_proc($nearestPointOnCurve_A,"nearestPointOnCurve");
+zxb_ADD_jiedian_proc($pointOnCurveInfo_A,"pointOnCurveInfo");
+connectAttr -force ($shepe[0]+".worldSpace[0]") ($nearestPointOnCurve_A+".inputCurve");
+connectAttr -force ($nearestPointOnCurve_A+".parameter") ($pointOnCurveInfo_A+".parameter");
+connectAttr -force ($shepe[0]+".worldSpace[0]") ($pointOnCurveInfo_A+".inputCurve");
+int$size_TEMP=size($all_cv_ss)-1;
+for($j=1;$j<$size_TEMP;$j++)
+   {
+   string$cv_temp=$all_cv_ss[$j];
+   float $temp_pos_C[]=`xform -q -ws -t $cv_temp`;
+   setAttr -type float3  ($nearestPointOnCurve_A+".inPosition")  $temp_pos_C[0]  $temp_pos_C[1]  $temp_pos_C[2];
+   float $temp_pos_D[]=getAttr ($pointOnCurveInfo_A+".position");
+   xform -ws -t  $temp_pos_C[0] $temp_pos_D[1] $temp_pos_C[2]$cv_temp ;//定位器1的位置
+   }
+
+
+int$size_TEMP=size($all_cv_ss_dw)-1;
+for($j=1;$j<$size_TEMP;$j++)
+   {
+   string$cv_temp=$all_cv_ss_dw[$j];
+   float $temp_pos_C[]=`xform -q -ws -t $cv_temp`;
+   setAttr -type float3  ($nearestPointOnCurve_A+".inPosition")  $temp_pos_C[0]  $temp_pos_C[1]  $temp_pos_C[2];
+   float $temp_pos_D[]=getAttr ($pointOnCurveInfo_A+".position");
+   xform -ws -t  $temp_pos_C[0] $temp_pos_D[1] $temp_pos_C[2]$cv_temp ;//定位器1的位置
+   }
+   
+delete $curve_temp  $nearestPointOnCurve_A $pointOnCurveInfo_A;
+}
+
+
+global proc zxb_eye_close_qvxian_fangfa()
+{
+string $UI_head_controller=`textFieldGrp -q -tx UI_head_controller `;
+string$eye_setAttr_R=getAttr ($UI_head_controller+".eye_closeR");
+string$eye_setAttr_L=getAttr ($UI_head_controller+".eye_closeL");
+string$UI_head_controller_R_s[]=stringToStringArray($eye_setAttr_R, " ");
+zxb_eye_close_qvxian($UI_head_controller_R_s[0],$UI_head_controller_R_s[1]);
+
+string$UI_head_controller_L_s[]=stringToStringArray($eye_setAttr_L, " ");
+zxb_eye_close_qvxian($UI_head_controller_L_s[0],$UI_head_controller_L_s[1]);
+}
 
 global proc  zxb_biaoqing_shengcheng()
 {
@@ -14050,10 +14302,10 @@ zxb_jaw_jisuanquanzhong;
 zxb_zuibalalian_all_proc;
 zxb_lalianbaoguo_A_poc;
 zxb_button_lipjoint_proc;
-zxb_zxb_all_faceFrame_proc;
 zxb_face_to_Cluster_proc;
 zxb_eye_con_bn_proc;
 zxb_yanjing_yanpi_qvxian_fangfa_proc;
+zxb_zxb_all_faceFrame_proc;
 }
 /////////////////////////////////初始化UI//////////////////////////////////////////////////////
 zxb_fase_window_proc;
