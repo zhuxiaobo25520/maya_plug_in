@@ -3,6 +3,7 @@ global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_z
 
 global proc zxb_image_proc ()
 {
+	//
 
 global string $gShelfTopLevel;
 string $currentShelf = `tabLayout -query -selectTab $gShelfTopLevel`;
