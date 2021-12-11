@@ -1,7 +1,7 @@
-//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12                  13             14            15              16          17         18           19        20          21       22             23                24           25                26                 27          28                    29                     30               31                   32               33                      34            35               36                37
-global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_oral_inside_wire","UI_mouth_annular","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_smile","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_upjaw","UI_dwjaw","UI_pomum","UI_Jawknot","UI_eye_L_mode","UI_eye_R_mode","UI_eye_outer_wire","UI_eye_middle_wire","UI_eye_inside_wire","UI_annular_side","UI_eye_boundary_R","UI_eye_boundary_L","UI_eye_L_lash","UI_all_dead_vertex","UI_cheek_face","UI_all_face"};
+//                              1                2                  3              4        5                   6                      7             8                    9                    10                       11                12                     13             14            15              16          17         18           19        20          21       22             23                24           25                26                 27          28                    29                     30               31                   32               33                      34            35               36                37
+global string$UI_array[]={"UI_head_mode","UI_head_controller","UI_head_bn","UI_zxb_eye","UI_zxb_eye_point_up","UI_zxb_eye_point_dw","UI_jaw_bn","UI_jaw_controller","UI_mouth_outer_wire","UI_mouth_inside_wire","UI_mouth_oral_wire","UI_oral_inside_wire","UI_mouth_annular","UI_nose","UI_noseguard","UI_basis_nasi","UI_nose_R","UI_smile","UI_cheek","UI_cheekbone_R","UI_jwa_point","UI_upjaw","UI_dwjaw","UI_pomum","UI_Jawknot","UI_eye_L_mode","UI_eye_R_mode","UI_eye_outer_wire","UI_eye_middle_wire","UI_eye_inside_wire","UI_annular_side","UI_eye_boundary_R","UI_eye_boundary_L","UI_eye_all_lash","UI_all_head_vertex","UI_cheek_face","UI_all_face"};
 
-global proc zxb_image_proc ()
+global proc zxb_image_proc (string$image_temp)
 {
 	//
 
@@ -11,11 +11,11 @@ setParent $currentShelf;
 string $asInstallScriptLocation=`asInstallScriptLocation`;
 if (`gmatch $asInstallScriptLocation "*\*"`)
 	$asInstallScriptLocation=`substituteAllString $asInstallScriptLocation "\\" "/"`;
-string $sourceFile=$asInstallScriptLocation+"image/map_A.png";
+string $sourceFile=$asInstallScriptLocation+"image/"+$image_temp+".png";
 
 
 if(`window -ex zxb_image_Win`) deleteUI  zxb_image_Win;
-string $myWindow = `window  zxb_image_Win `;
+string $myWindow = `window  -t"帮助"  zxb_image_Win `;
 formLayout formLayou_zxb_image;
 image -i $sourceFile ;
 showWindow $myWindow ;
@@ -55,7 +55,7 @@ rowColumnLayout -nc 4 -cw 1 200 -cw 2 40  -cw 3 70  -cw 4 40 ;
 
 global string$UI_array[]; 
 ///                  1           2        3            4       5            6          7         8            9          10         11       12       13       14   15     16     17     18     19      20     21       22   23      24       25         26        27       28          29        30            31            32              33         34             35      36     37
-string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴巴外环线","嘴巴内环线","口腔环线","口腔内环线","嘴巴环形线","鼻子","鼻头","鼻底","鼻翼R","微笑","脸颊R","颧骨R","下巴","上颌骨","下颌骨","喉结","颌结","L眼球模型","R眼球模型","眼眶线外","眼眶线中间","眼眶线内","眼眶环形边","眼眶上下分界线R","眼眶上下分界线L","睫毛泪腺模型","头部所有顶点","脸颊面","面部表情面"};
+string$UI_name[]={"头部模型","头部控制器","头部关节","眼睛关节","眼皮最高点","眼皮最低点","下巴关节","下巴控制器","嘴唇外环线","嘴唇中间环线","嘴唇内环线","口腔内环线","嘴巴环形线","鼻子","鼻头","鼻底","鼻翼R","两个微笑顶点","脸颊","颧骨R","下巴","上颌骨","下颌骨","喉结","侧面下巴","L眼球模型","R眼球模型","眼眶线外","眼眶线中间","眼眶线内","眼眶环形边","眼眶上下分界线R","眼眶上下分界线L","睫毛泪腺模型","头部所有顶点","脸颊面","面部表情面"};
           //     1   2   3   4   5   6   7   8   9   10 11  12  13  14  15  16  17  18  19  20   21  22 23   24  25  26  27  28  29  30  31  32  33  34  35  36 37                                 
 string$UI_EX[]={"0","0","0","0","0","0","0","0","1","1","1","1","1","0","0","0","0","1","0","0","0","0","0","0","0","0","1","1","1","1","1","1","1","1","1","1","1" };
 int$ui_size=size($UI_array);
@@ -70,7 +70,8 @@ for ($i=0;$i<size($UI_array);$i++)
 textFieldGrp  -cw2 100 150 -l $UI_in_vs  -ed 0  $UI_in_maya;
 button -l  "载入"  -c ("zxb_zairufangfa_int_proc(\""+$UI_in_maya+"\",\""+$UI_in_maya_button+"\","+$jiaobiao+")") $UI_in_maya_button ;
 button -l  "重新载入"  -c ("zxb_zairufangfa_C_proc(\""+$UI_in_maya_button+"\",\""+$UI_in_maya+"\")") ;
-button -l  "提示"  -c "zxb_image_proc";
+
+button -l  "提示"  -c ("zxb_image_proc(\""+$UI_in_maya+"\")");
 
  }
 
@@ -79,6 +80,8 @@ setParent ..;
 setParent ..; 
 button -l  "创建下巴曲线"  -c "proczxb_jaw_to_curve";
 button -l  "创建眼皮模型"  -c "zxb_changcheng_eye_mode_proc";
+button -l  "创建睫毛曲线"  -c "";
+
 button -l  "直接生成表情"  -c "zxb_biaoqing_shengcheng";
 button -l  "重新计算眼睛次级权重"  -c "zxb_eye_lip_quanzhong_jisuan";
 button -l  "重新计算嘴巴次级权重"  -c "zxb_zuiba_lipjoint_quanzhongchongxiangjisuan_proc";
@@ -8425,7 +8428,7 @@ global proc zxb_yanpi_pengzhuang_chengxu_proc(string$dd_qvxian_temp,string$eye_k
 global proc zxb_fuzhao_mode_proc()
 {
  string $UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;//
- string $UI_eye_L_lashss=`textFieldGrp -q -tx  UI_eye_L_lash`;//查询被附着的对象
+ string $UI_eye_L_lashss=`textFieldGrp -q -tx  UI_eye_all_lash`;//查询被附着的对象
  string$aill_bnss= `getAttr ($UI_head_controller+".eye_bn")`;
  string$aill_bns[]=stringToStringArray($aill_bnss," ");//关节名称
  string $UI_eye_L_lashs[]=stringToStringArray( $UI_eye_L_lashss," ");//被附着的对象模型
@@ -8627,6 +8630,141 @@ parent;
         }
     }
 }
+
+
+
+
+//////////////////////////////////毛囊附着模型/////////////////////////////////////////////////////
+global proc string zxb_maonang_Follicle_grp(int$weizhi,string$obj_all[],string$fuzhao_mode)//int 判断是否保持原位置  ,被控制物体，  模型或者曲面
+{
+int $stat=$weizhi;  
+string $plane=$fuzhao_mode;
+int $ex=`objExists $plane`;
+if($ex==0)error "请载入附着模型";
+string $sel[]=$obj_all;
+
+string $bigManM= $plane;
+string $shape[]=`listRelatives -s $bigManM`;
+
+string $type=`objectType  $shape[0]`;
+if($type!="mesh"&&$type!="nurbsSurface")error "需要多边形或者曲面作为固定的面";
+
+int $exsit=`objExists ($bigManM+"follicleGrp")`;
+string$temp_aa=($bigManM+"follicleGrp");
+if($exsit==0){
+group -em -n ($bigManM+"follicleGrp");
+}
+
+for($i=0;$i<size($sel);$i++){
+spaceLocator -p 0 0 0 -n ($sel[$i]+"Loc");
+
+group -n ($sel[$i]+"LocGrp");
+
+select -r ($sel[$i]);
+select -add ($sel[$i]+"LocGrp");
+delete `parentConstraint`;
+select -r ($sel[$i]+"Loc");
+select -add ($sel[$i]);
+parentConstraint -mo;
+string $shap[]=`listRelatives -s ($sel[$i]+"Loc")`;
+setAttr ($shap[0]+".localScaleZ") 0.01;
+setAttr ($shap[0]+".localScaleX") 0.01;
+setAttr ($shap[0]+".localScaleY") 0.01;
+
+float $pos[]=`xform -q -a -ws -t ($sel[$i]+"Loc")`;
+string $type=`objectType  $shape[0]`;
+
+////////////////////////
+if($type=="mesh"){
+createNode closestPointOnMesh -n ($sel[$i]+"cpom"+$i);
+connectAttr -f ($bigManM+".outMesh") ($sel[$i]+"cpom"+$i+".inMesh");
+
+setAttr ($sel[$i]+"cpom"+$i+".inPositionX") $pos[0] ;
+setAttr ($sel[$i]+"cpom"+$i+".inPositionY") $pos[1] ;
+setAttr ($sel[$i]+"cpom"+$i+".inPositionZ") $pos[2] ;
+float $u=`getAttr ($sel[$i]+"cpom"+$i+".parameterU")`;
+float $v=`getAttr ($sel[$i]+"cpom"+$i+".parameterV")`;
+
+createNode follicle -n ($sel[$i]+"follicleShape"+$i);
+select -r ($sel[$i]+"follicleShape"+$i);
+pickWalk -d up;
+rename ($sel[$i]+"follicle"+$i);
+connectAttr -f ($bigManM+".outMesh") ($sel[$i]+"follicleShape"+$i+".inputMesh");
+connectAttr -f ($bigManM+".worldMatrix[0]") ($sel[$i]+"follicleShape"+$i+".inputWorldMatrix");
+
+connectAttr -f ($sel[$i]+"follicleShape"+$i+".outTranslate") ($sel[$i] +"follicle"+$i+".translate");
+connectAttr -f ($sel[$i]+"follicleShape"+$i+".outRotate") ($sel[$i]+"follicle"+$i+".rotate");
+
+setAttr  ($sel[$i]+"follicleShape"+$i+".parameterU") $u;
+setAttr  ($sel[$i]+"follicleShape"+$i+".parameterV") $v;
+
+select -r ($sel[$i]+"follicle"+$i);
+select -add ($bigManM+"follicleGrp");
+parent;
+select -r ($sel[$i]+"cpom"+$i);
+delete;
+}
+else
+{
+createNode closestPointOnSurface -n ($sel[$i]+"cpom"+$i);
+string $shape[]=`listRelatives -s $bigManM`;
+connectAttr -f ($shape[0]+".worldSpace") ($sel[$i]+"cpom"+$i+".inputSurface");
+
+setAttr ($sel[$i]+"cpom"+$i+".inPositionX") $pos[0] ;
+setAttr ($sel[$i]+"cpom"+$i+".inPositionY") $pos[1] ;
+setAttr ($sel[$i]+"cpom"+$i+".inPositionZ") $pos[2] ;
+float $u=`getAttr ($sel[$i]+"cpom"+$i+".parameterU")`;
+float $v=`getAttr ($sel[$i]+"cpom"+$i+".parameterV")`;
+
+createNode follicle -n ($sel[$i]+"follicleShape"+$i);
+select -r ($sel[$i]+"follicleShape"+$i);
+pickWalk -d up;
+rename ($sel[$i]+"follicle"+$i);
+connectAttr -f ($shape[0]+".local") ($sel[$i]+"follicleShape"+$i+".inputSurface");
+connectAttr -f ($shape[0]+".worldMatrix[0]") ($sel[$i]+"follicleShape"+$i+".inputWorldMatrix");
+
+connectAttr -f ($sel[$i]+"follicleShape"+$i+".outTranslate") ($sel[$i] +"follicle"+$i+".translate");
+connectAttr -f ($sel[$i]+"follicleShape"+$i+".outRotate") ($sel[$i]+"follicle"+$i+".rotate");
+
+setAttr  ($sel[$i]+"follicleShape"+$i+".parameterU") $u;
+setAttr  ($sel[$i]+"follicleShape"+$i+".parameterV") $v;
+
+select -r ($sel[$i]+"follicle"+$i);
+select -add ($bigManM+"follicleGrp");
+parent;
+select -r ($sel[$i]+"cpom"+$i);
+delete;
+
+}
+if($stat==0){
+select -r ($sel[$i]+"follicle"+$i);
+select -add ($sel[$i]+"LocGrp");
+delete `pointConstraint`;
+
+select -r ($sel[$i]+"LocGrp");
+select -add ($sel[$i]+"follicle"+$i);
+parent;
+        }else{
+    string $constraint[]=`listConnections -s 1 -d 0 ($sel[$i]+".tx")`;
+    delete ($constraint[0]);
+    select -r ($sel[$i]+"follicle"+$i);
+    select -add ($sel[$i]+"LocGrp");
+    delete `parentConstraint`;
+
+    select -r ($sel[$i]+"LocGrp");
+    select -add ($sel[$i]+"follicle"+$i);
+    parent;
+    float $pos[]=`getAttr ($sel[$i]+"follicle"+$i+".translate")`;
+    move $pos[0] $pos[1] $pos[2]  ($sel[$i]+".scalePivot")  ($sel[$i]+".rotatePivot") ;
+    select -r ($sel[$i]+"Loc");
+    select -add ($sel[$i]);
+    parentConstraint -mo;
+        }
+
+    }
+return $temp_aa;
+}
+
 
 
 /////////////////////////////////曲线跟随模型或者曲面//////////////////////////////////////////////////////////////
@@ -9995,7 +10133,7 @@ global proc zxb_jaw_lip_zhengti()
 
 string $UI_UI_head_controller=`textFieldGrp -q -tx  UI_head_controller`;
 string $UI_UI_head_mode=`textFieldGrp -q -tx  UI_head_mode`;
-string $UI_UI_all_dead_vertex=`textFieldGrp -q -tx  "UI_all_dead_vertex"`;
+string $UI_UI_all_dead_vertex=`textFieldGrp -q -tx  "UI_all_head_vertex"`;
 string $UI_all_dead_vertex_s[]= stringToStringArray($UI_UI_all_dead_vertex, " ");//字符串转化数组
 string$mode_ss=getAttr ($UI_UI_head_controller+".base_bs_mode");
 string$jaw_root_bn=getAttr ($UI_UI_head_controller+".jaw_root_bn");
@@ -10297,7 +10435,7 @@ global proc zxb_fase_wire_proc()
   string $modces=$lalian_modes[3];
   
   string$Controller=`textFieldGrp -q -tx UI_head_controller `;//头部控制器
-  string $all_exv=`textFieldGrp -q -tx  UI_all_dead_vertex`;//变形模型 
+  string $all_exv=`textFieldGrp -q -tx  UI_all_head_vertex`;//变形模型 
   string$all_exvs[]=stringToStringArray($all_exv, " ");
   select -r ("lip_mode_plane"+".vtx[0:9999999999999999999999999]") ;
   string$lip_exvss[]=`ls -sl -fl`;
@@ -11939,7 +12077,7 @@ global proc  zxb_zuiba_jisuanquanzhong_pinghua_a(string$all_ciji,string$jisuangu
 
 
 
-string $UI_all_dead_vertexss=`textFieldGrp -q -tx UI_all_dead_vertex`;
+string $UI_all_dead_vertexss=`textFieldGrp -q -tx UI_all_head_vertex`;
 string$UI_all_dead_vertexs[]=stringToStringArray($UI_all_dead_vertexss," ");
 
 zxb_vex_xuan($modo_name,$UI_all_dead_vertexs);
@@ -12114,7 +12252,7 @@ global proc  zxb_zuiba_jisuanquanzhong_pinghua_a_shuzu(string$all_ciji[],string$
 
 
 
-string $UI_all_dead_vertexss=`textFieldGrp -q -tx UI_all_dead_vertex`;
+string $UI_all_dead_vertexss=`textFieldGrp -q -tx UI_all_head_vertex`;
 string$UI_all_dead_vertexs[]=stringToStringArray($UI_all_dead_vertexss," ");
 
 zxb_vex_xuan($modo_name,$UI_all_dead_vertexs);
@@ -12469,7 +12607,7 @@ zxb_ADD_kongzu_proc($secondary_lip_grp);
 string $andbn[]=`listRelatives -p $secondary_lip_grp `;
 if($andbn[0]==""){parent  $secondary_lip_grp "lip_secondary";}
 string$head_controller=`textFieldGrp -q -tx UI_head_controller `;
-string$all_dead_vertex=`textFieldGrp -q -tx UI_all_dead_vertex `;
+string$all_dead_vertex=`textFieldGrp -q -tx UI_all_head_vertex `;
 string$mouth_outer_wire=`textFieldGrp -q -tx UI_mouth_outer_wire `;
 string$mouth_outer_wires[]=stringToStringArray($mouth_outer_wire ," ");
 select -r  $mouth_outer_wires ;
@@ -14330,6 +14468,56 @@ zxb_eye_con_bn_proc;
 zxb_yanjing_yanpi_qvxian_fangfa_proc;
 zxb_zxb_all_faceFrame_proc;
 }
+
+
+
+
+///////////////创建睫毛曲线//////////////////////////
+global proc  zxb_jiemao_qvxian_ex() 
+{
+string $UI_eye_middle_wire=`textFieldGrp -q -tx UI_eye_middle_wire `;
+string $UI_head_controller=`textFieldGrp -q -tx UI_head_controller `;
+string $UI_eye_middle_wire_s[]=stringToStringArray($UI_eye_middle_wire," ");
+string $UI_head_mode=`textFieldGrp -q -tx UI_head_mode `;
+select -r $UI_eye_middle_wire_s;
+float$ex=zxb_normal_pingjunshu($UI_head_mode);
+int$ex_int=0;
+if($ex>0){$ex_int=0;}else{$ex_int=1;}
+string$qvxian_s=zxb_extract_Curves_proc($ex_int,"Curves","eye_jiemao_temp",$UI_eye_middle_wire);
+string $qvxian_ss[]=stringToStringArray($qvxian_s," ");
+float$bbobx_Min[]=`getAttr ($qvxian_ss[0]+".boundingBoxMin")`;////绑定box节点
+float$weiyi=$bbobx_Min[2]*0.2;
+string$name_A="";
+string$name_B="";
+string$qvxian_grp="eye_qvxian_grp";
+zxb_ADD_kongzu_proc($qvxian_grp);
+parent $qvxian_grp "Face_Group";
+for ($i=0;$i<size($qvxian_ss);$i++)
+    {
+    string$qvxian_A=$qvxian_ss[$i];
+    string$wai=$qvxian_A+"_temp";
+    $name_A+=$qvxian_A+" ";
+    $name_B+=$wai+" ";
+    }
+    
+for ($i=0;$i<size($qvxian_ss);$i++)
+    {
+    	string$qvxian_A=$qvxian_ss[$i];
+    	string$wai=$qvxian_A+"_temp";
+    	select -r  $qvxian_A;
+    	duplicate -rr -n $wai;
+    	select -r ($wai+".cv[0:18]");
+    	move -r 0 0 $weiyi ;
+    	parent  $qvxian_A  $qvxian_grp;
+    	parent  $wai $qvxian_grp;
+    	
+    }
+string$all_neme=$name_A+$name_B;
+zxb_ADD_shuxing_string_proc($UI_head_controller,"jiemao_qvxian_all");
+setAttr -type "string" ($UI_head_controller+".jiemao_qvxian_all") $all_neme;
+
+ }
+
 /////////////////////////////////初始化UI//////////////////////////////////////////////////////
 zxb_fase_window_proc;
 
