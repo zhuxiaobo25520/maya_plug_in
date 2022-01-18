@@ -1,7 +1,7 @@
-
-global string$UI_bs_string_array[]={"微笑","惊喜","惊讶","害羞","生气","严肃","委屈","哭泣","藐视"};
+//global string$UI_bs_string_array[]={"微笑","惊喜","惊讶","害羞","生气","严肃","委屈","哭泣","藐视"};
+global string$UI_bs_string_array[]={"微笑","惊喜","惊讶","生气","哭泣"};
 //global string$UI_bs_string_array[]={"默认","开心","生气","愤怒","担忧","惊讶"};
-global string$UI_bs_name_string_array[]={"smile","surprise","amazed","shy","Angry","serious","aggrieved","weep","despise"};
+global string$UI_bs_name_string_array[]={"smile","surprise","amazed","Angry","weep"};
 //global string$UI_bs_name_string_array[]={"default","happy","anger","wrath","worry","amazed"};
 global string$UI_bs_modeui_string_array[]={"face","upper","lower","tooth","eyeball_L","eyeball_R","eyelash","police","eyemask","else"};
 global string$UI_bs_mode_array[]={"脸部模型","上牙","下牙","舌头","L==>眼球","R==>眼球","睫毛","眼线","眼模","其他"};
