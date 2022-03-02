@@ -10,8 +10,10 @@ columnLayout -adj 1 -w 300 gtBSColumlayout;
  rowColumnLayout -nc 2 -cw 1 440 -cw 2 340  ;
  
  
-textFieldGrp  -cw2 100 300 -l "模型或者控制器" -tx "模型或者控制器" -ed 0  zxb_ganjie;
+textFieldGrp  -cw2 100 300 -l "模型" -tx "模型" -ed 0  zxb_ganjie;
 button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_ganjie"+"\")") ;
+textFieldGrp  -cw2 100 300 -l "控制器" -tx "控制器" -ed 0  zxb_con;
+button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_con"+"\")") ;
 
 textFieldGrp  -cw2 100 130 -l "时间长度" -tx "70" -ed 1  zxb_modee;
 //button -l "载入" -c ("zxb_zairufangfa_A_proc(\""+"zxb_modee"+"\")") ;
@@ -59,11 +61,13 @@ global proc zxb_MH_QVDONGNEIRONG_deletedonghau_proc_maonang()
 
 global proc zxb_MH_QVDONGNEIRONG_proc_maonang()
 {
-      string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;
-      string$bns[]= stringToStringArray($xiaba_bn, " ");//关节
-      string $mode=`textFieldGrp -q -tx  zxb_modee `;//mode
-      int$mode_kongzhi=`checkBox -q -v bn_con`;
-      string$maonang_bn[]=$bns;
+string $xiaba_bn=`textFieldGrp -q -tx  zxb_ganjie `;
+string$bns[]= stringToStringArray($xiaba_bn, " ");//关节
+string $mode=`textFieldGrp -q -tx  zxb_modee `;//mode
+string $all_cons=`textFieldGrp -q -tx   zxb_con`;//mode
+string$all_con[]= stringToStringArray($all_cons, " ");//关节
+int$mode_kongzhi=`checkBox -q -v bn_con`;
+string$maonang_bn[]=$bns;
 int$shijian=$mode;
 
 
@@ -98,7 +102,17 @@ connectAttr -f ($set_rang+".outValueX") FX_PROP.pingjunzhi;
 for ($i=0;$i<size($maonang_bn);$i++)
     {
      string$maonang=$maonang_bn[$i];
-    string $copys[]=`listRelatives -p $maonang`;
+    string$temp_con="";
+    string $copys[];
+    clear  $copys;
+    int $ex=`objExists $all_con[$i]`;//查询这个物体是否纯在
+    if($ex==1)
+      {
+      	$temp_con=$all_con[$i];
+      	$copys =`listRelatives -p $temp_con`;
+      }
+    
+  
     string$copy="";
     if($mode_kongzhi==1)
       {
@@ -121,6 +135,7 @@ for ($i=0;$i<size($maonang_bn);$i++)
            for ($j=0;$j<size($aaa);$j++)
                {
                 string$zhi=$aaa[$j];
+                select -r $maonang;
                 float$temp=`getAttr ($maonang+"."+$zhi)`;
                 float$temp_qvdong=`getAttr "FX_PROP.pingjunzhi"`;
                 int$dd_shijian=$ii+1;
@@ -148,3 +163,4 @@ for ($i=0;$i<size($maonang_bn);$i++)
 }
 
 
+xiao_MH_QVDONG_columnLayout;

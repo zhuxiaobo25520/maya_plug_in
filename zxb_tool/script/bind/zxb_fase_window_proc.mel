@@ -1483,7 +1483,7 @@ scaleConstraint -mo   -skip x -skip y -weight 1   $bn_con  $zuiba_zhengti;
   int$ex=`objExists $fuwuti_temp_bs[0]`; ///判断
   if($ex==0){ parent $modegrp "Face_Group" ;}
   //                                 1                 2                 3                 4                   5               6                7
-  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay","lip_lay","eye_lip_lay","eye_lip_ciji_lay"};//混合变形模型列表
+  string$fase_bs_mode_nemes[]={"open_mouth_lay","mouth_whole_lay","repeated_mouth_lay","open_A_mouth_lay","lip_lay","eye_lip_lay","eye_lip_ciji_lay","eyebrow_lay"};//混合变形模型列表
   string$zidonguv="zxb_face_UV_mode_lay";
   select -r $mode;
   duplicate -rr -n $zidonguv;
@@ -3688,8 +3688,10 @@ global proc zxb_extract_Curves_lipbs_a()
    string$Curve_N=$Curves_Ns[$u];
    string$Curves_in=$Curves_ins[$u];
    string$namen_temp_aa="chuckle_UP";
-   if($u==1){$namen_temp_aa="chuckle_DW";}
+   string$namen_temp_shuxing="chuckle_UP_bn";
+   if($u==1){$namen_temp_aa="chuckle_DW"; $namen_temp_shuxing="chuckle_DW_bn";}
    zxb_ADD_shuxing_string_proc($head_qvxian,$namen_temp_aa);
+   zxb_ADD_shuxing_string_proc($head_qvxian,$namen_temp_shuxing);
    string $Curves_outer=$Curves_outers[$u];
    select -r   $Curves_in;
    select -add $Curve_W;
@@ -3789,6 +3791,7 @@ global proc zxb_extract_Curves_lipbs_a()
   string$qvxianShape=$qvxian_Shape[0];
   connectAttr -f   ($qvxianShape+".worldSpace[0]")  ($qvxianjiedian_xingxi+".inputCurve");
   string$all_bns="";
+  string$all_xuanzhuan_bns="";
   for($i=0;$i<size($cvs);$i++) 
      {
     int$qvyu=$i%3;
@@ -3834,9 +3837,15 @@ global proc zxb_extract_Curves_lipbs_a()
            zxb_fanzhuanzui_xniuqv_proc($aaaa);
            select -cl  ;
            select -add $bn;
+           
+           $all_xuanzhuan_bns+=$bn+" ";
+           
           }
        }
+  setAttr -type "string" ($head_qvxian+"."+$namen_temp_shuxing) $all_xuanzhuan_bns ;  
  }   
+ 
+button -e -en 0 hedemianbankuan_Add_button ;
 }
 
  
@@ -15343,7 +15352,7 @@ for ($i=0;$i<size($qvxian_ss);$i++)
     	string$wai=$qvxian_A+"_temp";
     	select -r  $qvxian_A;
     	duplicate -rr -n $wai;
-    	select -r ($wai+".cv[0:18]");
+    	select -r ($wai+".cv[0:999999999999]");
     	move -r 0 0 $weiyi ;
     	parent  $qvxian_A  $qvxian_grp;
     	parent  $wai $qvxian_grp;
