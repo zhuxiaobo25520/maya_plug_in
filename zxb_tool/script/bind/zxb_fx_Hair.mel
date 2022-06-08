@@ -57,6 +57,8 @@ global proc zxb_chibang_proc_maonang()
 select -r  $bns;     
 string $bns[]=`ls -sl`;
 int$ex=`objExists "HAIR_FX"`;
+
+string$all_reverse="All_fx_reverse";
 string$qvxian_FXA="";
 string$qvxian_FXB="";
 if($ex==0)
@@ -76,41 +78,46 @@ if($ex==0)
  addAttr -ln "kaiguan"  -at bool  -k 1 $qvxian_FXB;
  setAttr ($qvxian_FXB+".kaiguan") 1;
  }
- }else{$qvxian_FXB="HAIR_FX";}
-  string $bns_ziwuti[]=`listRelatives -c $bns[0]`;
-  float$changdu=zxb_banjing_shuzhi_x($bns[0],$bns_ziwuti[0]);
- float$changdu_a=$changdu*0.5;
-  ///////////////总组
- string$heir_heir_zongzu_grp="heir_zongzu_grp";
-      int$ex=`objExists $heir_heir_zongzu_grp`;    ///判断
-      if($ex==0){group -empty -n  $heir_heir_zongzu_grp;}
  
  
- ///////////////动力学组
-      string$heir_donglixueqvxian_grp="heir_donglixueqvxian_grp";
-      int$ex=`objExists $heir_donglixueqvxian_grp`;    ///判断
-      if($ex==0){group -empty -n  $heir_donglixueqvxian_grp;  parent  $heir_donglixueqvxian_grp  $heir_heir_zongzu_grp;}
+int$ex_fanxiang_re=`objExists $all_reverse`; 
+if ($ex_fanxiang_re==0)
+   { 
+    shadingNode -asUtility reverse -n $all_reverse ;
+    } 
+ 
+}else{$qvxian_FXB="HAIR_FX";}
+
+string $bns_ziwuti[]=`listRelatives -c $bns[0]`;
+float$changdu=zxb_banjing_shuzhi_x($bns[0],$bns_ziwuti[0]);
+float$changdu_a=$changdu*0.5;
+///////////////总组
+string$heir_heir_zongzu_grp="heir_zongzu_grp";
+int$ex=`objExists $heir_heir_zongzu_grp`;    ///判断
+if($ex==0){group -empty -n  $heir_heir_zongzu_grp;}
+///////////////动力学组
+string$heir_donglixueqvxian_grp="heir_donglixueqvxian_grp";
+int$ex=`objExists $heir_donglixueqvxian_grp`;    ///判断
+if($ex==0){group -empty -n  $heir_donglixueqvxian_grp;  parent  $heir_donglixueqvxian_grp  $heir_heir_zongzu_grp;}
+  
+///////////////毛囊组
+string$heir_maonang_grp="heir_maonang_grp";
+int$ex=`objExists $heir_maonang_grp`;    ///判断
+if($ex==0){group -empty -n  $heir_maonang_grp;  parent  $heir_maonang_grp  $heir_heir_zongzu_grp;}
+///////////////hairSystem组
+string$heir_hairSystem_grp="heir_hairSystem_grp";
+int$ex=`objExists $heir_hairSystem_grp`;    ///判断
+if($ex==0){group -empty -n  $heir_hairSystem_grp;  parent  $heir_hairSystem_grp  $heir_heir_zongzu_grp;}
       
+///////////////控制器组
+string$heir_kongzhiqi_grp="heir_kongzhiqi_grp";
+int$ex=`objExists $heir_kongzhiqi_grp`;    ///判断
+if($ex==0){group -empty -n  $heir_kongzhiqi_grp;  parent  $heir_kongzhiqi_grp  $heir_heir_zongzu_grp;}
       
-       ///////////////毛囊组
- string$heir_maonang_grp="heir_maonang_grp";
-      int$ex=`objExists $heir_maonang_grp`;    ///判断
-      if($ex==0){group -empty -n  $heir_maonang_grp;  parent  $heir_maonang_grp  $heir_heir_zongzu_grp;}
-      
-             ///////////////hairSystem组
- string$heir_hairSystem_grp="heir_hairSystem_grp";
-      int$ex=`objExists $heir_hairSystem_grp`;    ///判断
-      if($ex==0){group -empty -n  $heir_hairSystem_grp;  parent  $heir_hairSystem_grp  $heir_heir_zongzu_grp;}
-      
-                   ///////////////控制器组
- string$heir_kongzhiqi_grp="heir_kongzhiqi_grp";
-      int$ex=`objExists $heir_kongzhiqi_grp`;    ///判断
-      if($ex==0){group -empty -n  $heir_kongzhiqi_grp;  parent  $heir_kongzhiqi_grp  $heir_heir_zongzu_grp;}
-      
-                         ///////////////IK控制柄组
- string$heir_IKkonghziqbing_grp="heir_IKkonghziqbing_grp";
-      int$ex=`objExists $heir_IKkonghziqbing_grp`;    ///判断
-      if($ex==0){group -empty -n  $heir_IKkonghziqbing_grp;  parent  $heir_IKkonghziqbing_grp  $heir_heir_zongzu_grp;}
+///////////////IK控制柄组
+string$heir_IKkonghziqbing_grp="heir_IKkonghziqbing_grp";
+int$ex=`objExists $heir_IKkonghziqbing_grp`;    ///判断
+if($ex==0){group -empty -n  $heir_IKkonghziqbing_grp;  parent  $heir_IKkonghziqbing_grp  $heir_heir_zongzu_grp;}
       
 for($ii=0;$ii<size($bns);$ii++)
    {
@@ -126,102 +133,93 @@ for($ii=0;$ii<size($bns);$ii++)
        $cbns[$a]=$temp_bn;
        }
 
- string$qvxian=$bn+"_qvxian";
-  
+  string$qvxian=$bn+"_qvxian";
   int$cv_duanshu=size($cbns);
   if($cv_duanshu<3){error ($bn+"关节段数少于4截");}
   string$mingzi="curve -d 3 ";
-   for($jj=0;$jj<size($cbns);$jj++)
-      {
-          string$mingzi_bnn=$cbns[$jj];
-          float $temp[]=`xform -q -ws -t $mingzi_bnn`;
-          $mingzi+="-p "+$temp[0]+" "+$temp[1]+" "+$temp[2]+" ";
-      }
-      string$cluste_grp="heir_grp";
-      int$ex=`objExists $cluste_grp`;    ///判断
-      if($ex==0){group -empty -n  $cluste_grp;  parent  $cluste_grp  $heir_kongzhiqi_grp;}
-     $mingzi+=" -n "+ $qvxian;
-     eval($mingzi); 
-     parent $qvxian$cluste_grp;
-    select -r($qvxian+".cv[0:999999]") ;
-    string $cvs[]=`ls -sl -fl`;
-    for($jjj=0;$jjj<size($cvs);$jjj++)
-     {
+  for($jj=0;$jj<size($cbns);$jj++)
+    {
+     string$mingzi_bnn=$cbns[$jj];
+     float $temp[]=`xform -q -ws -t $mingzi_bnn`;
+     $mingzi+="-p "+$temp[0]+" "+$temp[1]+" "+$temp[2]+" ";
+    }
+  string$cluste_grp="heir_grp";
+  int$ex=`objExists $cluste_grp`;    ///判断
+  if($ex==0){group -empty -n  $cluste_grp;  parent  $cluste_grp  $heir_kongzhiqi_grp;}
+  $mingzi+=" -n "+ $qvxian;
+  eval($mingzi); 
+  parent $qvxian$cluste_grp;
+  select -r($qvxian+".cv[0:999999]") ;
+  string $cvs[]=`ls -sl -fl`;
+  for($jjj=0;$jjj<size($cvs);$jjj++)
+    {
       string$cv=$cvs[$jjj];
       string$cluster=$bn+"_cluster";
       select -r $cv;
       string$clusterss[]=`newCluster " -envelope 1" ` ;
       setAttr  ($clusterss[1]+".visibility") 0;
-     parent $clusterss[1]$cluste_grp;
-     curve -d 1 -p 0.5 0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 -0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -p -0.5 0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 -0.5 -0.5 -p -0.5 -0.5 -0.5 -p -0.5 0.5 -0.5 -p -0.5 0.5 0.5 -p -0.5 -0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -n ($clusterss[1]+"con"+$jjj) ;
-     
-     string $shape[]=`listRelatives -s ($clusterss[1]+"con"+$jjj)`;
-    setAttr ($shape[0]+".overrideEnabled") 1;
-    setAttr ($shape[0]+".overrideColor") 12; 
+      parent $clusterss[1]$cluste_grp;
+      curve -d 1 -p 0.5 0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 -0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -p -0.5 0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 -0.5 -0.5 -p -0.5 -0.5 -0.5 -p -0.5 0.5 -0.5 -p -0.5 0.5 0.5 -p -0.5 -0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -n ($clusterss[1]+"con"+$jjj) ;
+      string $shape[]=`listRelatives -s ($clusterss[1]+"con"+$jjj)`;
+      setAttr ($shape[0]+".overrideEnabled") 1;
+      setAttr ($shape[0]+".overrideColor") 12; 
      select -r ($clusterss[1]+"con"+$jjj+".cv[0:99999999]" );
      scale -r -p 0cm 0cm 0cm  $changdu_a  $changdu_a  $changdu_a ;
      select -r ($clusterss[1]+"con"+$jjj);
      group -n ($clusterss[1]+"con"+$jjj+"grp_a");
      group -n ($clusterss[1]+"con"+$jjj+"grp_b");
      group -n ($clusterss[1]+"con"+$jjj+"grp_c");
-     
      connectAttr -f($qvxian_FXB+".kaiguan") ($clusterss[1]+"con"+$jjj+"grp_c"+".visibility");
-     
      delete`parentConstraint $clusterss[1]($clusterss[1]+"con"+$jjj+"grp_c")`; 
      parent  $clusterss[1]($clusterss[1]+"con"+$jjj);
      parent ($clusterss[1]+"con"+$jjj+"grp_c") $cluste_grp;
+     
+      
      }
    select -r  $qvxian;
    makeCurvesDynamic 2 { "1", "0", "1", "1", "0"};
-  string $maonang[]=`listRelatives -p $qvxian`; 
-  string$follicle_a=$maonang[0];
-  setAttr ($follicle_a+".pointLock") 1;
-    string $follicle_a_shape[]=`listRelatives -s $follicle_a`; 
-       string $follicle_weiyi[]=`listRelatives -p $follicle_a_shape[0]`;  
-       parent $follicle_weiyi[0] $heir_maonang_grp ;
-       
-setAttr ($follicle_weiyi[0]+".visibility") 0;
-setAttr -lock true ($follicle_weiyi[0]+".v");
- string $outCurve[]=`listConnections -d 1 -s 0 -p 1 ($follicle_a_shape[0]+".outCurve")`;//列出链接属性  -d输入   -s输出  -p 列出属性 
- string$donglixue=$outCurve[0];
- string $mingzis[];
- clear $mingzis;//清除数组
- int $nemt=`tokenize $donglixue "."$mingzis`;//分离字符串存到变量
- string$donglixuess=$mingzis[0];
- string $dong[]=`listRelatives -p $donglixuess`; 
- string $dong_weiyi[]=`listRelatives -p $dong[0]`;  
-parent  $dong_weiyi[0]  $heir_donglixueqvxian_grp ;
-setAttr ($dong_weiyi[0]+".visibility") 0;
-setAttr -lock true ($dong_weiyi[0]+".v");
- 
- string $hairSystemShape[]=`listConnections -d 0 -s 1 -p 1 ($follicle_a_shape[0]+".currentPosition")`;//列出链接属性  -d输入   -s输出  -p 列出属性 
- string $mingzisA[];
- clear $mingzisA;//清除数组
- int $nemt=`tokenize $hairSystemShape[0] "." $mingzisA`;//分离字符串存到变量
- string $hairSystem=$mingzisA[0];
-  string $hairSystem_weiyi[]=`listRelatives -p $hairSystem`;  
-parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
-setAttr ($hairSystem_weiyi[0]+".visibility") 0;
-setAttr -lock true ($hairSystem_weiyi[0]+".v");
- string$kaishi=$cbns[0];
- int$jiaoboa=size($cbns)-1;
- string$jiesu=$cbns[$jiaoboa];
- 
-
- 
- if($ex_panduan_a==0)
-   {
-   
-   
-         select -r $kaishi ;
- select -add $jiesu ;
- select -add $dong_weiyi[0] ;
- string$ikikHandle_aa[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
-  parent $ikikHandle_aa[0] $heir_IKkonghziqbing_grp;
-   string $ikikHandle_aa_shape[]=`listRelatives -s $ikikHandle_aa[0]`;
-  if($ex_panduan_B==1){ connectAttr -f "HAIR_FX.kaiguan" ($ikikHandle_aa_shape[0]+".ikBlend");}
-  setAttr ($ikikHandle_aa[0]+".visibility") 0;
-setAttr -lock true ($ikikHandle_aa[0]+".v");
+   string $maonang[]=`listRelatives -p $qvxian`; 
+   string$follicle_a=$maonang[0];
+   setAttr ($follicle_a+".pointLock") 1;
+   string $follicle_a_shape[]=`listRelatives -s $follicle_a`; 
+   string $follicle_weiyi[]=`listRelatives -p $follicle_a_shape[0]`;  
+   parent $follicle_weiyi[0] $heir_maonang_grp ;      
+   setAttr ($follicle_weiyi[0]+".visibility") 0;
+   setAttr -lock true ($follicle_weiyi[0]+".v");
+   string $outCurve[]=`listConnections -d 1 -s 0 -p 1 ($follicle_a_shape[0]+".outCurve")`;//列出链接属性  -d输入   -s输出  -p 列出属性 
+   string$donglixue=$outCurve[0];
+   string $mingzis[];
+   clear $mingzis;//清除数组
+   int $nemt=`tokenize $donglixue "."$mingzis`;//分离字符串存到变量
+   string$donglixuess=$mingzis[0];
+   string $dong[]=`listRelatives -p $donglixuess`; 
+   string $dong_weiyi[]=`listRelatives -p $dong[0]`;  
+   parent  $dong_weiyi[0]  $heir_donglixueqvxian_grp ;
+   setAttr ($dong_weiyi[0]+".visibility") 0;
+   setAttr -lock true ($dong_weiyi[0]+".v");
+   string $hairSystemShape[]=`listConnections -d 0 -s 1 -p 1 ($follicle_a_shape[0]+".currentPosition")`;//列出链接属性  -d输入   -s输出  -p 列出属性 
+   string $mingzisA[];
+   clear $mingzisA;//清除数组  
+   int $nemt=`tokenize $hairSystemShape[0] "." $mingzisA`;//分离字符串存到变量
+   string $hairSystem=$mingzisA[0];
+   string $hairSystem_weiyi[]=`listRelatives -p $hairSystem`;  
+   parent $hairSystem_weiyi[0]  $heir_hairSystem_grp ;
+   setAttr ($hairSystem_weiyi[0]+".visibility") 0;
+   setAttr -lock true ($hairSystem_weiyi[0]+".v");
+   string$kaishi=$cbns[0];
+   int$jiaoboa=size($cbns)-1;
+   string$jiesu=$cbns[$jiaoboa];
+   if($ex_panduan_a==0)
+     {
+      select -r $kaishi ;
+      select -add $jiesu ;
+      select -add $dong_weiyi[0] ;
+      string$ikikHandle_aa[]= `ikHandle -sol ikSplineSolver -ccv false -pcv false`;
+      parent $ikikHandle_aa[0] $heir_IKkonghziqbing_grp;
+      string $ikikHandle_aa_shape[]=`listRelatives -s $ikikHandle_aa[0]`;
+     if($ex_panduan_B==1){ connectAttr -f "HAIR_FX.kaiguan" ($ikikHandle_aa_shape[0]+".ikBlend");}
+     setAttr ($ikikHandle_aa[0]+".visibility") 0;
+     setAttr -lock true ($ikikHandle_aa[0]+".v");
 
    string$kongzhiq="";
    string$kongzhiqizu="";
@@ -247,35 +245,32 @@ setAttr -lock true ($ikikHandle_aa[0]+".v");
         connectAttr -f ($qvxian_FXB+".kaiguan") ($fangxiang_temp+".inputX");
         connectAttr -f ($fangxiang_temp+".outputX") ($con+"_grp_d"+".visibility");
         delete `parentConstraint $joint ($con+"_grp_d")`;
-        parentConstraint $con $joint;
+        string$bn_yuesu[]=`parentConstraint $con $joint`;
+        
+        connectAttr -f HAIR_FX.kaiguan ($all_reverse+".inputX");
+        connectAttr -f($all_reverse+".outputX")  ($bn_yuesu[0]+"."+$con+"W0");
         $kongzhiq+=$con+" ";
         $kongzhiqizu+= ($con+"_grp_d")+" ";
        
        }
-     //parent 
-
-     string $kongzhiss[]= stringToStringArray($kongzhiq, " ");
-      string $kongzhiqizus[]= stringToStringArray($kongzhiqizu, " ");
-     for($kk=size($kongzhiqizus)-1;$kk>0;$kk--)
-        {
+    string $kongzhiss[]= stringToStringArray($kongzhiq, " ");
+    string $kongzhiqizus[]= stringToStringArray($kongzhiqizu, " ");
+    for($kk=size($kongzhiqizus)-1;$kk>0;$kk--)
+       {
          string$zu=$kongzhiqizus[$kk];
          int$jaiobuiao=$kk-1;
-          string$kong=$kongzhiss[$jaiobuiao];
-          parent  $zu $kong;
+         string$kong=$kongzhiss[$jaiobuiao];
+         parent  $zu $kong;
         }  
-      parent  $kongzhiqizus[0]  $heir_kongzhiqi_grp;
-      
-setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
-setDrivenKeyframe -itt "linear" -ott "spline" -v 3 -dv 1 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
-  string $dong_weiyi_fujiedian[]=`listConnections -d 0 -s 1 -p 1 ($ikikHandle_aa[0]+".inCurve")`;  
-  
-  int$ex_a=`objExists $dong_weiyi_fujiedian[0]`;
-  if($ex_a==0)
-     {
-      connectAttr -f ($dong[0]+".worldSpace[0]") ($ikikHandle_aa[0]+".inCurve");
-      }
- 
-   
+    parent  $kongzhiqizus[0]  $heir_kongzhiqi_grp;
+    setDrivenKeyframe -itt "linear" -ott "spline" -v 0 -dv 0 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+    setDrivenKeyframe -itt "linear" -ott "spline" -v 3 -dv 1 -cd ("HAIR_FX"+".kaiguan") ($hairSystem+".simulationMethod");  
+    string $dong_weiyi_fujiedian[]=`listConnections -d 0 -s 1 -p 1 ($ikikHandle_aa[0]+".inCurve")`;  
+    int$ex_a=`objExists $dong_weiyi_fujiedian[0]`;
+    if($ex_a==0)
+      {
+       connectAttr -f ($dong[0]+".worldSpace[0]") ($ikikHandle_aa[0]+".inCurve");
+       }
    }else
         {
          

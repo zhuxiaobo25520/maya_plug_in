@@ -41,7 +41,7 @@ global proc zxb_lambert_proc()
            {   
             string$temp_lambert=$all_lambert[$ii];
             string$type=`nodeType $temp_lambert`;
-            if($type=="lambert")
+            if($type=="lambert"||$type=="phong"||$type=="blinn")
               { 
               string $namea[]=`listConnections -d 1 -s 0  ($temp_lambert+".outColor")`;//列出链接属性  -d输入   -s输出  -p 列出属性
               int$ex=`objExists $namea[0]`;    ///判断
@@ -65,5 +65,4 @@ global proc zxb_lambert_proc()
       
 
 }
-
 
