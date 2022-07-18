@@ -50,6 +50,11 @@ button -l "²åÈë¹Ø½Ú" -c "zxb_jiazai(\"zxb_charuguanjie_proc\")";
 button -l "ÌåĞÍ°ó¶¨´¿Ä£ĞÍ" -c "zxb_jiazai(\"zxb_MH_ALEI_shengtiA\")";
 button -l "ÅúÁ¿µ¼³öABC" -c "zxb_jiazai(\"xiao_batch_to_obj_ABC_proc\")";
 button -l "°ü¹ü¾µÏñ»ìºÏ±äĞÎ" -c "zxb_jiazai(\"xiao_hehebianxing_baoguo_columnLayout\")";
+button -l "ÅúÁ¿»Ö¸´»ìºÏ±äĞÎĞÎÌ¬" -c "zxb_jiazai(\"xiao_bsxiugai_adv_proc_columnLayout\")";
+button -l "ÅúÁ¿»Ö¸´»ìºÏ±äĞÎÊı¾İ" -c "zxb_jiazai(\"xiao_bs_shujuqueshi_columnLayout\")";
+button -l "´ò¿ªmayaÎÄ¼şÇå³ı²å¼ş¼ÓÔØÏî" -c "zxb_jiazai(\"zxb_plugin_unknown\")";
+button -l "É¾³ımayaËø¶¨ÎÄ¼ş" -c "zxb_jiazai(\"xiao_plugin_unknown_proc_win\")";
+button -l "Éú³ÉUE4¼ÇÂ¼×ø±ê¹¤¾ß" -c "zxb_jiazai(\"zxb_UE_Smaller\")";
 
 setParent ..; 
 int$liang_A=200;
@@ -57,7 +62,7 @@ string $child2 = `rowColumnLayout -nc 2 -cw 1 $liang_A -cw 2 $liang_A   `; // "±
 button -l "Éß1" -c "zxb_jiazai(\"xiao_snake_proc\")";
 button -l "ÄñÀà" -c "zxb_jiazai(\"xiao_bird_proc\")";
 button -l "Ãæ²¿--¸üĞÂÖĞ" -c "zxb_jiazai(\"zxb_fase_window_proc\")";
-button -l "Éß2" -c "zxb_jiazai(\"xiao_hehebianxing_baoguo_columnLayout\")";
+button -l "Éß2" -c "zxb_jiazai(\"zxb_she_A_columnLayout\")";
 setParent ..; 
 
 
