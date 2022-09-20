@@ -55,6 +55,11 @@ button -l "批量恢复混合变形数据" -c "zxb_jiazai(\"xiao_bs_shujuqueshi_columnLayo
 button -l "打开maya文件清除插件加载项" -c "zxb_jiazai(\"zxb_plugin_unknown\")";
 button -l "删除maya锁定文件" -c "zxb_jiazai(\"xiao_plugin_unknown_proc_win\")";
 button -l "生成UE4记录坐标工具" -c "zxb_jiazai(\"zxb_UE_Smaller\")";
+button -l "FACEGOOD表情拆分" -c "zxb_jiazai(\"xiao_mianbu_modecopy_proc_columnLayout\")";
+button -l "自动生成表情控制面版" -c "zxb_jiazai(\"zxb_con_kongzhiqi_mianban_face\")";
+button -l "样条IK拉伸" -c "zxb_jiazai(\"xiao_bn_lasheng_proc_columnLayout\")";
+button -l "精简表情" -c "zxb_jiazai(\"xiao_mianbu_modecopy_proc_jingjianbs_columnLayout\")";
+
 
 setParent ..; 
 int$liang_A=200;
