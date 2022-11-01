@@ -59,6 +59,11 @@ button -l "FACEGOOD表情拆分" -c "zxb_jiazai(\"xiao_mianbu_modecopy_proc_columnLa
 button -l "自动生成表情控制面版" -c "zxb_jiazai(\"zxb_con_kongzhiqi_mianban_face\")";
 button -l "样条IK拉伸" -c "zxb_jiazai(\"xiao_bn_lasheng_proc_columnLayout\")";
 button -l "精简表情" -c "zxb_jiazai(\"xiao_mianbu_modecopy_proc_jingjianbs_columnLayout\")";
+button -l "添加眼球驱动" -c "zxb_jiazai(\"zxb_eye_fase_drive\")";
+
+button -l "修改混合变形" -c "zxb_jiazai(\"xiao_bs_xiugai_blendShape_proc_columnLayout\")";
+button -l "报错onModelChange3dc" -c "zxb_jiazai(\"zxb_onModelChange3dc\")";
+button -l "批量加缩放" -c "zxb_jiazai(\"zxb_piliangsuofang\")";
 
 
 setParent ..; 
@@ -68,6 +73,9 @@ button -l "蛇1" -c "zxb_jiazai(\"xiao_snake_proc\")";
 button -l "鸟类" -c "zxb_jiazai(\"xiao_bird_proc\")";
 button -l "面部--更新中" -c "zxb_jiazai(\"zxb_fase_window_proc\")";
 button -l "蛇2" -c "zxb_jiazai(\"zxb_she_A_columnLayout\")";
+button -l "面部修改版" -c "zxb_jiazai_fase(\"zxb_fase_UI\")";
+
+
 setParent ..; 
 
 
@@ -141,6 +149,23 @@ if (`gmatch $asInstallScriptLocation "*\*"`)
 	$asInstallScriptLocation=`substituteAllString $asInstallScriptLocation "\\" "/"`;
 string $scriptName=$zxb_neme;
 string $sourceFile=$asInstallScriptLocation+"bind/"+$scriptName+".mel";
+ 
+string $command="source \""+$sourceFile+"\";"+$scriptName+";";
+eval($command);
+print ("\n加载"+$command+"脚本成功\n");
+return $command;
+  }
+
+global proc string zxb_jiazai_fase(string$zxb_neme)
+  {
+global string $gShelfTopLevel;
+string $currentShelf = `tabLayout -query -selectTab $gShelfTopLevel`;
+setParent $currentShelf;
+string $asInstallScriptLocation=`asInstallScriptLocation`;
+if (`gmatch $asInstallScriptLocation "*\*"`)
+	$asInstallScriptLocation=`substituteAllString $asInstallScriptLocation "\\" "/"`;
+string $scriptName=$zxb_neme;
+string $sourceFile=$asInstallScriptLocation+"bind/fase/"+$scriptName+".mel";
  
 string $command="source \""+$sourceFile+"\";"+$scriptName+";";
 eval($command);
