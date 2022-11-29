@@ -64,6 +64,7 @@ button -l "添加眼球驱动" -c "zxb_jiazai(\"zxb_eye_fase_drive\")";
 button -l "修改混合变形" -c "zxb_jiazai(\"xiao_bs_xiugai_blendShape_proc_columnLayout\")";
 button -l "报错onModelChange3dc" -c "zxb_jiazai(\"zxb_onModelChange3dc\")";
 button -l "批量加缩放" -c "zxb_jiazai(\"zxb_piliangsuofang\")";
+button -l "检查绑定常见问题" -c "zxb_jiazai(\"zxb_jianchamode_mingm_proc_maonang\")";
 
 
 setParent ..; 
